@@ -25,69 +25,31 @@ var deps = {
 User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, initial: true, index: true },
+	phone: { type: Types.Number, initial: true, index: true },
 	password: { type: Types.Password, initial: true },
 	resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {
-	isPublic: { type: Boolean, default: true },
-	isOrganiser: Boolean,
-	organization: { type: Types.Relationship, ref: 'Organization' },
-	isStaff: { type: Boolean, label: 'Is on Staff With Cru'},
-	isCommunityGroupLeader: { type: Boolean, label: 'Is a community group leader'},
-	isMinistryTeamLeader: { type: Boolean, label: 'Is a ministry team leader'},
-	photo: { type: Types.CloudinaryImage },
-	github: { type: String, width: 'short' },
-	twitter: { type: String, width: 'short' },
-	website: { type: Types.Url },
-	bio: { type: Types.Markdown },
-	gravatar: { type: String, noedit: true }
+	isPublic: { type: Boolean, default: true , label: 'Info is okay to be publicly displayed' },
+	isStaff: { type: Boolean, default: false, label: 'Is on Staff With Cru' },
+	isCommunityGroupLeader: { type: Boolean, default: false, label: 'Is a community group leader' },
+	isMinistryTeamLeader: { type: Boolean, default: false, label: 'Is a ministry team leader' },
+	isSummerMissionLeader: { type: Boolean, default: false, label: 'Is a summer mission leader' },
+  // this conforms to ISO/IEC 5218, which is why the options are what they are.
+	sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
+	schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }] },
+	yearLeading: { type: Types.Date, format: 'YYYY', default: Date.now },
+	ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
+	summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
+	communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
 	notifications: {
-		posts: { type: Boolean },
-		meetups: { type: Boolean, default: true }
+		ministryTeamUpdates: { type: Boolean, default: true },
+		communityGroupUpdates: { type: Boolean, default: true },
+		summerMissionUpdates: { type: Boolean, default: true }
 	}
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can admin the website' },
+	isAdmin: { type: Boolean, label: 'Can administer the website' },
 	isVerified: { type: Boolean, label: 'Has a verified email address' }
-});
-
-
-/**
-	Pre-save
-	=============
-*/
-
-User.schema.pre('save', function(next) {
-	var member = this;
-	async.parallel([
-		function(done) {
-			if (!member.email) return done();
-			member.gravatar = crypto.createHash('md5').update(member.email.toLowerCase().trim()).digest('hex');
-			return done();
-		},
-		function(done) {
-			keystone.list('Talk').model.count({ who: member.id }).exec(function(err, count) {
-				if (err) {
-					console.error('===== Error counting user talks =====');
-					console.error(err);
-					return done();
-				}
-				member.talkCount = count;
-				return done();
-			});
-		},
-		function(done) {
-			keystone.list('RSVP').model.findOne({ who: member.id }).sort('changedAt').exec(function(err, rsvp) {
-				if (err) {
-					console.error("===== Error setting user last RSVP date =====");
-					console.error(err);
-					return done();
-				}
-				if (!rsvp) return done();
-				member.lastRSVP = rsvp.changedAt;
-				return done();
-			});
-		}
-	], next);
 });
 
 
@@ -95,10 +57,6 @@ User.schema.pre('save', function(next) {
 	Relationships
 	=============
 */
-
-User.relationship({ ref: 'Post', refPath: 'author', path: 'posts' });
-User.relationship({ ref: 'Talk', refPath: 'who', path: 'talks' });
-User.relationship({ ref: 'RSVP', refPath: 'who', path: 'rsvps' });
 
 
 /**

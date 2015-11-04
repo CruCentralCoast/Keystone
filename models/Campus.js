@@ -8,14 +8,18 @@ var Types = keystone.Field.Types;
 
 var Campus = new keystone.List('Campus', {
 	map: { name: 'name' },
-	autokey: { path: 'slug', from: 'name', unique: true }
+	autokey: { path: 'slug', from: 'name', unique: true },
+	singular: 'Campus',
+	plural: 'Campuses'
 });
 
 Campus.add({
 	name: { type: String, required: true },
-	location: { type: Types.Location, required: true, defaults: { country: 'USA' } },
+	location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
 	url: { type: Types.Url }
 });
 
-Campus.defaultColumns = 'name, campus';
+Campus.relationship({ path: 'ministries', ref: 'Ministry', refPath: 'campuses' });
+
+Campus.defaultColumns = 'name, location, url';
 Campus.register();

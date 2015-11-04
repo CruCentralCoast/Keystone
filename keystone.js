@@ -11,8 +11,8 @@ var keystone = require('keystone');
 
 keystone.init({
 
-	'name': 'Cru Central Coast Keystone',
-	'brand': 'Cru Central Coast Keystone',
+	'name': 'crucentralcoast.com',
+	'brand': 'Cru Central Coast Admin Panel',
 
 	'stylus': 'public',
 	'static': 'public',
@@ -21,6 +21,10 @@ keystone.init({
 	'view engine': 'jade',
 
 	'emails': 'templates/emails',
+
+	'google api key': process.env.GOOGLE_BROWSER_KEY,
+	'google server api key': process.env.GOOGLE_SERVER_KEY,
+	'default region': 'en',
 
 	'auto update': true,
 	'session': true,
@@ -90,7 +94,7 @@ keystone.set('email tests', require('./routes/emails'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'posts': ['posts', 'post-categories'],
+	'content': ['posts', 'post-categories'],
 	'galleries': 'galleries',
 	'enquiries': 'enquiries',
 	'users': 'users'

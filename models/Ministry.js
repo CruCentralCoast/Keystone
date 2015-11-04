@@ -12,11 +12,14 @@ var Ministry = new keystone.List('Ministry', {
 });
 
 Ministry.add({
-	name: { type: String, required: true },
-	description: { type: Types.Textarea, required: true },
+	name: { type: String, required: true, initial: true },
+	description: { type: Types.Textarea, initial: true },
 	image: { type: Types.CloudinaryImage },
-	campus: { type: Types.Relationship, ref: 'Campus', required: true }
+	teams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
+	campuses: { type: Types.Relationship, ref: 'Campus', initial: true, many: true }
 });
 
-Ministry.defaultColumns = 'name, campus';
+Ministry.relationship({ path: 'teams', ref: 'MinistryTeam', refPath: 'parentMinistry' });
+
+Ministry.defaultColumns = 'name, teams, campuses';
 Ministry.register();
