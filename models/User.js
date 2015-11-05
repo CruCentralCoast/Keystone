@@ -36,8 +36,8 @@ User.add({
 	isSummerMissionLeader: { type: Boolean, default: false, label: 'Is a summer mission leader' },
   // this conforms to ISO/IEC 5218, which is why the options are what they are.
 	sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
-	schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }] },
-	yearLeading: { type: Types.Date, format: 'YYYY', default: Date.now, dependsOn: { isCommunityGroupLeader: true, isMinistryTeamLeader: true, isSummerMissionLeader: true } },
+	schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
+	yearLeading: { type: Types.Date, format: 'YYYY', default: Date.now, collapse: true },
 	ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
 	summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
 	// communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
