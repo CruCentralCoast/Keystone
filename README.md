@@ -15,6 +15,11 @@ For more information, see the [KeystoneJS Documentation](http://keystonejs.com/d
 
 The KeystoneJS github [wiki](https://github.com/keystonejs/keystone/wiki/) has even more information. I'd suggest checking out the [Keystone API](https://github.com/keystonejs/keystone/wiki/Keystone-API#listarg).
 
+## Database access
+
+You will need to obtain read access to the Cru database in order to work with the data through keystone. This will be a URI you will get from your professor.
+Add the `MONGO_URI=mongodb://<username>:<password>@<database_url>` line to your `.env` file so keystone can access it. This file is not to be committed to version control (it is already in the `.gitignore` in this repo).
+
 ## Troubleshooting
 
 You will need mongodb and node.js installed as descibed in the getting started guide. Since you are in development, you will want to set the environment variable `export NODE_ENV=development`, this will cause keystone to load additional environment variables from a `.env` file in the project root, so you can just define them there. Some things that are required are `COOKIE_SECRET` and `MONGO_URI`. again, consult the configuration section of the docs.
