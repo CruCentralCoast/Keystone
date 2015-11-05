@@ -40,7 +40,7 @@ User.add({
 	yearLeading: { type: Types.Date, format: 'YYYY', default: Date.now },
 	ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
 	summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
-	communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
+	// communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
 	notifications: {
 		ministryTeamUpdates: { type: Boolean, default: true },
