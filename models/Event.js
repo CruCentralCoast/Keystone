@@ -20,7 +20,7 @@ Event.add({
 	startDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },
   endDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },
   rideSharingEnabled: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
-  parentMinistry: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministry is this event for?' },
+  parentMinistries: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministries is this event for?', many: true },
 	notificationDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', label: 'Date to notify attendees' }
 });
 
