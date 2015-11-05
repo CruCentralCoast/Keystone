@@ -9,7 +9,7 @@ First of all, please keep all work within the `capstone` branch. This will make 
 
 There are a number of things that need to happen with this project in order for the mobile app to be able to access the data. First of all, there are some missing data models, such as those for Resources and Community Groups.
 
-In addition, while the admin console allows for manual input and management of this data using a web UI, there is no way to access it outside of this interface, which is why a REST API is needed. For resources on how to build this, see [this gist](https://gist.github.com/JedWatson/9741171).
+In addition, while the admin console allows for manual input and management of this data using a web UI, there is no way to access it outside of this interface, which is why a REST API is needed. For resources on how to build this, see [this gist](https://gist.github.com/JedWatson/9741171). [This project](https://github.com/danielpquinn/keystone-rest) may also be helpful.
 
 For more information, see the [KeystoneJS Documentation](http://keystonejs.com/docs/getting-started/), specifically the section on [project structure](http://keystonejs.com/docs/getting-started/#gettingstarted-projectstructure) so you can get oriented in the code base.
 
