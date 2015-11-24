@@ -18,6 +18,7 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
+var _ = require('underscore');
 var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
@@ -28,8 +29,16 @@ keystone.pre('render', middleware.flashMessages);
 
 // Import Route Controllers
 var routes = {
-	views: importRoutes('./views')
+	views: importRoutes('./views'),
+	api: importRoutes('./api')
 };
+
+function addApiRoutes(app, name, route) {
+	app.get('/api/' + name + '/list', keystone.middleware.api, route.list);
+	app.get('/api/' + name + '/:id', keystone.middleware.api, route.get);
+	app.all('/api/' + name + '/find', keystone.middleware.api, route.find);
+	app.all('/api/' + name + '/create', keystone.middleware.api, route.create); //TODO: take this out	
+}
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
@@ -44,4 +53,14 @@ exports = module.exports = function(app) {
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 	
+	// API stuff
+	addApiRoutes(app, 'summermission', routes.api.summermission);	
+	addApiRoutes(app, 'ministry', routes.api.ministry);	
+	addApiRoutes(app, 'ministryteam', routes.api.ministryteam);	
+	addApiRoutes(app, 'campus', routes.api.campus);	
+	addApiRoutes(app, 'post', routes.api.post);	
+	addApiRoutes(app, 'postcategory', routes.api.postcategory);	
+	addApiRoutes(app, 'event', routes.api.event);	
+	addApiRoutes(app, 'gallery', routes.api.gallery);	
+	addApiRoutes(app, 'user', routes.api.user);	
 };
