@@ -97,7 +97,7 @@ keystone.set('email tests', require('./routes/emails'));
 
 keystone.set('nav', {
   'campuses': 'campus',
-  'community-groups': 'community-group'
+  'community-groups': 'community-groups'
 // 	'events': 'event',
 // 	'users': 'users',
 // 	'ministries': 'ministries',
