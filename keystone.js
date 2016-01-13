@@ -12,7 +12,7 @@ var keystone = require('keystone');
 keystone.init({
 
 	'name': 'crucentralcoast.com',
-	'brand': 'Cru Central Coast Admin Panel',
+	'brand': 'Cru Central Coast',
 
 	'stylus': 'public',
 	'static': 'public',
