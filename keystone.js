@@ -97,13 +97,13 @@ keystone.set('email tests', require('./routes/emails'));
 
 keystone.set('nav', {
   'campuses': 'campus',
-  'community-groups': 'community-groups'
-// 	'events': 'event',
-// 	'users': 'users',
-// 	'ministries': 'ministries',
-// 	'ministry-teams': 'ministry-teams',
-// 	'resources': ['resources', 'resource-tags'],
-// 	'summer-missions': 'summer-missions'
+//  'community-groups': 'community-groups'
+	'events': 'events',
+	'users': 'users',
+	'ministries': 'ministries',
+	'ministry-teams': 'ministry-teams',
+	'resources': ['resources', 'resource-tags'],
+	'summer-missions': 'summer-missions'
 });
 
 // Start Keystone to connect to your database and initialise the web server
