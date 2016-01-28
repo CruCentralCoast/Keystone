@@ -15,13 +15,13 @@ Event.add({
 	name: { type: String, required: true, initial: true },
 	description: { type: Types.Textarea, initial: true },
 	image: { type: Types.CloudinaryImage },
-  url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
-  location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
+    url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
+    location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
 	startDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },
-  endDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },
-  rideSharingEnabled: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
-  parentMinistries: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministries is this event for?', many: true },
-	notificationDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', label: 'Date to notify attendees' }
+    endDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },
+    rideSharingEnabled: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
+    parentMinistries: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministries is this event for?', many: true },
+    notifications: { type: Types.Relationship, ref: 'Notification', label: 'These are the notifications being sent for this event', many: true }
 });
 
 Event.defaultColumns = 'name, location, startDate, endDate';

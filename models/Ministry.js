@@ -16,7 +16,7 @@ Ministry.add({
 	description: { type: Types.Textarea, initial: true },
 	image: { type: Types.CloudinaryImage },
 	teams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
-	campuses: { type: Types.Relationship, ref: 'Campus', initial: true, many: true }
+	campuses: { type: Types.Relationship, ref: 'Campus', initial: true, many: true}
 });
 
 Ministry.relationship({ path: 'teams', ref: 'MinistryTeam', refPath: 'parentMinistry' });

@@ -20,3 +20,8 @@ exports.find = function(req, res) {
 exports.create = function(req, res) {
         restUtils.create(model, req, res);
 }
+
+//updates an event
+exports.update = function(res, res) {
+    restUtils.update(model, req, res);
+}

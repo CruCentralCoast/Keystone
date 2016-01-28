@@ -15,10 +15,11 @@ var CommunityGroup = new keystone.List('CommunityGroup', {
 
 CommunityGroup.add({
 	name: { type: String, required: true, initial: true },
-	meetingTime: { type: Types.Textarea, initial: true },
-  leaders: { type: Types.Relationship, ref: 'Users', many: true },
+    description: { type: String, initial: true },
+	meetingTime: { type: Types.Datetime, initial: true },
+    leaders: { type: Types.Relationship, ref: 'Users', many: true },
 	parentMinistry: { type: Types.Relationship, ref: 'Ministry', initial: true }
 });
 
 CommunityGroup.defaultColumns = 'name, leaders';
-// CommunityGroup.register();
+CommunityGroup.register();

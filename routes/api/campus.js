@@ -24,3 +24,8 @@ exports.find = function(req, res) {
 exports.create = function(req, res) {
 	restUtils.create(model, req, res);
 }
+
+//updates a campus
+exports.update = function(res, res) {
+    restUtils.update(model, req, res);
+}
