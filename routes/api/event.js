@@ -22,6 +22,6 @@ exports.create = function(req, res) {
 }
 
 //updates an event
-exports.update = function(res, res) {
+exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }

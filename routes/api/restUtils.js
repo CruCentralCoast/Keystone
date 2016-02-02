@@ -66,7 +66,7 @@ module.exports = {
     
     //updates the model based on input
     update : function(model, req, res) {
-        model.findById(req.params.id).exec(function(err, item) {
+        model.findById(req.body._id).exec(function(err, item) {
 		
             if (err) return res.apiError('database error', err);
             if (!item) return res.apiError('not found');

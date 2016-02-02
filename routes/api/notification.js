@@ -2,12 +2,15 @@ var async = require('async'),
 	keystone = require('keystone'),
 	request = require('request'),
     gcm = require('node-gcm'),
+    propertyReader = require('properties-reader'),
+    root = require("app-root-path"),
     restUtils = require('./restUtils');
 
 var Notification = keystone.list("Notification");
 var model = Notification.model;
 
-var gcmAPIKey = 'AIzaSyDM635SwFgCm2X83cpdvo22LQTPbmGMOPs';
+var properties = propertyReader(root + '/properties.ini');
+var gcmAPIKey = properties.path().gcm.api.key;
 
 exports.list = function(req, res) {
         restUtils.list(model, req, res);
@@ -26,7 +29,7 @@ exports.create = function(req, res) {
 }
     
 //updates a notification
-exports.update = function(res, res) {
+exports.update = function(req, res) {
         restUtils.update(model, req, res);
 }
     
@@ -38,7 +41,7 @@ exports.push = function(req, res) {
         keystone.list('Ministry').model.find().where('_id', ministryString)
             .exec(function(err, ministries) {
             if (!ministries) {
-                ministries = [{topic: 'global'}]
+                ministries = [{_id: 'global'}]
             }
             ministries.forEach(function(ministry) {
                 var to = '/topics/' + ministry._id;	
@@ -116,7 +119,7 @@ setInterval(function() {
                 
                     // Sends the notification to everyone if no ministries are selected
                     if (notification.ministries.length == 0) {
-                        notification.ministries = [{topic: 'global', name: 'Cru Central Coast'}]
+                        notification.ministries = [{_id: 'global', name: 'Cru Central Coast'}]
                     }
                     notification.ministries.forEach(function(ministry) {
                         var to = '/topics/' + ministry._id;

@@ -26,6 +26,6 @@ exports.create = function(req, res) {
 }
 
 //updates a campus
-exports.update = function(res, res) {
+exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }

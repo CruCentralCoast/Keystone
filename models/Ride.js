@@ -10,10 +10,10 @@ var Ride = new keystone.List('Ride', {
 });
 
 Ride.add({
-    event: { type: Types.Relationship, ref: 'Event'},
+    event: { type: Types.Relationship, ref: 'Event', initial: true, required: true},
     driverName: {type: String, required: true, initial: true},
     driverNumber: { type: String, required: true, initial: true},
-    gcmAPIKey: { type: String, required: true, initial: true},
+    gcm_id: { type: String, required: true, initial: true},
     passengers: { type: Types.Relationship, ref: 'Passenger', many: true},
     location: { type: Types.Location, defaults: { country: 'USA' } },
     time: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now()},
