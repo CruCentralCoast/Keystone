@@ -12,6 +12,7 @@ var keystone = require('keystone');
 keystone.init({
 
 	'name': 'crucentralcoast.com',
+    'port' : 3001,
 	'brand': 'Cru Central Coast Admin Panel',
 
 	'stylus': 'public',
@@ -33,13 +34,8 @@ keystone.init({
 	'session store': 'mongo',
 	'cookie secret': process.env.COOKIE_SECRET,
 	'user model': 'User',
-    
-    'gmcAPIKey': 'AIzaSyDM635SwFgCm2X83cpdvo22LQTPbmGMOPs'
 
 });
-
-//
-keystone.set('gmcAPIKey', 'AIzaSyDM635SwFgCm2X83cpdvo22LQTPbmGMOPs');
 
 // Load your project's Models
 
