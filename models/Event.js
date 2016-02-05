@@ -15,6 +15,7 @@ Event.add({
 	name: { type: String, required: true, initial: true },
 	description: { type: Types.Textarea, initial: true },
 	image: { type: Types.CloudinaryImage },
+  imageSquare: { type: Types.CloudinaryImage },
   url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
   location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
 	startDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now(), required: true, initial: true },

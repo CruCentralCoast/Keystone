@@ -6,7 +6,6 @@ var Types = keystone.Field.Types;
  * ==========
  */
 
-//TODO this model is crap, missing tons of info. Come back to it later
 
 var CommunityGroup = new keystone.List('CommunityGroup', {
 	map: { name: 'name' },
@@ -17,8 +16,9 @@ CommunityGroup.add({
 	name: { type: String, required: true, initial: true },
 	meetingTime: { type: Types.Textarea, initial: true },
   leaders: { type: Types.Relationship, ref: 'Users', many: true },
+	communityGroupType: { type: Types.Select, required: true, initial: true, emptyOption: false, options: 'Freshmen, Sophomore, Junior, Senior, Graduate, Faculty, Mixed Ages, Mixed Sexes' },
 	parentMinistry: { type: Types.Relationship, ref: 'Ministry', initial: true }
 });
 
 CommunityGroup.defaultColumns = 'name, leaders';
-// CommunityGroup.register();
+CommunityGroup.register();
