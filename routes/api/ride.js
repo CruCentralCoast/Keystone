@@ -163,8 +163,10 @@ exports.dropRide = function(req, res) {
         });
         // END: Send Notification to Passenger
         
-        keystone.list("Passenger").model.remove(ride.passengers);
-        model.remove(ride);
+        ride.passengers.forEach(function(passenger) {
+            passenger.remove();
+        });
+        ride.remove();
         res.apiResponse(success);
     });
 }
