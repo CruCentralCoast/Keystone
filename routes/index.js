@@ -50,7 +50,7 @@ exports = module.exports = function(app) {
 	// app.get('/blog/post/:post', routes.views.post);
 	// app.get('/gallery', routes.views.gallery);
 	// app.all('/contact', routes.views.contact);
-    app.get('/notifications', routes.views.notifications);
+    app.get('/notifications', middleware.requireUser, routes.views.notifications);
     app.get('/notifications/renderScheduledNotifications', routes.views.notifications.renderScheduledNotifications);
     app.all('/notifications/renderEventNotifications', routes.views.notifications.renderEventNotifications);
     app.all('/notifications/renderEventNotificationTable', routes.views.notifications.renderEventNotificationTable);
@@ -68,6 +68,7 @@ exports = module.exports = function(app) {
     addApiRoutes(app, 'ride', routes.api.ride);		
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
     app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
+    app.all('/api/ride/dropRide', keystone.middleware.api, routes.api.ride.dropRide);
     addApiRoutes(app, 'passenger', routes.api.passenger);	
     addApiRoutes(app, 'notification', routes.api.notification);	
     app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);

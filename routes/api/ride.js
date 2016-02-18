@@ -11,6 +11,8 @@ var model = Ride.model;
 var properties = propertyReader(root + '/properties.ini');
 var gcmAPIKey = properties.path().gcm.api.key;
 
+var notificationTitle = "Cru Ride Sharing";
+
 exports.list = function(req, res) {
 	restUtils.list(model, req, res);
 }
@@ -71,10 +73,12 @@ exports.dropPassenger = function(req, res) {
     keystone.list("Passenger").model.findOne().where("_id", req.body.passenger_id).exec(function(err, passenger) {
         model.findOne().where("_id", req.body.ride_id).populate("event").exec(function(err, ride) {
         
+        
             var index = ride.passengers.indexOf(req.body.passenger_id);
             ride.passengers.splice(index, 1);
-            
-             var regTokens = [ride.gcm_id];
+             
+            // START: Send Notification to Driver
+            var regTokens = [ride.gcm_id];
             
             // Sets up the message data
             var message = new gcm.Message({
@@ -96,9 +100,71 @@ exports.dropPassenger = function(req, res) {
                     console.log(response);
                 }
             });
-                       
+            // END: Send Notification to Driver
+            
+            // START: Send Notification to Passenger
+            regTokens = [passenger.gcm_id];
+               
+            // Sets up the message data
+            message = new gcm.Message({
+                data: {
+                    message: "You have been dropped from a ride to " + ride.event.name + ".",
+                    title: notificationTitle
+                }
+            });
+               
+            sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                if (err) {
+                    console.error(err);
+                    success = false;
+                }
+                else {
+                    console.log(response);
+                }
+            });
+            // END: Send Notification to Passenger
+            
+            keystone.list("Passenger").model.remove(passenger);
             ride.save();
             res.apiResponse(ride);
         });
+    });
+}
+
+exports.dropRide = function(req, res) {
+    model.findOne().where("_id", req.body.ride_id).populate("passengers").populate("event").exec(function(err, ride) {    
+    
+        success = true;
+    
+        // START: Send Notification to Passengers
+        var regTokens = [];
+        ride.passengers.forEach(function(passenger) {            
+            regTokens.push(passenger.gcm_id);
+        });
+        
+        // Sets up the message data
+        var message = new gcm.Message({
+            data: {
+                message: "You have been dropped from a ride to " + ride.event.name + ".",
+                title: notificationTitle
+            }
+        });
+           
+        var sender = new gcm.Sender(gcmAPIKey);   
+           
+        sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+            if (err) {
+                console.error(err);
+                success = false;
+            }
+            else {
+                console.log(response);
+            }
+        });
+        // END: Send Notification to Passenger
+        
+        keystone.list("Passenger").model.remove(ride.passengers);
+        model.remove(ride);
+        res.apiResponse(success);
     });
 }
