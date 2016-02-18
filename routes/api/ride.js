@@ -38,7 +38,8 @@ exports.update = function(req, res) {
 exports.addPassenger = function(req, res) {  
     keystone.list("Passenger").model.findOne().where("_id", req.body.passenger_id).exec(function(err, passenger) {
         model.findOne().where("_id", req.body.ride_id).populate("event").exec(function(err, ride) {
-            ride.passengers.push(req.body.passenger_id);
+            if (ride.passengers.indexOf(req.body.passenger_id) == -1)
+                ride.passengers.push(req.body.passenger_id);
             
             var regTokens = [ride.gcm_id];
             
@@ -168,5 +169,13 @@ exports.dropRide = function(req, res) {
         });
         ride.remove();
         res.apiResponse(success);
+    });
+}
+
+// Allows for complex queries sent from a device to the server
+exports.search = function(req, res) {
+    model.find(req.body.conditions, req.body.projection, req.body.options, function(err, item) {
+       if (err) return res.apiError('database error', err);
+       res.apiResponse(item);
     });
 }

@@ -69,6 +69,7 @@ exports = module.exports = function(app) {
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
     app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
     app.all('/api/ride/dropRide', keystone.middleware.api, routes.api.ride.dropRide);
+    app.all('/api/ride/search', keystone.middleware.api, routes.api.ride.search);
     addApiRoutes(app, 'passenger', routes.api.passenger);	
     addApiRoutes(app, 'notification', routes.api.notification);	
     app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
