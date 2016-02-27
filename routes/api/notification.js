@@ -41,7 +41,7 @@ exports.push = function(req, res) {
         keystone.list('Ministry').model.find().where('_id', ministryString)
             .exec(function(err, ministries) {
             if (!ministries) {
-                ministries = [{_id: 'global'}]
+                ministries = [{_id: 'global', name: 'Cru Central Coast'}]
             }
             ministries.forEach(function(ministry) {
                 var to = '/topics/' + ministry._id;	
