@@ -41,6 +41,8 @@ function addApiRoutes(app, name, route) {
 	app.all('/api/' + name + '/find', keystone.middleware.api, route.find);
 	app.all('/api/' + name + '/create', keystone.middleware.api, route.create); //TODO: take this out	
     app.all('/api/' + name + '/update', keystone.middleware.api, route.update);
+    if (route.enumValues)
+        app.get('/api/' + name + '/enumValues/:key', keystone.middleware.api, route.enumValues);
 }
 
 // Setup Route Bindings

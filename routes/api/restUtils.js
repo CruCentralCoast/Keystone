@@ -84,5 +84,15 @@ module.exports = {
             });
 		
         });
+    },
+    
+    enumValues : function(model, req, res) {
+        var path = model.schema.path(req.params.key);
+        if (path.options)
+        {
+            res.apiResponse(path.options.options);
+        }
+        else
+            res.apiResponse();
     }
 }

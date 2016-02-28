@@ -28,6 +28,15 @@ exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }
 
+//updates a user
+exports.update = function(req, res) {
+    restUtils.update(model, req, res);
+}
+
+exports.enumValues = function(req, res) {
+    restUtils.enumValues(model, req, res);
+}
+
 // router.route("/enumValues/:key")
     // .get(function(req, res, next) {
         // return res.json(model.schema.path(req.params.key).options.options);

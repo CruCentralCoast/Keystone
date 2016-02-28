@@ -25,3 +25,7 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }
+
+exports.enumValues = function(req, res) {
+    restUtils.enumValues(model, req, res);
+}

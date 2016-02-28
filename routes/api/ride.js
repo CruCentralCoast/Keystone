@@ -34,6 +34,10 @@ exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }
 
+exports.enumValues = function(req, res) {
+    restUtils.enumValues(model, req, res);
+}
+
 // adds a passenger to the current ride
 exports.addPassenger = function(req, res) {  
     keystone.list("Passenger").model.findOne().where("_id", req.body.passenger_id).exec(function(err, passenger) {
