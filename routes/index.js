@@ -66,7 +66,7 @@ exports = module.exports = function(app) {
 	addApiRoutes(app, 'campus', routes.api.campus);	
 	addApiRoutes(app, 'event', routes.api.event);	
 	addApiRoutes(app, 'user', routes.api.user);	
-    app.all('/api/user/enumValues', keystone.middleware.api, routes.api.user.enumValues);
+    //app.all('/api/user/enumValues', keystone.middleware.api, routes.api.user.enumValues);
     addApiRoutes(app, 'communitygroup', routes.api.communitygroup);
     addApiRoutes(app, 'ride', routes.api.ride);		
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
@@ -78,5 +78,6 @@ exports = module.exports = function(app) {
     addApiRoutes(app, 'resource', routes.api.resource);
     app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
     app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
-    //app.use('/api/user', user);
+    //console.log(users);
+    //app.use('/api/user', users);
 };

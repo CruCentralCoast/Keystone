@@ -1,5 +1,7 @@
 var async = require('async'),
 	keystone = require('keystone'),
+    express = require('express'),
+    router = express.Router(),
 	restUtils = require('./restUtils');
 
 var User = keystone.list("User");
@@ -25,3 +27,10 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
     restUtils.update(model, req, res);
 }
+
+// router.route("/enumValues/:key")
+    // .get(function(req, res, next) {
+        // return res.json(model.schema.path(req.params.key).options.options);
+    // });
+    
+// module.exports = router;
