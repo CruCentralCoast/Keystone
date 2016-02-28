@@ -23,6 +23,8 @@ var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
 
+//var users = require('./api/user');
+
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
@@ -64,6 +66,7 @@ exports = module.exports = function(app) {
 	addApiRoutes(app, 'campus', routes.api.campus);	
 	addApiRoutes(app, 'event', routes.api.event);	
 	addApiRoutes(app, 'user', routes.api.user);	
+    app.all('/api/user/enumValues', keystone.middleware.api, routes.api.user.enumValues);
     addApiRoutes(app, 'communitygroup', routes.api.communitygroup);
     addApiRoutes(app, 'ride', routes.api.ride);		
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
@@ -72,6 +75,8 @@ exports = module.exports = function(app) {
     app.all('/api/ride/search', keystone.middleware.api, routes.api.ride.search);
     addApiRoutes(app, 'passenger', routes.api.passenger);	
     addApiRoutes(app, 'notification', routes.api.notification);	
+    addApiRoutes(app, 'resource', routes.api.resource);
     app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
     app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
+    //app.use('/api/user', user);
 };
