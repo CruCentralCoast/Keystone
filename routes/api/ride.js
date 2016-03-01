@@ -25,6 +25,10 @@ exports.find = function(req, res) {
         restUtils.find(model, req, res);
 }
 
+exports.search = function(req, res) {
+        restUtils.search(model, req, res);
+}
+
 exports.create = function(req, res) {
         restUtils.create(model, req, res);
 }
@@ -173,13 +177,5 @@ exports.dropRide = function(req, res) {
         });
         ride.remove();
         res.apiResponse(success);
-    });
-}
-
-// Allows for complex queries sent from a device to the server
-exports.search = function(req, res) {
-    model.find(req.body.conditions, req.body.projection, req.body.options, function(err, item) {
-       if (err) return res.apiError('database error', err);
-       res.apiResponse(item);
     });
 }

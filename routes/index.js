@@ -39,6 +39,7 @@ function addApiRoutes(app, name, route) {
 	app.get('/api/' + name + '/list', keystone.middleware.api, route.list);
 	app.get('/api/' + name + '/:id', keystone.middleware.api, route.get);
 	app.all('/api/' + name + '/find', keystone.middleware.api, route.find);
+	app.all('/api/' + name + '/search', keystone.middleware.api, route.search);
 	app.all('/api/' + name + '/create', keystone.middleware.api, route.create); //TODO: take this out	
     app.all('/api/' + name + '/update', keystone.middleware.api, route.update);
     if (route.enumValues)
@@ -62,6 +63,9 @@ exports = module.exports = function(app) {
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 	
 	// API stuff
+	app.post('/api/signin', routes.api.authUtils.signin);
+	app.post('/api/signout', routes.api.authUtils.signout);
+
 	addApiRoutes(app, 'summermission', routes.api.summermission);	
 	addApiRoutes(app, 'ministry', routes.api.ministry);	
 	addApiRoutes(app, 'ministryteam', routes.api.ministryteam);	
@@ -74,7 +78,7 @@ exports = module.exports = function(app) {
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
     app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
     app.all('/api/ride/dropRide', keystone.middleware.api, routes.api.ride.dropRide);
-    app.all('/api/ride/search', keystone.middleware.api, routes.api.ride.search);
+    //app.all('/api/ride/search', keystone.middleware.api, routes.api.ride.search);
     addApiRoutes(app, 'passenger', routes.api.passenger);	
     addApiRoutes(app, 'notification', routes.api.notification);	
     addApiRoutes(app, 'resource', routes.api.resource);

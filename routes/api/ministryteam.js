@@ -17,6 +17,10 @@ exports.find = function(req, res) {
 	restUtils.find(model, req, res);
 }
 
+exports.search = function(req, res) {
+        restUtils.search(model, req, res);
+}
+
 exports.create = function(req, res) {
 	restUtils.create(model, req, res);
 }
