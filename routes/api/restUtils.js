@@ -84,11 +84,12 @@ module.exports = {
             query.requiresAuth = {$ne:true};
         }
 
-    	model.find(query).exec(function(err, item) {
+    	model.find(query).exec(function(err, items) {
     		if (err) return res.apiError('database error', err);
-    		if (!item) return res.apiError('not found');
-
-    		res.apiResponse(item);
+    		if (items.length == 0)
+                return res.apiError('not found');
+            else
+    		    res.apiResponse(items[0]);
     	});
     },
 
