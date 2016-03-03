@@ -38,7 +38,7 @@ var rides = require('./api/ride');
 var campuses = require('./api/campus');
 var events = require('./api/event');
 var users = require('./api/user');
-var ministries = require('./api/user');
+var ministries = require('./api/ministry');
 var summermissions = require('./api/summermission');
 var notifications = require('./api/notification');
 
