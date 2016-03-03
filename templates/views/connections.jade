@@ -1,0 +1,19 @@
+extends ../layouts/layout
+
+block css
+	link(href='css/jquery.tagit.css', rel='stylesheet', type='text/css')
+	link(rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css")
+	link(rel='stylesheet', type='text/css', href='css/connections.css')
+	
+block content
+	.container
+		ol.breadcrumb#breadcrumb
+			li: a(href="#", onclick='backOne()'): span.glyphicon.glyphicon-arrow-left#back-arrow
+			li#connections-crumb Connections
+		.content
+			include ./includes/campusList
+
+block js
+	script(src='http://malsup.github.com/jquery.form.js')
+	script(src='/js/tag-it.js')
+	script(src='js/connections.js')

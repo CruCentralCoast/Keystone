@@ -23,7 +23,14 @@ var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
 
+// View Controller Routes
+var connections = require('./views/connections');
+
 //var users = require('./api/user');
+var ministryQuestions = require('./api/ministryquestion');
+var ministryTeams = require('./api/ministryteam');
+var communityGroups = require('./api/communitygroup');
+var questionOptions = require('./api/ministryquestionoption');
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -64,12 +71,12 @@ exports = module.exports = function(app) {
 	// API stuff
 	addApiRoutes(app, 'summermission', routes.api.summermission);	
 	addApiRoutes(app, 'ministry', routes.api.ministry);	
-	addApiRoutes(app, 'ministryteam', routes.api.ministryteam);	
+	//addApiRoutes(app, 'ministryteam', routes.api.ministryteam);	
 	addApiRoutes(app, 'campus', routes.api.campus);	
 	addApiRoutes(app, 'event', routes.api.event);	
 	addApiRoutes(app, 'user', routes.api.user);	
     //app.all('/api/user/enumValues', keystone.middleware.api, routes.api.user.enumValues);
-    addApiRoutes(app, 'communitygroup', routes.api.communitygroup);
+    //addApiRoutes(app, 'communitygroup', routes.api.communitygroup);
     addApiRoutes(app, 'ride', routes.api.ride);		
     app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
     app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
@@ -82,4 +89,11 @@ exports = module.exports = function(app) {
     app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
     //console.log(users);
     //app.use('/api/user', users);
+	
+	app.use('/connections', connections);
+	
+	app.use('/api/ministryquestion', ministryQuestions);
+	app.use('/api/communitygroup', communityGroups);
+	app.use('/api/ministryteam', ministryTeams)
+	app.use('/api/ministryquestionoption/', questionOptions);
 };

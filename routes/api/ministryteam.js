@@ -1,27 +1,35 @@
 var async = require('async'),
 	keystone = require('keystone'),
+	express = require('express'),
+	router = express.Router(),
 	restUtils = require('./restUtils');
 
 var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
 
-exports.list = function(req, res) {
-	restUtils.list(model, req, res);
-}
+router.route('/list')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
+	});
 
-exports.get = function(req, res) {
-	restUtils.get(model, req, res);
-}
+router.route('/get/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	});
 
-exports.find = function(req, res) {
-	restUtils.find(model, req, res);
-}
+router.route('/find')
+	.post(function(req, res, next) {
+		restUtils.find(model, req, res);
+	});
 
-exports.create = function(req, res) {
-	restUtils.create(model, req, res);
-}
+router.route('/create')
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
+	});
 
-//updates a ministry team
-exports.update = function(req, res) {
-    restUtils.update(model, req, res);
-}
+router.route('/update')
+	.post(function(req, res, next) {
+		restUtils.update(model, req, res);
+	});
+
+module.exports = router;
