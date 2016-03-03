@@ -4,7 +4,9 @@ var async = require('async'),
     gcm = require('node-gcm'),
     propertyReader = require('properties-reader'),
     root = require("app-root-path"),
-    restUtils = require('./restUtils');
+    restUtils = require('./restUtils'),
+	express = require('express'),
+	router = express.Router();
 
 var Notification = keystone.list("Notification");
 var model = Notification.model;
@@ -12,103 +14,109 @@ var model = Notification.model;
 var properties = propertyReader(root + '/properties.ini');
 var gcmAPIKey = properties.path().gcm.api.key;
 
-exports.list = function(req, res) {
-        restUtils.list(model, req, res);
-}
-
-exports.get = function(req, res) {
-        restUtils.get(model, req, res);
-}
-
-exports.find = function(req, res) {
-        restUtils.find(model, req, res);
-}
-
-exports.search = function(req, res) {
-        restUtils.search(model, req, res);
-}
-
-exports.create = function(req, res) {
-        restUtils.create(model, req, res);
-}
-    
-//updates a notification
-exports.update = function(req, res) {
-        restUtils.update(model, req, res);
-}
-    
-// Sends the push notification
-exports.push = function(req, res) {
-    var success= true;
-    
-    req.body.ministries.forEach(function(ministryString, index) {
-        keystone.list('Ministry').model.find().where('_id', ministryString)
-            .exec(function(err, ministries) {
-            if (!ministries) {
-                ministries = [{_id: 'global', name: 'Cru Central Coast'}]
-            }
-            ministries.forEach(function(ministry) {
-                var to = '/topics/' + ministry._id;	
-    
-                // Sets up the message data
-                var message = new gcm.Message({
-                    data: {
-                        message: req.body.msg,
-                        title: ministry.name
-                    }
-                });
-                
-                // Sets up the sender based on the API key
-                var sender = new gcm.Sender(gcmAPIKey);
-                
-                sender.send(message, { topic: to }, function (err, response) {
-                    if (err) {
-                        console.error(err);
-                        success = false;
-                    }
-                    else {
-                        console.log(response);
-                    }
-                });
-            });
-        });
-    });
-
-	res.apiResponse({
-		post: req.body.msg,
-        success: success
+router.route('/list')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
 	});
-}
 
-exports.addEventNotification = function(req, res) {
-    var Event = keystone.list('Event').model;
-    var Notification = keystone.list('Notification').model;
+router.route('/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	});
+
+router.route('/find')
+	.post(function(req, res, next) {
+		restUtils.find(model, req, res);
+	});
+
+router.route('/search')
+	.post(function(req, res, next) {
+		restUtils.search(model, req, res);
+	});
+
+router.route('/create')
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
+	});
+
+router.route('/update')
+	.post(function(req, res, next) {
+		restUtils.update(model, req, res);
+	});
+
+router.route('/push')
+	.post(function(req, res) {
+		var success= true;
+
+		req.body.ministries.forEach(function(ministryString, index) {
+			keystone.list('Ministry').model.find().where('_id', ministryString)
+				.exec(function(err, ministries) {
+					if (!ministries) {
+						ministries = [{_id: 'global', name: 'Cru Central Coast'}]
+					}
+					ministries.forEach(function(ministry) {
+						var to = '/topics/' + ministry._id;
+
+						// Sets up the message data
+						var message = new gcm.Message({
+							data: {
+								message: req.body.msg,
+								title: ministry.name
+							}
+						});
+
+						// Sets up the sender based on the API key
+						var sender = new gcm.Sender(gcmAPIKey);
+
+						sender.send(message, { topic: to }, function (err, response) {
+							if (err) {
+								console.error(err);
+								success = false;
+							}
+							else {
+								console.log(response);
+							}
+						});
+					});
+				});
+		});
+
+		res.apiResponse({
+			post: req.body.msg,
+			success: success
+		});
+	});
     
-    var newNotifiation;
-    
-    Event.findOne().where('_id', req.body.event_id).exec(function(err, event) {
-        // Calculates the time before an event to set the notification
-        var timeBefore = req.body.days ? req.body.days * 24 * 60 * 60 * 1000 : 0;
-        timeBefore += req.body.hours ? req.body.hours * 60 * 60 * 1000 : 0;
-        timeBefore += req.body.minutes ? req.body.minutes * 60 * 1000 : 0;
-        
-        var date = new Date(event.startDate.getTime() - timeBefore);
-        
-        newNotifiation = new Notification({
-            message: req.body.message,
-            time: date,
-            ministries: event.parentMinistries
-        });
-        
-        newNotifiation.save();
-        event.notifications.push(newNotifiation);
-        event.save();
-        
-        res.apiResponse({
-            post: newNotifiation
-        });
-    });  
-}
+router.route('/addEventNotification')
+	.post(function(req, res) {
+		var Event = keystone.list('Event').model;
+		var Notification = keystone.list('Notification').model;
+
+		var newNotifiation;
+
+		Event.findOne().where('_id', req.body.event_id).exec(function(err, event) {
+			// Calculates the time before an event to set the notification
+			var timeBefore = req.body.days ? req.body.days * 24 * 60 * 60 * 1000 : 0;
+			timeBefore += req.body.hours ? req.body.hours * 60 * 60 * 1000 : 0;
+			timeBefore += req.body.minutes ? req.body.minutes * 60 * 1000 : 0;
+
+			var date = new Date(event.startDate.getTime() - timeBefore);
+
+			newNotifiation = new Notification({
+				message: req.body.message,
+				time: date,
+				ministries: event.parentMinistries
+			});
+
+			newNotifiation.save();
+			event.notifications.push(newNotifiation);
+			event.save();
+
+			res.apiResponse({
+				post: newNotifiation
+			});
+		});
+	});
 
 // Sets a recurring timer to send scheduled push notifications every minute
 setInterval(function() {
@@ -155,3 +163,5 @@ setInterval(function() {
             }
         });   
 }, 60000); // Specifies the time to run this function
+
+module.exports = router;

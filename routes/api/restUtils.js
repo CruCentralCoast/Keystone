@@ -3,8 +3,8 @@ module.exports = {
 
     search : function(model, req, res) {
         model.find(req.body.conditions, req.body.projection, req.body.options, function(err, item) {
-           if (err) return res.apiError('database error', err);
-           res.apiResponse(item);
+           if (err) return res.send('database error', err);
+           return res.json(item);
         });
     },
     
@@ -32,19 +32,19 @@ module.exports = {
         }
 
         model.find(data, selects).limit(lim).sort(order).exec(function(err, items) {
-            if (err) return res.apiError('database error', err);
-            if (!items) return res.apiError('not found');
+            if (err) return res.send('database error', err);
+            if (!items) return res.send('not found');
 
-            res.apiResponse(items);
+            return res.json(items);
         });
     },
 
     // used to get everything from a collection
     list : function(model, req, res) {
         model.find().exec(function(err, items) {
-            if (err) return res.apiError('database error', err);
+            if (err) return res.send(err);
 
-            res.apiResponse(items);
+            return res.json(items);
         });
     },
 
@@ -54,7 +54,7 @@ module.exports = {
     		if (err) return res.apiError('database error', err);
             if (!item) return res.apiError('not found');
     	
-            res.apiResponse(item);
+            return res.json(item);
     	});
     },
 
@@ -66,9 +66,7 @@ module.exports = {
     	item.getUpdateHandler(req).process(data, function(err) {
     		if (err) return res.apiError('error', err);
 
-    		res.apiResponse({
-    			post: item
-    		});
+    		return res.json(item);
     	});
     },
 
@@ -85,10 +83,7 @@ module.exports = {
                 
                 if (err) return res.apiError('create error', err);
                 
-                res.apiResponse({
-                    post: item
-                });
-                
+                return res.json(item);
             });
         
         });
@@ -98,9 +93,9 @@ module.exports = {
         var path = model.schema.path(req.params.key);
         if (path.options)
         {
-            res.apiResponse(path.options.options);
+            return res.json(path.options.options);
         }
         else
-            res.apiResponse();
+            return res.json();
     }
 }

@@ -31,6 +31,16 @@ var ministryQuestions = require('./api/ministryquestion');
 var ministryTeams = require('./api/ministryteam');
 var communityGroups = require('./api/communitygroup');
 var questionOptions = require('./api/ministryquestionoption');
+var resources = require('./api/resource');
+var resourceTags = require('./api/resourcetag');
+var passengers = require('./api/passenger');
+var rides = require('./api/ride');
+var campuses = require('./api/campus');
+var events = require('./api/event');
+var users = require('./api/user');
+var ministries = require('./api/user');
+var summermissions = require('./api/summermission');
+var notifications = require('./api/notification');
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -73,32 +83,44 @@ exports = module.exports = function(app) {
 	app.post('/api/signin', routes.api.authUtils.signin);
 	app.post('/api/signout', routes.api.authUtils.signout);
 
-	addApiRoutes(app, 'summermission', routes.api.summermission);	
-	addApiRoutes(app, 'ministry', routes.api.ministry);	
+	//addApiRoutes(app, 'summermission', routes.api.summermission);	
+	//addApiRoutes(app, 'ministry', routes.api.ministry);	
 	//addApiRoutes(app, 'ministryteam', routes.api.ministryteam);	
-	addApiRoutes(app, 'campus', routes.api.campus);	
-	addApiRoutes(app, 'event', routes.api.event);	
-	addApiRoutes(app, 'user', routes.api.user);	
+	//addApiRoutes(app, 'campus', routes.api.campus);	
+	//addApiRoutes(app, 'event', routes.api.event);	
+	//addApiRoutes(app, 'user', routes.api.user);	
     //app.all('/api/user/enumValues', keystone.middleware.api, routes.api.user.enumValues);
     //addApiRoutes(app, 'communitygroup', routes.api.communitygroup);
-    addApiRoutes(app, 'ride', routes.api.ride);		
-    app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
-    app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
-    app.all('/api/ride/dropRide', keystone.middleware.api, routes.api.ride.dropRide);
+    //addApiRoutes(app, 'ride', routes.api.ride);		
+    //app.all('/api/ride/addPassenger', keystone.middleware.api, routes.api.ride.addPassenger);
+    //app.all('/api/ride/dropPassenger', keystone.middleware.api, routes.api.ride.dropPassenger);
+    //app.all('/api/ride/dropRide', keystone.middleware.api, routes.api.ride.dropRide);
     //app.all('/api/ride/search', keystone.middleware.api, routes.api.ride.search);
-    addApiRoutes(app, 'passenger', routes.api.passenger);	
-    addApiRoutes(app, 'notification', routes.api.notification);	
-    addApiRoutes(app, 'resource', routes.api.resource);
-    addApiRoutes(app, 'resourcetag', routes.api.resourcetag);
-    app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
-    app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
+    //addApiRoutes(app, 'passenger', routes.api.passenger);	
+    //addApiRoutes(app, 'notification', routes.api.notification);	
+    //addApiRoutes(app, 'resource', routes.api.resource);
+    //addApiRoutes(app, 'resourcetag', routes.api.resourcetag);
+    //app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
+    //app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
     //console.log(users);
     //app.use('/api/user', users);
 	
+	// Site
 	app.use('/connections', connections);
 	
+	// API
 	app.use('/api/ministryquestion', ministryQuestions);
 	app.use('/api/communitygroup', communityGroups);
 	app.use('/api/ministryteam', ministryTeams)
 	app.use('/api/ministryquestionoption/', questionOptions);
+	app.use('/api/resource', resources);
+	app.use('/api/resourcetag', resourceTags);
+	app.use('/api/passenger', passengers);
+	app.use('/api/ride', rides);
+	app.use('/api/campus', campuses);
+	app.use('/api/event', events);
+	app.use('/api/user', users);
+	app.use('/api/ministry', ministries);
+	app.use('/api/summermission', summermissions);
+	app.use('/api/notification', notifications);
 };

@@ -13,7 +13,7 @@ router.route('/list')
 		restUtils.list(model, req, res);
 	});
 
-router.route('/get/:id')
+router.route('/:id')
 	.get(function(req, res, next) {
 		restUtils.get(model, req, res);
 	});

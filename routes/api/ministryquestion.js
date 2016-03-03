@@ -19,7 +19,7 @@ router.route('/list')
 		})
 	});
 
-router.route('/get/:id')
+router.route('/:id')
 	.get(function(req, res, next) {
 		MinistryQuestion.findOne({_id: req.params.id}).populate({
 			path: 'selectOptions',

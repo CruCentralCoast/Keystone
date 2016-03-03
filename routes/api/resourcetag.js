@@ -1,35 +1,35 @@
 var async = require('async'),
 	keystone = require('keystone'),
-	restUtils = require('./restUtils');
+	restUtils = require('./restUtils'),
+	express = require('express'),
+	router = express.Router();
 
 var ResourceTag = keystone.list("ResourceTag");
 var model = ResourceTag.model;
 
-// lists all ministries
-exports.list = function(req, res) {
-	restUtils.list(model, req, res);
-}
+router.route('/list')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
+	});
 
-// get a ministry by id
-exports.get = function(req, res) {
-	restUtils.get(model, req, res);
-}
+router.route('/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	});
 
-// comment
-exports.find = function(req, res) {
-	restUtils.find(model, req, res);
-}
+router.route('/find')
+	.post(function(req, res, next) {
+		restUtils.find(model, req, res);
+	});
 
-exports.search = function(req, res) {
-        restUtils.search(model, req, res);
-}
+router.route('/create')
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
+	});
 
-//create a ministry
-exports.create = function(req, res) {
-	restUtils.create(model, req, res);
-}
+router.route('/update')
+	.post(function(req, res, next) {
+		restUtils.update(model, req, res);
+	});
 
-//updates a ministry
-exports.update = function(req, res) {
-    restUtils.update(model, req, res);
-}
+module.exports = router;
