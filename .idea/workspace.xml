@@ -2,25 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab7412d9-9346-4633-b84e-9c4c4c661d87" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/MinistryQuestionAnswer.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/MinistryQuestionOption.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/api/ministryquestion.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/api/ministryquestionoption.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/views/connections.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/views/connections.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/views/includes/campusDetails.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/views/includes/campusList.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/views/includes/ministryDetails.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/keystone.js" afterPath="$PROJECT_DIR$/keystone.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/CommunityGroup.js" afterPath="$PROJECT_DIR$/models/CommunityGroup.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/MinistryQuestion.js" afterPath="$PROJECT_DIR$/models/MinistryQuestion.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/api/authUtils.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/api/resourcetag.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/MinistryTeam.js" afterPath="$PROJECT_DIR$/models/MinistryTeam.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/User.js" afterPath="$PROJECT_DIR$/models/User.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properties.ini" afterPath="$PROJECT_DIR$/properties.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/campus.js" afterPath="$PROJECT_DIR$/routes/api/campus.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/communitygroup.js" afterPath="$PROJECT_DIR$/routes/api/communitygroup.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/event.js" afterPath="$PROJECT_DIR$/routes/api/event.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/ministry.js" afterPath="$PROJECT_DIR$/routes/api/ministry.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/ministryteam.js" afterPath="$PROJECT_DIR$/routes/api/ministryteam.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/notification.js" afterPath="$PROJECT_DIR$/routes/api/notification.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/passenger.js" afterPath="$PROJECT_DIR$/routes/api/passenger.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/resource.js" afterPath="$PROJECT_DIR$/routes/api/resource.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/restUtils.js" afterPath="$PROJECT_DIR$/routes/api/restUtils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/ride.js" afterPath="$PROJECT_DIR$/routes/api/ride.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/summermission.js" afterPath="$PROJECT_DIR$/routes/api/summermission.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api/user.js" afterPath="$PROJECT_DIR$/routes/api/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/layouts/layout.jade" afterPath="$PROJECT_DIR$/templates/layouts/layout.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/views/notifications.jade" afterPath="$PROJECT_DIR$/templates/views/notifications.jade" />
     </list>
     <ignored path="slocru-keystone.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,11 +62,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connections.less" pinned="false" current-in-tab="true">
+      <file leaf-file-name="connections.less" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/connections.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58208954">
+            <state vertical-scroll-proportion="-3.8235295">
               <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ministryteam.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/api/ministryteam.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="communitygroup.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/api/communitygroup.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MinistryTeam.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/MinistryTeam.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7668394">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -93,43 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scheduled-notifications.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/views/includes/scheduled-notifications.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="25" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ministryquestionoption.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/api/ministryquestionoption.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="69" selection-start-line="10" selection-start-column="69" selection-end-line="10" selection-end-column="69" />
-              <folding>
-                <element signature="e#0#40#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/views/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="61" selection-start-line="97" selection-start-column="61" selection-end-line="97" selection-end-column="61" />
+              <caret line="102" column="61" selection-start-line="102" selection-start-column="61" selection-end-line="102" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -172,10 +169,7 @@
         <option value="$PROJECT_DIR$/routes/api/ministryquestion.js" />
         <option value="$PROJECT_DIR$/models/MinistryQuestionAnswers.js" />
         <option value="$PROJECT_DIR$/models/MinistryQuestion.js" />
-        <option value="$PROJECT_DIR$/models/MinistryTeam.js" />
         <option value="$PROJECT_DIR$/models/MinistryQuestionAnswer.js" />
-        <option value="$PROJECT_DIR$/routes/api/communitygroup.js" />
-        <option value="$PROJECT_DIR$/routes/api/ministryteam.js" />
         <option value="$PROJECT_DIR$/models/CommunityGroup.js" />
         <option value="$PROJECT_DIR$/keystone.js" />
         <option value="$PROJECT_DIR$/templates/views/includes/communityGroupList.jade" />
@@ -192,6 +186,9 @@
         <option value="$PROJECT_DIR$/templates/views/includes/ministryDetails.jade" />
         <option value="$PROJECT_DIR$/public/js/connections.js" />
         <option value="$PROJECT_DIR$/public/css/connections.less" />
+        <option value="$PROJECT_DIR$/routes/api/ministryteam.js" />
+        <option value="$PROJECT_DIR$/routes/api/communitygroup.js" />
+        <option value="$PROJECT_DIR$/models/MinistryTeam.js" />
       </list>
     </option>
   </component>
@@ -391,6 +388,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slocru-keystone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="slocru-keystone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -643,20 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/MinistryTeam.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="86" selection-start-line="21" selection-start-column="86" selection-end-line="21" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/communitygroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/express/lib/application.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-15.126943">
@@ -675,13 +672,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.450777">
           <caret line="188" column="37" selection-start-line="188" selection-start-column="37" selection-end-line="188" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api/ministryteam.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68911916">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -846,14 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="61" selection-start-line="97" selection-start-column="61" selection-end-line="97" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api/ministryquestionoption.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -916,8 +898,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/connections.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58208954">
+        <state vertical-scroll-proportion="-3.8235295">
           <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="102" column="61" selection-start-line="102" selection-start-column="61" selection-end-line="102" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/ministryteam.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api/communitygroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/MinistryTeam.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7668394">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>

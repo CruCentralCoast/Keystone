@@ -17,6 +17,7 @@ MinistryTeam.add({
 	image: { type: Types.CloudinaryImage },
     teamImage: {type: Types.CloudinaryImage },
 	parentMinistry: { type: Types.Relationship, ref: 'Ministry', required: true, initial: true },
+    leaders: { type: Types.Relationship, ref: 'User', many: true }
 });
 
 MinistryTeam.relationship({ path: 'members', ref: 'User', refPath: 'ministryTeams' });

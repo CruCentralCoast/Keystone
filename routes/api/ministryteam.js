@@ -32,4 +32,9 @@ router.route('/update')
 		restUtils.update(model, req, res);
 	});
 
+router.route('/search')
+	.post(function(req, res, next) {
+		restUtils(model, req, res);
+	})
+
 module.exports = router;

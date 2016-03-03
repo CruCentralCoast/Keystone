@@ -1,4 +1,13 @@
+
 module.exports = {
+
+    search : function(model, req, res) {
+        model.find(req.body.conditions, req.body.projection, req.body.options, function(err, item) {
+           if (err) return res.apiError('database error', err);
+           res.apiResponse(item);
+        });
+    },
+    
     // used for queries
     find : function(model, req, res) {
         var data = (req.method == 'POST') ? req.body : req.query;
@@ -17,7 +26,7 @@ module.exports = {
             var list = req.query.select.split(",");
             console.log(list);
             for (var iter = 0; iter < list.length; iter++) {
-                selects[list[iter].replace('}', '').replace('{', '').replace(' ', '')] = false;
+                selects[list[iter].replace('}', '').replace('{', '').replace(' ', '')] = true;
             }
             console.log("selects statements are " + selects);
         }
@@ -32,8 +41,7 @@ module.exports = {
 
     // used to get everything from a collection
     list : function(model, req, res) {
-        var query = model.find();
-        query.exec(function(err, items) {
+        model.find().exec(function(err, items) {
             if (err) return res.apiError('database error', err);
 
             res.apiResponse(items);
@@ -44,9 +52,9 @@ module.exports = {
     get : function(model, req, res) {
     	model.findById(req.params.id).exec(function(err, item) {
     		if (err) return res.apiError('database error', err);
-    		if (!item) return res.apiError('not found');
-
-    		res.apiResponse(item);
+            if (!item) return res.apiError('not found');
+    	
+            res.apiResponse(item);
     	});
     },
 
@@ -63,11 +71,11 @@ module.exports = {
     		});
     	});
     },
-    
+
     //updates the model based on input
     update : function(model, req, res) {
         model.findById(req.body._id).exec(function(err, item) {
-		
+        
             if (err) return res.apiError('database error', err);
             if (!item) return res.apiError('not found');
             
@@ -82,10 +90,10 @@ module.exports = {
                 });
                 
             });
-		
+        
         });
-    },
-    
+    },    
+
     enumValues : function(model, req, res) {
         var path = model.schema.path(req.params.key);
         if (path.options)
