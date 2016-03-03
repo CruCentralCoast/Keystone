@@ -82,6 +82,7 @@ exports = module.exports = function(app) {
     addApiRoutes(app, 'passenger', routes.api.passenger);	
     addApiRoutes(app, 'notification', routes.api.notification);	
     addApiRoutes(app, 'resource', routes.api.resource);
+    addApiRoutes(app, 'resourcetag', routes.api.resourcetag);
     app.all('/api/notification/push', keystone.middleware.api, routes.api.notification.push);
     app.all('/api/notification/addEventNotification', keystone.middleware.api, routes.api.notification.addEventNotification);
     //console.log(users);

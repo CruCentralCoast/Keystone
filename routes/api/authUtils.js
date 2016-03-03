@@ -1,4 +1,9 @@
-var keystone = require('keystone');
+var keystone = require('keystone'),
+    propertyReader = require('properties-reader'),
+    root = require("app-root-path");
+
+var properties = propertyReader(root + '/properties.ini');
+var leaderAPIKey = properties.path().leader.api.key;
 
 module.exports = {
 
@@ -10,7 +15,6 @@ module.exports = {
 				if (err || !user) {
 					return res.json({
 						success: false,
-						session: false,
 						message: (err && err.message ? err.message : false) || 'Sorry, there was an issue signing you in, please try again.'
 					});
 				}
@@ -18,14 +22,11 @@ module.exports = {
 				keystone.session.signin({ email: user.email, password: req.body.password }, req, res, function(user) {
 					return res.json({
 						success: true,
-						session: true,
-						date: new Date().getTime(),
-						userId: user.id
+						LeaderAPIKey: leaderAPIKey 
 					});
 				}, function(err) {
 					return res.json({
-						success: true,
-						session: false,
+						success: false,
 						message: (err && err.message ? err.message : false) || 'Sorry, there was an issue signing you in, please try again.'
 					});
 				});
@@ -36,12 +37,6 @@ module.exports = {
 		keystone.session.signout(req, res, function() {
 			res.json({ 'signedout': true });
 		});
-	},
-
-	checkAuth: function(req, res, next) {
-		console.log("Boo!");
-		// TODO: check user permissions here
-		if (req.user) return next();
-		return res.status(403).json({ 'error': 'no access' });
 	}
+
 }
