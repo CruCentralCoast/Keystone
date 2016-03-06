@@ -37,7 +37,7 @@ router.route('/create')
     
 router.route('/search')
     .post(function(req, res, next) {
-        restUtils.search(model, req, res));
+        restUtils.search(model, req, res);
     });
 
 router.route('/update')
