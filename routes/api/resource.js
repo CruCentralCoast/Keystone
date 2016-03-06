@@ -34,7 +34,7 @@ router.route('/list')
 		});
 	});
 
-router.route('/get/:id')
+router.route('/:id')
 	.get(function(req, res) {
 		model.findById(req.params.id).exec(function(err, item) {
 			if (err) return res.apiError('database error', err);
