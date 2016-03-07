@@ -14,7 +14,8 @@ var SummerMission = new keystone.List('SummerMission', {
 SummerMission.add({
 	name: { type: String, required: true, initial: true },
 	description: { type: Types.Textarea, initial: true },
-	image: { type: Types.CloudinaryImage },
+  groupPhoto: { type: Types.CloudinaryImage, autoCleanup: true, select: true },
+  image: { type: Types.CloudinaryImage, autoCleanup: true, select: true },
   url: { type: Types.Url },
   location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
 	startDate: { type: Types.Date, format: 'MMM Do YYYY', default: Date.now, required: true, initial: true },

@@ -16,6 +16,7 @@ var Campus = new keystone.List('Campus', {
 Campus.add({
 	name: { type: String, required: true },
 	location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
+  image: { type: Types.CloudinaryImage, autoCleanup: true, select: true, initial: false, required: false },
 	url: { type: Types.Url }
 });
 
