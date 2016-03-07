@@ -17,6 +17,14 @@ router.route('/:id')
 		restUtils.get(model, req, res);
 	});
 
+router.route('/:id/questions')
+	.get(function(req, res, next) {
+		keystone.list('MinistryQuestion').model.find({ministry: req.params.id}).populate("selectOptions").exec(function(err, questions){
+			if (err) return res.send(err);
+			return res.json(questions);
+		});
+	});
+
 router.route('/find')
 	.post(function(req, res, next) {
 		restUtils.find(model, req, res);
