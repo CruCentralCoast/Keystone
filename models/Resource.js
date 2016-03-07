@@ -18,7 +18,7 @@ Resource.add({
 	type: { type: Types.Select, emptyOption: false, initial: true, required: true, numeric: false, options: ['article', 'audio', 'video'] },
 	date: { type: Types.Date, yearRange: [2000, 2030] },
 	title: { type: Types.Text, initial: true, required: true},
-  restricted: { type: Types.Boolean, note: "Whether the resource should be restricted to leaders only.", initial: true },
+  restricted: { type: Types.Boolean, note: 'Whether the resource should be restricted to leaders only.', initial: true },
   author: { type: Types.Text, initial: true, required: false},
 	tags: { type: Types.Relationship, initial: true, required: false, ref: 'ResourceTag', many: true }
 });
