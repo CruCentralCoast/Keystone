@@ -30,7 +30,7 @@ router.route('/list')
 		model.find(params).exec(function(err, items) {
 			if (err) return res.apiError('database error', err);
 
-			res.apiResponse(items);
+			res.json(items);
 		});
 	});
 
@@ -43,7 +43,7 @@ router.route('/:id')
 				&& req.query.LeaderAPIKey != leaderAPIKey) {
 				return res.apiError("not authorized");
 			}
-			res.apiResponse(item);
+			res.json(item);
 		});
 	});
 
