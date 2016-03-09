@@ -17,6 +17,14 @@ router.route('/:id')
 		restUtils.get(model, req, res);
 	});
 
+router.route('/phone/:number')
+    .get(function(req, res, next) {
+        model.findOne({phone: req.params.number}).exec(function(err, user) {
+            if (err) return res.send(err);
+            return res.json(user);
+        });
+    });
+    
 router.route('/find')
 	.post(function(req, res, next) {
 		restUtils.find(model, req, res);
