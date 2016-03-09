@@ -18,7 +18,7 @@ router.route('/list')
 	.get(function(req, res) {
 		var params = {};
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			params = {"restricted": false};
+			params = {"restricted": {"$ne":true}};
 		}
 		model.find(params).exec(function(err, items) {
 			if (err) return res.apiError('database error', err);
@@ -42,7 +42,7 @@ router.route('/:id')
 router.route('/find')
 	.post(function(req, res) {
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			req.body = {"$and":[req.body, {"restricted": false}]}
+			req.body = {"$and":[req.body, {"restricted": {"$ne":true}}]}
 		}
 		restUtils.find(model, req, res);
 	});
@@ -50,7 +50,7 @@ router.route('/find')
 router.route('/search')
 	.post(function(req, res) {
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			req.body.conditions = {"$and":[req.body.conditions, {"restricted":false}]}
+			req.body.conditions = {"$and":[req.body.conditions, {"restricted": {"$ne":true}}]}
 		}
 		restUtils.search(model, req, res);
 	});
