@@ -19,7 +19,7 @@ router.route('/:id')
 
 router.route('/phone/:number')
     .get(function(req, res, next) {
-        model.findOne({phone: req.params.number}).exec(function(err, user) {
+        model.findOne({'phone': req.params.number}).exec(function(err, user) {
             if (err) return res.send(err);
             return res.json(user);
         });

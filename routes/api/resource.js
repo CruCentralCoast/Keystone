@@ -28,22 +28,21 @@ router.route('/list')
 			params = {"tags": { "$nin": [leaderTagID]}};
 		}
 		model.find(params).exec(function(err, items) {
-			if (err) return res.apiError('database error', err);
-
-			res.apiResponse(items);
+			if (err) return res.send(err);
+			return res.json(items);
 		});
 	});
 
 router.route('/:id')
 	.get(function(req, res) {
 		model.findById(req.params.id).exec(function(err, item) {
-			if (err) return res.apiError('database error', err);
-			if (!item) return res.apiError('not found');
+			if (err) return res.send(err);
+			if (!item) return res.send('not found');
 			if (item.tags.contains(leaderTagID)
 				&& req.query.LeaderAPIKey != leaderAPIKey) {
-				return res.apiError("not authorized");
+				return res.send("not authorized");
 			}
-			res.apiResponse(item);
+			return res.json(item);
 		});
 	});
 
