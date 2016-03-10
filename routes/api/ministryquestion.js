@@ -25,7 +25,7 @@ router.route('/:id')
 			path: 'selectOptions',
 			select: 'value -_id'
 		}).exec(function(err, question) {
-			if (err) return res.apiError('database error', err);
+			if (err) return res.send(err);
 			return res.json(question);
 		});
 	});

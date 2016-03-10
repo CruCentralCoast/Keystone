@@ -80,7 +80,7 @@ router.route('/addPassenger')
 					}
 				});
 				ride.save();
-				res.apiResponse(ride);
+				return res.json(ride);
 			});
 		});
 	});
@@ -143,7 +143,7 @@ router.route('/dropPassenger')
 
 				keystone.list("Passenger").model.remove(passenger);
 				ride.save();
-				res.apiResponse(ride);
+				return res.json(ride);
 			});
 		});
 	});
@@ -185,7 +185,7 @@ router.route('/dropRide')
 				passenger.remove();
 			});
 			ride.remove();
-			res.apiResponse(success);
+			return res.json(success);
 		});
 	});
 

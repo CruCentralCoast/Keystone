@@ -25,7 +25,6 @@
 						- var hidden = 'select' != question.type ? true : false;
 						.form-group(hidden=hidden)
 							label(for="select_#{question._id}") Options
-							//input.form-control(type='text' id="select_#{question._id}"): span.badge Testing
 							ul.taggable.form-control(id="select_#{question._id}")
 								each option in question.selectOptions
 									li= option.value

@@ -3,7 +3,7 @@ module.exports = {
 
     search : function(model, req, res) {
         model.find(req.body.conditions, req.body.projection, req.body.options, function(err, item) {
-           if (err) return res.send('database error', err);
+           if (err) return res.send(err);
            return res.json(item);
         });
     },
@@ -32,7 +32,7 @@ module.exports = {
         }
 
         model.find(data, selects).limit(lim).sort(order).exec(function(err, items) {
-            if (err) return res.send('database error', err);
+            if (err) return res.send(err);
             if (!items) return res.send('not found');
 
             return res.json(items);
@@ -51,8 +51,8 @@ module.exports = {
     // gets something by it's id
     get : function(model, req, res) {
     	model.findById(req.params.id).exec(function(err, item) {
-    		if (err) return res.apiError('database error', err);
-            if (!item) return res.apiError('not found');
+    		if (err) return res.send(err);
+            if (!item) return res.send('not found');
     	
             return res.json(item);
     	});
@@ -64,7 +64,7 @@ module.exports = {
     		data = (req.method == 'POST') ? req.body : req.query;
 
     	item.getUpdateHandler(req).process(data, function(err) {
-    		if (err) return res.apiError('error', err);
+    		if (err) return res.send(err);
 
     		return res.json(item);
     	});
@@ -74,14 +74,14 @@ module.exports = {
     update : function(model, req, res) {
         model.findById(req.body._id).exec(function(err, item) {
         
-            if (err) return res.apiError('database error', err);
-            if (!item) return res.apiError('not found');
+            if (err) return res.send(err);
+            if (!item) return res.send('not found');
             
             var data = (req.method == 'POST') ? req.body : req.query;
             
             item.getUpdateHandler(req).process(data, function(err) {
                 
-                if (err) return res.apiError('create error', err);
+                if (err) return res.send(err);
                 
                 return res.json(item);
             });

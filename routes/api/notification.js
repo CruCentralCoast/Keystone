@@ -81,7 +81,7 @@ router.route('/push')
 				});
 		});
 
-		res.apiResponse({
+		res.json({
 			post: req.body.msg,
 			success: success
 		});
@@ -112,9 +112,7 @@ router.route('/addEventNotification')
 			event.notifications.push(newNotifiation);
 			event.save();
 
-			res.apiResponse({
-				post: newNotifiation
-			});
+			res.json(newNotifiation);
 		});
 	});
 
