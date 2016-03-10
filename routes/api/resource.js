@@ -12,20 +12,13 @@ var model = Resource.model;
 
 var properties = propertyReader(root + '/properties.ini');
 var leaderAPIKey = properties.path().leader.api.key;
-var leaderTagID = properties.path().leader.tag.id;
 
-Array.prototype.contains = function ( needle ) {
-   for (i in this) {
-       if (this[i] == needle) return true;
-   }
-   return false;
-}
 
 router.route('/list')
 	.get(function(req, res) {
 		var params = {};
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			params = {"tags": { "$nin": [leaderTagID]}};
+			params = {"restricted": {"$ne":true}};
 		}
 		model.find(params).exec(function(err, items) {
 			if (err) return res.send(err);
@@ -49,7 +42,7 @@ router.route('/:id')
 router.route('/find')
 	.post(function(req, res) {
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			req.body = {"$and":[req.body, {"tags": { "$nin": [leaderTagID] }}]}
+			req.body = {"$and":[req.body, {"restricted": {"$ne":true}}]}
 		}
 		restUtils.find(model, req, res);
 	});
@@ -57,7 +50,7 @@ router.route('/find')
 router.route('/search')
 	.post(function(req, res) {
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
-			req.body.conditions = {"$and":[req.body.conditions, {"tags": { "$nin": [leaderTagID] }}]}
+			req.body.conditions = {"$and":[req.body.conditions, {"restricted": {"$ne":true}}]}
 		}
 		restUtils.search(model, req, res);
 	});
