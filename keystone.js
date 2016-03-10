@@ -1,7 +1,7 @@
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
 if (process.env.NODE_ENV === 'development') {
-	require('dotenv').load();
+  require('dotenv').load();
 }
 
 // Require keystone
@@ -13,27 +13,27 @@ var keystone = require('keystone');
 
 keystone.init({
 
-	'name': 'crucentralcoast.com',
-	'brand': 'Cru Central Coast',
+  'name': 'crucentralcoast.com',
+  'brand': 'Cru Central Coast',
 
-	'stylus': 'public',
-	'static': 'public',
-	'favicon': 'public/favicon.ico',
-	'views': 'templates/views',
-	'view engine': 'jade',
+  'stylus': 'public',
+  'static': 'public',
+  'favicon': 'public/favicon.ico',
+  'views': 'templates/views',
+  'view engine': 'jade',
 
-	'emails': 'templates/emails',
+  'emails': 'templates/emails',
 
-	'google api key': process.env.GOOGLE_BROWSER_KEY,
-	'google server api key': process.env.GOOGLE_SERVER_KEY,
-	'default region': 'en',
+  'google api key': process.env.GOOGLE_BROWSER_KEY,
+  'google server api key': process.env.GOOGLE_SERVER_KEY,
+  'default region': 'en',
 
-	'auto update': true,
-	'session': true,
-	'auth': true,
-	'session store': 'mongo',
-	'cookie secret': process.env.COOKIE_SECRET,
-	'user model': 'User'
+  'auto update': true,
+  'session': true,
+  'auth': true,
+  'session store': 'mongo',
+  'cookie secret': process.env.COOKIE_SECRET,
+  'user model': 'User'
 
 });
 
@@ -46,10 +46,10 @@ keystone.import('models');
 // for each request) should be added to ./routes/middleware.js
 
 keystone.set('locals', {
-	_: require('underscore'),
-	env: keystone.get('env'),
-	utils: keystone.utils,
-	editable: keystone.content.editable
+  _: require('underscore'),
+  env: keystone.get('env'),
+  utils: keystone.utils,
+  editable: keystone.content.editable
 });
 
 // Load your project's Routes
@@ -61,18 +61,18 @@ keystone.set('routes', require('./routes'));
 // default email templates, you may remove them if you're using your own.
 
 keystone.set('email locals', {
-	logo_src: '/images/logo-email.gif',
-	logo_width: 194,
-	logo_height: 76,
-	theme: {
-		email_bg: '#f9f9f9',
-		link_color: '#2697de',
-		buttons: {
-			color: '#fff',
-			background_color: '#2697de',
-			border_color: '#1a7cb7'
-		}
-	}
+  logo_src: '/images/logo-email.gif',
+  logo_width: 194,
+  logo_height: 76,
+  theme: {
+    email_bg: '#f9f9f9',
+    link_color: '#2697de',
+    buttons: {
+      color: '#fff',
+      background_color: '#2697de',
+      border_color: '#1a7cb7'
+    }
+  }
 });
 
 // Setup replacement rules for emails, to automate the handling of differences
@@ -82,11 +82,11 @@ keystone.set('email locals', {
 // other rules your email templates require.
 
 keystone.set('email rules', [{
-	find: '/images/',
-	replace: (keystone.get('env') == 'production') ? 'http://crucentralcoast.com/images/' : 'http://localhost:3000/images/'
+  find: '/images/',
+  replace: (keystone.get('env') == 'production') ? 'http://crucentralcoast.com/images/' : 'http://localhost:3000/images/'
 }, {
-	find: '/keystone/',
-	replace: (keystone.get('env') == 'production') ? 'http://crucentralcoast.com/keystone/' : 'http://localhost:3000/keystone/'
+  find: '/keystone/',
+  replace: (keystone.get('env') == 'production') ? 'http://crucentralcoast.com/keystone/' : 'http://localhost:3000/keystone/'
 }]);
 
 // Load your project's email test routes
@@ -98,12 +98,12 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
   'campuses': 'campus',
   'community-groups': 'community-groups',
-	'events': 'events',
-	'users': 'users',
-	'ministries': 'ministries',
-	'ministry-teams': 'ministry-teams',
-	'resources': ['resources', 'resource-tags'],
-	'summer-missions': 'summer-missions'
+  'events': 'events',
+  'users': 'users',
+  'ministries': 'ministries',
+  'ministry-teams': 'ministry-teams',
+  'resources': ['resources', 'resource-tags'],
+  'summer-missions': 'summer-missions'
 });
 
 // Start Keystone to connect to your database and initialise the web server
