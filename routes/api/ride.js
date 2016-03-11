@@ -7,8 +7,7 @@ var async = require('async'),
 	express = require('express'),
 	router = express.Router();
 
-var Ride = keystone.list("Ride");
-var model = Ride.model;
+var model = keystone.list("Ride").model;
 
 var properties = propertyReader(root + '/properties.ini');
 var gcmAPIKey = properties.path().gcm.api.key;
@@ -80,7 +79,7 @@ router.route('/addPassenger')
 					}
 				});
 				ride.save();
-				return res.json(ride);
+				return res.status(200).json(ride);
 			});
 		});
 	});
@@ -185,7 +184,7 @@ router.route('/dropRide')
 				passenger.remove();
 			});
 			ride.remove();
-			return res.json(success);
+			return res.status(204).json();
 		});
 	});
 

@@ -7,6 +7,7 @@ var keystone = require('keystone'),
 	router = express.Router();
 
 var MinistryQuestion = keystone.list('MinistryQuestion').model;
+var MinistryQuestionOption = keystone.list('MinistryQuestionOption').model;
 
 router.route('/list')
 	.get(function(req, res, next) {
@@ -29,5 +30,33 @@ router.route('/:id')
 			return res.json(question);
 		});
 	});
+    
+router.route('/:id/options')
+    .patch(function(req, res, next) {
+        MinistryQuestion.findOne({_id: req.params.id}).exec(function(err, question) {
+            if (err) return res.send(err);
+             MinistryQuestionOption.findOne({value : req.body.value}).exec(function(err, option) {
+                if (err) return res.send(err);
+                question.selectOptions.push(option._id);
+                question.save();
+                return res.json(question);
+             });
+        });
+    });
 
+router.route('/:id/options/:value')
+    .delete(function(req, res, next) {
+        MinistryQuestion.findOne({_id: req.params.id}).exec(function(err, question) {
+            if (err) return res.send(err);
+            MinistryQuestionOption.findOne({value : req.params.value}).exec(function(err, option) {
+                if (err) return res.send(err);
+                 var index = question.selectOptions.indexOf(option._id);
+                if (index > -1)
+                    question.selectOptions.splice(index, 1);
+                question.save();
+                return res.json(question);
+            });
+        });
+    });
+    
 module.exports = router;

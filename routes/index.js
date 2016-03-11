@@ -25,6 +25,7 @@ var importRoutes = keystone.importer(__dirname);
 
 // View Controller Routes
 var connections = require('./views/connections');
+var coverage = require('./views/coverage');
 
 //var users = require('./api/user');
 var ministryQuestions = require('./api/ministryquestion');
@@ -107,6 +108,7 @@ exports = module.exports = function(app) {
 	
 	// Site
 	app.use('/connections', connections);
+    app.use('/tests/coverage', coverage);
 	
 	// API
 	app.use('/api/ministryquestion', ministryQuestions);

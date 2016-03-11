@@ -69,10 +69,34 @@ function initTagit()
 				tags.push(option.value);
 			})
 			$('.taggable').tagit({
-				availableTags: tags,
 				showAutocompleteOnFocus: true,
 			});
-			
+            $('.taggable').tagit("option", "beforeTagAdded", function(event, ui) {
+                var val = ui.tag.find('.tagit-label').html();
+                if ($('.taggable').tagit("option", "availableTags").indexOf(val) == -1) {
+                    $("#new-option").html(val);
+                    $("#active-tagit").html(ui.tag.parent().attr("id"));
+                    $(".modal").modal();
+                    return false;
+                }
+                return true;
+            });
+            $('.taggable').tagit("option", "afterTagAdded", function(event, ui) {
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/ministryquestion/' + ui.tag.parent().attr("id").split('_')[1] + "/options/",
+                    data: {
+                        value: ui.tag.find('.tagit-label').html()
+                    }
+                });
+            });
+            $('.taggable').tagit("option", "beforeTagRemoved", function(event, ui) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/ministryquestion/' + ui.tag.parent().attr("id").split('_')[1] + "/options/" + ui.tag.find('.tagit-label').html()
+                });
+            });
+			$('.taggable').tagit("option", "availableTags", tags);
 			console.log($('.taggable').tagit("option", "availableTags"));
 		}
 	})
@@ -88,4 +112,19 @@ function typeSelectInit()
 			$(this).parent().siblings().last().show();
 		}
 	})
+}
+
+function addNewOption(option, tagit_id)
+{
+    $.ajax({
+        type: 'POST',
+        url: '/api/ministryquestionoption',
+        data: {
+            value: option
+        },
+        success: function(res) {
+            $('.taggable').tagit("option", "availableTags").push(option);
+            $('#' + tagit_id).tagit("createTag", option);
+        } 
+    });
 }

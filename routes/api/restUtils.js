@@ -24,11 +24,9 @@ module.exports = {
         var selects = {}; //default is an empty object, means grab all
         if (req.query.select) {
             var list = req.query.select.split(",");
-            console.log(list);
             for (var iter = 0; iter < list.length; iter++) {
                 selects[list[iter].replace('}', '').replace('{', '').replace(' ', '')] = true;
             }
-            console.log("selects statements are " + selects);
         }
 
         model.find(data, selects).limit(lim).sort(order).exec(function(err, items) {
@@ -44,7 +42,7 @@ module.exports = {
         model.find().exec(function(err, items) {
             if (err) return res.send(err);
 
-            return res.json(items);
+            return res.status(200).json(items);
         });
     },
 
@@ -54,19 +52,15 @@ module.exports = {
     		if (err) return res.send(err);
             if (!item) return res.send('not found');
     	
-            return res.json(item);
+            return res.status(200).json(item);
     	});
     },
 
     //creates something... such description!
     create : function(model, req, res) {
-    	var item = new model,
-    		data = (req.method == 'POST') ? req.body : req.query;
-
-    	item.getUpdateHandler(req).process(data, function(err) {
+        model.create(req.body, function(err, item) {
     		if (err) return res.send(err);
-
-    		return res.json(item);
+    		return res.status(201).json(item);
     	});
     },
 
@@ -83,7 +77,7 @@ module.exports = {
                 
                 if (err) return res.send(err);
                 
-                return res.json(item);
+                return res.status(200).json(item);
             });
         
         });

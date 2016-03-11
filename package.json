@@ -13,21 +13,26 @@
     "properties-reader": "^0.0.15",
     "app-root-path": "https://github.com/inxilpro/node-app-root-path.git",
     "unicode": "^0.6.1",
-    "bower" : "^1.7.7"
+    "bower": "^1.7.7"
   },
   "devDependencies": {
+    "blanket": "^1.2.2",
+    "chai": "^3.5.0",
     "gulp": "^3.7.0",
     "gulp-jshint": "^1.9.0",
-    "jshint-stylish": "^0.1.3",
     "gulp-shell": "^0.4.3",
-    "gulp-watch": "^0.6.5"
+    "gulp-watch": "^0.6.5",
+    "jshint-stylish": "^0.1.3",
+    "supertest": "^1.2.0"
   },
   "engines": {
     "node": ">=0.10.22",
     "npm": ">=1.3.14"
   },
   "scripts": {
-    "start": "node keystone.js"
+    "start": "node keystone.js",
+    "deploy": "pm2 restart keystone-ian",
+    "test": "mocha test/suite.js"
   },
   "main": "keystone.js"
 }

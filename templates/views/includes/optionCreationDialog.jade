@@ -1,0 +1,14 @@
+.modal.fade(tabindex="-1", role="dialog")
+    .modal-dialog.modal-sm
+        .modal-content
+            .modal-header
+                button.close(type="button", data-dismiss="modal", aria-label"Close"): span(aria-hidden="true") &times;
+                h4 New Select Option
+            .modal-body
+                | Are you sure you wish to create select option '
+                span#new-option
+                input#active-tagit(type='hidden')
+                | '
+            .modal-footer
+                button.btn.btn-primary(data-dismiss="modal", onclick="addNewOption(getElementById('new-option').innerHTML, getElementById('active-tagit').value)") Yes
+                button.btn.btn-default(data-dismiss="modal", onclick="") No
