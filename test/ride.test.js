@@ -152,7 +152,7 @@ describe('/ride', function() {
                     })
                     .expect(200)
                     .expect(function(res) {
-                        res.body.should.have.property('passengers').which.lengthOf(1);
+                        res.body.should.have.property('passengers').with.lengthOf(1);
                     })
                     .end(done)
             });
@@ -189,7 +189,7 @@ describe('/ride', function() {
                     })
                     .expect(200)
                     .expect(function(res) {
-                        res.body.should.have.property('passengers').which.lengthOf(0);
+                        res.body.should.have.property('passengers').with.lengthOf(0);
                     })
                     .end(done)
             });

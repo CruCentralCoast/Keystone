@@ -1,3 +1,4 @@
+// Gets the list of campuses from the server once the page loads
 $.ajax({
     type: 'get',
     url: 'api/campus/list',
@@ -26,6 +27,7 @@ $.ajax({
     }
 })
 
+// Initializes the basic push notification form
 $("#push-form").ajaxForm({
     success: function(response) {
         if (response.success == true) {
@@ -51,6 +53,7 @@ $("#push-form").ajaxForm({
     }
 });
 
+// Initializes the scheduled notification form
 $("#schedule-form").ajaxForm({
     beforeSubmit: function(arr, $form, options) {         
         var time = new Date(arr[1].value);
@@ -61,10 +64,12 @@ $("#schedule-form").ajaxForm({
     }
 });
 
+// Initializes the datetimepicker bootstrap widget
 $("#datetimepicker").datetimepicker({
     format: 'YYYY-MM-DD hh:mm A'
     });
 
+// Attaches a click event to the event list in order to render the event notification page
 $(".list-group-item").click(function() {
     var item = $(this);
     $('#event-notifications').load('/notifications/renderEventNotifications', {event_id: item.attr('data-id')}, function() {

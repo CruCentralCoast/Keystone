@@ -20,7 +20,7 @@ Ride.add({
     radius: { type: Types.Number }, 
     seats: { type: Types.Number },
     direction: { type: Types.Select, options: 'to, from, both' },
-    gender: { type: String }
+    gender: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
 });
 
 Ride.defaultColumns = 'location, radius, time, seats';

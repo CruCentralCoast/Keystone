@@ -12,7 +12,7 @@ var Notification = keystone.list("Notification");
 var model = Notification.model;
 
 var properties = propertyReader(root + '/properties.ini');
-var gcmAPIKey = properties.path().gcm.api.key;
+var gcmAPIKey = properties.path().gcm.api.key; // Unique to each group
 
 router.route('/list')
 	.get(function(req, res, next) {
@@ -44,6 +44,7 @@ router.route('/update')
 		restUtils.update(model, req, res);
 	});
 
+// Pushes a simple notification to a topic
 router.route('/push')
 	.post(function(req, res) {
 		var success= true;
@@ -51,6 +52,8 @@ router.route('/push')
 		req.body.ministries.forEach(function(ministryString, index) {
 			keystone.list('Ministry').model.find().where('_id', ministryString)
 				.exec(function(err, ministries) {
+                    if (err) return res.send(err);
+                    // Defaults to everyone if no ministries are selected
 					if (!ministries) {
 						ministries = [{_id: 'global', name: 'Cru Central Coast'}]
 					}
@@ -81,12 +84,15 @@ router.route('/push')
 				});
 		});
 
+        // returns the message
 		res.json({
 			post: req.body.msg,
 			success: success
 		});
 	});
     
+// Adds an event notification from the even tnotification page
+// TODO: Debate moving this to the view controller
 router.route('/addEventNotification')
 	.post(function(req, res) {
 		var Event = keystone.list('Event').model;
@@ -95,6 +101,7 @@ router.route('/addEventNotification')
 		var newNotifiation;
 
 		Event.findOne().where('_id', req.body.event_id).exec(function(err, event) {
+            if (err) return res.send(err);
 			// Calculates the time before an event to set the notification
 			var timeBefore = req.body.days ? req.body.days * 24 * 60 * 60 * 1000 : 0;
 			timeBefore += req.body.hours ? req.body.hours * 60 * 60 * 1000 : 0;
@@ -123,6 +130,7 @@ setInterval(function() {
     // Queries a list of unsent messages
     keystone.list('Notification').model.find().where('sent', false).where('time').lte(Date.now()).populate('ministries')
         .exec(function(err, notifications) {
+            if (err) return res.send(err);
             if(notifications)
             {
                 notifications.forEach( function(notification) {
