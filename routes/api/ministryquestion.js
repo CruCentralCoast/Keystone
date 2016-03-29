@@ -9,7 +9,7 @@ var keystone = require('keystone'),
 var MinistryQuestion = keystone.list('MinistryQuestion').model;
 var MinistryQuestionOption = keystone.list('MinistryQuestionOption').model;
 
-router.route('/list')
+router.route('/')
 	.get(function(req, res, next) {
 		MinistryQuestion.find().populate({
 			path: 'selectOptions',

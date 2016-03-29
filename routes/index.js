@@ -111,18 +111,18 @@ exports = module.exports = function(app) {
     app.use('/tests/coverage', coverage);
 	
 	// API
-	app.use('/api/ministryquestion', ministryQuestions);
-	app.use('/api/communitygroup', communityGroups);
-	app.use('/api/ministryteam', ministryTeams)
-	app.use('/api/ministryquestionoption/', questionOptions);
-	app.use('/api/resource', resources);
-	app.use('/api/resourcetag', resourceTags);
-	app.use('/api/passenger', passengers);
-	app.use('/api/ride', rides);
-	app.use('/api/campus', campuses);
-	app.use('/api/event', events);
-	app.use('/api/user', users);
-	app.use('/api/ministry', ministries);
-	app.use('/api/summermission', summermissions);
-	app.use('/api/notification', notifications);
+	app.use('/api/ministryquestions', ministryQuestions);
+	app.use('/api/communitygroups', communityGroups);
+	app.use('/api/ministryteams', ministryTeams)
+	app.use('/api/ministryquestionoptions', questionOptions);
+	app.use('/api/resources', resources);
+	app.use('/api/resourcetags', resourceTags);
+	app.use('/api/passengers', passengers);
+	app.use('/api/rides', rides);
+	app.use('/api/campuses', campuses);
+	app.use('/api/events', events);
+	app.use('/api/users', users);
+	app.use('/api/ministries', ministries);
+	app.use('/api/summermissions', summermissions);
+	app.use('/api/notifications', notifications);
 };

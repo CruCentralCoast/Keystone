@@ -14,19 +14,20 @@ var model = Notification.model;
 var properties = propertyReader(root + '/properties.ini');
 var gcmAPIKey = properties.path().gcm.api.key; // Unique to each group
 
-router.route('/list')
+router.route('/')
 	.get(function(req, res, next) {
 		restUtils.list(model, req, res);
+	})
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
 	});
 
 router.route('/:id')
 	.get(function(req, res, next) {
 		restUtils.get(model, req, res);
-	});
-
-router.route('/find')
-	.post(function(req, res, next) {
-		restUtils.find(model, req, res);
+	})
+	.patch(function(req, res, next) {
+		restUtils.update(model, req, res);
 	});
 
 router.route('/search')
@@ -34,14 +35,14 @@ router.route('/search')
 		restUtils.search(model, req, res);
 	});
 
-router.route('/create')
-	.post(function(req, res, next) {
-		restUtils.create(model, req, res);
+router.route('/enumValues/:key')
+	.get(function(req, res, next) {
+		restUtils.enumValues(model, req, res);
 	});
 
-router.route('/update')
+router.route('/find')
 	.post(function(req, res, next) {
-		restUtils.update(model, req, res);
+		restUtils.find(model, req, res);
 	});
 
 // Pushes a simple notification to a topic

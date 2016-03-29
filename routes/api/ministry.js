@@ -7,16 +7,6 @@ var async = require('async'),
 var Ministry = keystone.list("Ministry");
 var model = Ministry.model;
 
-router.route('/list')
-	.get(function(req, res, next) {
-		restUtils.list(model, req, res);
-	});
-
-router.route('/:id')
-	.get(function(req, res, next) {
-		restUtils.get(model, req, res);
-	});
-
 router.route('/:id/questions')
 	.get(function(req, res, next) {
 		keystone.list('MinistryQuestion').model.find({ministry: req.params.id}).populate("selectOptions").exec(function(err, questions){
@@ -25,9 +15,20 @@ router.route('/:id/questions')
 		});
 	});
 
-router.route('/find')
+router.route('/')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
+	})
 	.post(function(req, res, next) {
-		restUtils.find(model, req, res);
+		restUtils.create(model, req, res);
+	});
+
+router.route('/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	})
+	.patch(function(req, res, next) {
+		restUtils.update(model, req, res);
 	});
 
 router.route('/search')
@@ -35,14 +36,14 @@ router.route('/search')
 		restUtils.search(model, req, res);
 	});
 
-router.route('/create')
-	.post(function(req, res, next) {
-		restUtils.create(model, req, res);
+router.route('/enumValues/:key')
+	.get(function(req, res, next) {
+		restUtils.enumValues(model, req, res);
 	});
 
-router.route('/update')
+router.route('/find')
 	.post(function(req, res, next) {
-		restUtils.update(model, req, res);
+		restUtils.find(model, req, res);
 	});
 
 module.exports = router;

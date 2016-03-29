@@ -14,7 +14,7 @@ var properties = propertyReader(root + '/properties.ini');
 var leaderAPIKey = properties.path().leader.api.key;
 
 
-router.route('/list')
+router.route('/')
 	.get(function(req, res) {
 		var params = {};
 		if (req.query.LeaderAPIKey != leaderAPIKey) {
@@ -55,13 +55,13 @@ router.route('/search')
 		restUtils.search(model, req, res);
 	});
 
-router.route("/create")
+router.route("/")
 	.post(function(req, res) {
 		restUtils.create(model, req, res);
 	});
 
-router.route("/update")
-	.post(function(req, res) {
+router.route("/:id")
+	.patch(function(req, res) {
 		restUtils.update(model, req, res);
 	});
 

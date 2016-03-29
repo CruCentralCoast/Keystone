@@ -40,8 +40,7 @@ module.exports = {
     // used to get everything from a collection
     list : function(model, req, res) {
         model.find().exec(function(err, items) {
-            if (err) return res.send(err);
-
+            if (err) return res.status(400).send(err);
             return res.status(200).json(items);
         });
     },
@@ -49,9 +48,8 @@ module.exports = {
     // gets something by it's id
     get : function(model, req, res) {
     	model.findById(req.params.id).exec(function(err, item) {
-    		if (err) return res.send(err);
-            if (!item) return res.send('not found');
-    	
+    		if (err) return res.status(400).send(err);
+            if (!item) return res.status(400).send(item);
             return res.status(200).json(item);
     	});
     },
@@ -59,21 +57,19 @@ module.exports = {
     //creates something... such description!
     create : function(model, req, res) {
         model.create(req.body, function(err, item) {
-    		if (err) return res.send(err);
+    		if (err) return res.status(400).send(err);
     		return res.status(201).json(item);
     	});
     },
 
     //updates the model based on input
     update : function(model, req, res) {
-        model.findById(req.body._id).exec(function(err, item) {
+        model.findById(req.params.id).exec(function(err, item) {
         
             if (err) return res.send(err);
             if (!item) return res.send('not found');
             
-            var data = (req.method == 'POST') ? req.body : req.query;
-            
-            item.getUpdateHandler(req).process(data, function(err) {
+            item.getUpdateHandler(req).process(req.body, function(err) {
                 
                 if (err) return res.send(err);
                 

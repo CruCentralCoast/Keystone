@@ -3,14 +3,13 @@ var should = require('chai').should(),
     api = supertest('http://localhost:3002'),
     keystone = require('keystone');
 
-describe('/ride', function() {
+describe('/rides', function() {
     var event, ride;
     
     beforeEach(function(done){
         var Event = keystone.list('Event').model;
         var Ride = keystone.list('Ride').model;
-        
-        
+		
         Event.create({
             name: "Test Event"
         }, function(err, e) {
@@ -39,9 +38,9 @@ describe('/ride', function() {
     });
     
     describe('GET', function() {
-        describe('/list', function() {
+        describe('/', function() {
             it('return all the rides', function(done) {
-                api.get('/api/ride/list')
+                api.get('/api/rides')
                     .expect(200)
                     .expect(function(res) {
                         res.body[0].should.have.property('driverName', 'Test');
@@ -51,7 +50,7 @@ describe('/ride', function() {
         });
         describe('/:id', function() {
             it('return a specific ride', function(done) {
-                api.get('/api/ride/' + ride._id)
+                api.get('/api/rides/' + ride._id)
                     .expect(200)
                     .expect(function(res) {
                         res.body.should.have.property('driverName', 'Test');
@@ -61,7 +60,7 @@ describe('/ride', function() {
         });  
         describe('/enumValues/:key', function() {
             it('gets the enum values for direction', function(done) {
-                api.get('/api/ride/enumValues/direction')
+                api.get('/api/rides/enumValues/direction')
                     .expect(200)
                     .expect(function(res) {
                         res.body.should.have.lengthOf(3).and.be.instanceof(Array);
@@ -70,10 +69,11 @@ describe('/ride', function() {
             });
         });  
     });
+	
     describe('POST', function() {
-        describe('/create', function() {
+        describe('/', function() {
             it('add a new ride', function(done) {
-                api.post('/api/ride/create')
+                api.post('/api/rides')
                     .send({
                         event: event._id,
                         driverName: "Test",
@@ -87,9 +87,10 @@ describe('/ride', function() {
                     .end(done);
             });
         });
+		
         describe('/find', function() {
             it('select only the driver\'s number', function(done) {
-                api.post('/api/ride/find?select=driverNumber')
+                api.post('/api/rides/find?select=driverNumber')
                     .expect(200)
                     .expect(function(res) {
                         res.body[0].should.be.have.property('driverNumber', '1234567890')
@@ -98,29 +99,17 @@ describe('/ride', function() {
                     .end(done);
             });
         });
+		
         describe('/search', function() {
             it('successfully returns ride', function(done) {
-                api.post('/api/ride/search')
+                api.post('/api/rides/search')
                     .expect(200, function(res) {
                         done();
                     });
             });
         });
-        describe('/update', function() {
-            it('changes data for a ride', function(done) {
-                api.post('/api/ride/update')
-                    .send({
-                        _id: ride._id,
-                        driverName: 'New Name'
-                    })
-                    .expect(200)
-                    .expect(function(res) {
-                        res.body.should.have.property('driverName', 'New Name');
-                    })
-                    .end(done);
-            });
-        });
-        describe('/addPassenger', function() {
+        
+        describe('/:id/passenger', function() {
             var passenger;
             
             beforeEach(function(done) {
@@ -145,9 +134,8 @@ describe('/ride', function() {
             });
             
             it('adds a passenger to a specific ride', function(done) {
-                api.post('/api/ride/addPassenger')
+                api.post('/api/rides/' + ride._id + '/passengers')
                     .send({
-                        ride_id: ride._id,
                         passenger_id: passenger._id
                     })
                     .expect(200)
@@ -157,56 +145,71 @@ describe('/ride', function() {
                     .end(done)
             });
         });
-        describe('/dropPassenger', function() {
-            var passenger;
-            
-            beforeEach(function(done) {
-                var Passenger = keystone.list('Passenger').model;
-                
-                Passenger.create({
-                    name: 'Test Passenger',
-                    phone: '1234567890',
-                    direction: 'both'
-                }, function(err, p) {
-                    passenger = p;
-                    done();
-                })
-            });
-            
-            afterEach(function(done) {
-                var Passenger = keystone.list('Passenger').model;
-                
-                Passenger.remove({}, function() {
-                    done();
-                })
-            });
-            
-            it('removes a passenger from a specific ride', function(done) {
-                api.post('/api/ride/dropPassenger')
-                    .send({
-                        ride_id: ride._id,
-                        passenger_id: passenger._id
-                    })
-                    .expect(200)
-                    .expect(function(res) {
-                        res.body.should.have.property('passengers').with.lengthOf(0);
-                    })
-                    .end(done)
-            });
-        });
-        describe('/dropRide', function() {
-            it('drops an entire ride', function(done) {
-                api.post('/api/ride/dropRide')
-                    .send({
-                        ride_id: ride._id
-                    })
-                    .expect(204)
-                    .expect(function(res) {
-                        res.body.should.be.empty;
-                    })
-                    .end(done)
-            });
-        });
     });
+	
+	describe('PATCH', function() {
+		describe('/:id', function() {
+			it('changes data for a ride', function(done) {
+				api.patch('/api/rides/' + ride._id)
+					.send({
+						driverName: 'New Name'
+					})
+					.expect(200)
+					.expect(function(res) {
+						res.body.should.have.property('driverName', 'New Name');
+					})
+					.end(done);
+			});
+		});
+	});
+	
+	describe('DELETE', function() {
+		describe('/:id', function() {
+			it('drops an entire ride', function(done) {
+				api.delete('/api/rides/' + ride._id)
+					.expect(204)
+					.expect(function(res) {
+						res.body.should.be.empty;
+					})
+					.end(done)
+			});
+		});
+		
+		describe('/passengers/:id', function() {
+			var passenger;
+
+			beforeEach(function(done) {
+				var Passenger = keystone.list('Passenger').model;
+
+				Passenger.create({
+					name: 'Test Passenger',
+					phone: '1234567890',
+					direction: 'both'
+				}, function(err, p) {
+					passenger = p;
+					done();
+				})
+			});
+
+			afterEach(function(done) {
+				var Passenger = keystone.list('Passenger').model;
+
+				Passenger.remove({}, function() {
+					done();
+				})
+			});
+
+			it('removes a passenger from a specific ride', function(done) {
+				api.delete('/api/rides/' + ride._id + '/passengers/' + passenger._id)
+					.expect(200)
+					.expect(function(res) {
+						res.body.should.have.property('passengers').with.lengthOf(0);
+					})
+					.end(done);
+			});
+		});
+		
+		
+	});
 });
 
