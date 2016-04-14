@@ -38,4 +38,20 @@ router.route('/find')
 		restUtils.find(model, req, res);
 	});
 
+router.route('/:id/ministries')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('ministries').exec(function(err, event){
+            if (err) return res.status(400).send(err);
+            return res.json(event.ministries);
+        });
+    });
+
+router.route('/:id/notifications')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('notifications').exec(function(err, event){
+            if (err) return res.status(400).send(err);
+            return res.json(event.notifications);
+        });
+    });
+    
 module.exports = router;

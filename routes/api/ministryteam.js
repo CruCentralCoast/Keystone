@@ -45,9 +45,9 @@ router.route('/find')
 		restUtils.find(model, req, res);
 	});
 
-router.route('/join')
+router.route('/:id/join')
     .post(function(req, res, next) {
-        var ministryTeamId = req.body.id;
+        var ministryTeamId = req.params.id;
         var name = req.body.name;
         var phone = req.body.phone;
 

@@ -47,4 +47,20 @@ router.route('/:id/answers')
 		});
 	});
 
+router.route('/:id/leaders')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('leaders').exec(function(err, communitygroup){
+            if (err) return res.status(400).send(err);
+            return res.json(communitygroup.leaders);
+        });
+    });
+    
+router.route('/:id/ministry')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('ministry').exec(function(err, communitygroup){
+            if (err) return res.status(400).send(err);
+            return res.json(communitygroup.ministry);
+        });
+    });
+    
 module.exports = router;

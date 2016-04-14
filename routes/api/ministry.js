@@ -46,4 +46,20 @@ router.route('/find')
 		restUtils.find(model, req, res);
 	});
 
+router.route('/:id/teams')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('teams').exec(function(err, ministry){
+            if (err) return res.status(400).send(err);
+            return res.json(ministry.teams);
+        });
+    });
+    
+router.route('/:id/campus')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('campus').exec(function(err, ministry){
+            if (err) return res.status(400).send(err);
+            return res.json(ministry.campus);
+        });
+    });
+    
 module.exports = router;

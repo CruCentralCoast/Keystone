@@ -18,7 +18,7 @@ CommunityGroup.add({
     description: { type: String, initial: true },
 	meetingTime: { type: Types.Datetime, initial: true },
     leaders: { type: Types.Relationship, ref: 'User', many: true },
-	parentMinistry: { type: Types.Relationship, ref: 'Ministry', initial: true }
+	ministry: { type: Types.Relationship, ref: 'Ministry', initial: true }
 });
 
 CommunityGroup.relationship({ path: 'answers', ref: 'MinistryQuestionAnswer', refPath: 'ministry'});

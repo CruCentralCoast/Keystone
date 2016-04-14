@@ -1,7 +1,7 @@
 // Gets the list of campuses from the server once the page loads
 $.ajax({
     type: 'get',
-    url: 'api/campus/list',
+    url: 'api/campuses',
     success: function(response) {
         var campuses = $(response);
         
@@ -9,9 +9,8 @@ $.ajax({
             $('select[name="ministries[]"]').append("<option data-id='" + campus._id + "' disabled>----- " + campus.name + " -----</option>");
             
             $.ajax({
-                type: 'post',
-                url: 'api/ministry/find',
-                data: {campuses : campus._id},
+                type: 'GET',
+                url: 'api/campuses/' + campus._id + '/ministries',
                 async: false,
                 success: function(ministries) {
                     var ministries = $(ministries);

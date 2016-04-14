@@ -90,7 +90,7 @@ router.route('/push')
     
 // Adds an event notification from the even tnotification page
 // TODO: Debate moving this to the view controller
-router.route('/addEventNotification')
+router.route('/eventNotification')
 	.post(function(req, res) {
 		var Event = keystone.list('Event').model;
 		var Notification = keystone.list('Notification').model;
