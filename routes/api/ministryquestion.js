@@ -31,6 +31,7 @@ router.route('/:id')
 		});
 	});
     
+// Adds an option to a question
 router.route('/:id/options')
     .patch(function(req, res, next) {
         MinistryQuestion.findOne({_id: req.params.id}).exec(function(err, question) {
@@ -44,6 +45,8 @@ router.route('/:id/options')
         });
     });
 
+    
+// Removes an option from a question
 router.route('/:id/options/:value')
     .delete(function(req, res, next) {
         MinistryQuestion.findOne({_id: req.params.id}).exec(function(err, question) {

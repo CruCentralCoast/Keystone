@@ -37,5 +37,13 @@ router.route('/find')
 	.post(function(req, res, next) {
 		restUtils.find(model, req, res);
 	});
+    
+router.route('/:id/ministries')
+    .get(function(req, res, next) {
+        keystone.list('Ministry').model.find({campus: req.params.id}).exec(function(err, ministries) {
+            if (err) return res.status(401).send(err);
+            return res.json(ministries);
+        });
+    });
 
 module.exports = router;
