@@ -6,7 +6,8 @@ var async = require('async'),
     root = require("app-root-path"),
     restUtils = require('./restUtils'),
 	express = require('express'),
-	router = express.Router();
+	router = express.Router(),
+    gcmUtils = require('./gcmUtils');
 
 var Notification = keystone.list("Notification");
 var model = Notification.model;
@@ -62,12 +63,7 @@ router.route('/push')
 						var to = '/topics/' + ministry._id;
 
 						// Sets up the message data
-						var message = new gcm.Message({
-							data: {
-								message: req.body.msg,
-								title: ministry.name
-							}
-						});
+						var message = gcmUtils.createMessage(ministry.name, req.body.msg);
 
 						// Sets up the sender based on the API key
 						var sender = new gcm.Sender(gcmAPIKey);

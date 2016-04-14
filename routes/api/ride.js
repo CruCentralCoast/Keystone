@@ -4,6 +4,7 @@ var async = require('async'),
     propertyReader = require('properties-reader'),
     root = require("app-root-path"),
     restUtils = require('./restUtils'),
+    gcmUtils = require('./gcmUtils'),
 	express = require('express'),
 	router = express.Router();
 
@@ -96,12 +97,7 @@ router.route('/:id/passengers')
 				var regTokens = [ride.gcm_id];
 
 				// Sets up the message data
-				var message = new gcm.Message({
-					data: {
-						message: "Passenger " + passenger.name + " has been added to your car.",
-						title: ride.event.name
-					}
-				});
+				var message = gcmUtils.createMessage(ride.event.name, "Passenger " + passenger.name + " has been added to your car.");
 
 				// Sets up the sender based on the API key
 				var sender = new gcm.Sender(gcmAPIKey);
@@ -134,12 +130,7 @@ router.route('/:id/passengers/:passenger_id')
 				var regTokens = [ride.gcm_id];
 
 				// Sets up the message data
-				var message = new gcm.Message({
-					data: {
-						message: "Passenger " + passenger.name + " has been dropped from your car.",
-						title: ride.event.name
-					}
-				});
+				var message = gcmUtils.createMessage(ride.event.name, "Passenger " + passenger.name + " has been dropped from your car.");
 
 				// Sets up the sender based on the API key
 				var sender = new gcm.Sender(gcmAPIKey);
@@ -159,12 +150,7 @@ router.route('/:id/passengers/:passenger_id')
 				regTokens = [passenger.gcm_id];
 
 				// Sets up the message data
-				message = new gcm.Message({
-					data: {
-						message: "You have been dropped from a ride to " + ride.event.name + ".",
-						title: notificationTitle
-					}
-				});
+				message = gcmUtils.createMessage(notificationTitle, "You have been dropped from a ride to " + ride.event.name + ".");
 
 				sender.send(message, { registrationTokens: regTokens }, function (err, response) {
 					if (err) {
@@ -183,5 +169,6 @@ router.route('/:id/passengers/:passenger_id')
 			});
 		});
 	});
+
 
 module.exports = router;

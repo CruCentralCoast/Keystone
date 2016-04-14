@@ -5,7 +5,8 @@ var async = require('async'),
     gcm = require('node-gcm'),
     propertyReader = require('properties-reader'),
     root = require("app-root-path"),
-    restUtils = require('./restUtils');
+    restUtils = require('./restUtils'),
+    gcmUtils = require('./gcmUtils');
 
 var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
@@ -69,8 +70,8 @@ router.route('/join')
                     email: leader.email
                 };
                 console.log(leaderInfo);
-                if (leader.gcm_id) {
-                    reqTokens.push(leader.gcm_id);
+                if (leader.gcmId) {
+                    regTokens.push(leader.gcmId);
                 }
 
                 response.push(leaderInfo);
@@ -79,25 +80,21 @@ router.route('/join')
             res.json(response);
             
             // send a push notif to all the leaders
-            var message = new gcm.Message({
-                data: {
-                    message: name + " has joined " + team.name + ". Their phone numer is " + phone + ".",
-                    title: team.name
-                }
-            });
+            var message = gcmUtils.createMessage(team.name, name + " has joined " + team.name + ". Their phone numer is " + phone + ".");
             
             // Sets up the sender based on the API key
             var sender = new gcm.Sender(gcmAPIKey);
-            
-            sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                if (err) {
-                    console.error(err);
-                    success = false;
-                }
-                else {
-                    console.log(response);
-                }
-            });
+            if (regTokens.length > 0) {
+                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+                    if (err) {
+                        console.error(err);
+                        success = false;
+                    }
+                    else {
+                        console.log(response);
+                    }
+                });
+            }
         });
     })
 
