@@ -29,13 +29,13 @@ exports.renderScheduledNotifications = function(req, res) {
 // Renders the page that allows a user to create an event push notification
 exports.renderEventNotifications = function(req, res) {
     var view = new keystone.View(req, res);
-    view.query('event', keystone.list('Event').model.findOne().where('_id', req.body.event_id).populate('notifications').populate('parentMinistries', 'name'));
+    view.query('event', keystone.list('Event').model.findOne().where('_id', req.body.event_id).populate('notifications').populate('ministries', 'name'));
     view.render('./includes/event-notifications');
 }
 
 // Renders the list of event notifications for a given event
 exports.renderEventNotificationTable = function(req, res) {
     var view = new keystone.View(req, res);
-    view.query('event', keystone.list('Event').model.findOne().where('_id', req.body.event_id).populate('notifications').populate('parentMinistries', 'name'));
+    view.query('event', keystone.list('Event').model.findOne().where('_id', req.body.event_id).populate('notifications').populate('ministries', 'name'));
     view.render('./includes/event-notification-table');
 }

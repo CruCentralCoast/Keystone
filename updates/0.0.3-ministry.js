@@ -4,14 +4,18 @@ var keystone = require('keystone'),
 function update_ministries() {    
     Ministry.find().exec(function(err, ministries) {
         ministries.forEach(function(ministry) {
-            console.log(ministry.campuses);
-            ministry.campus = ministry.campuses[0];
-            ministry.campuses = [];
-            ministry.save();
+            var campuses = JSON.parse(JSON.stringify(ministry)).campuses;
+            if (campuses != null)
+            {
+                ministry.campus = campuses[0];
+                ministry.campuses = [];
+                ministry.save();
+            }
         });
     });
 }
 
 exports = module.exports = function(done) { 
     update_ministries();
+    done();
 }
