@@ -32,6 +32,7 @@ User.add({
 	yearLeading: { type: Types.Date, format: 'YYYY', collapse: true },
 	ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
 	summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
+    gcmId: { type: String }
 	// communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
 	notifications: {
