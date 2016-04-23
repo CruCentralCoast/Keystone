@@ -14,9 +14,10 @@ var MinistryTeam = new keystone.List('MinistryTeam', {
 MinistryTeam.add({
 	name: { type: String, required: true, initial: true },
 	description: { type: Types.Textarea, initial: true },
-	leadersImage: { type: Types.CloudinaryImage },
-	logoImage: { type: Types.CloudinaryImage },
-	parentMinistry: { type: Types.Relationship, ref: 'Ministry', required: true, initial: true }
+	image: { type: Types.CloudinaryImage },
+    teamImage: {type: Types.CloudinaryImage },
+	parentMinistry: { type: Types.Relationship, ref: 'Ministry', required: true, initial: true },
+    leaders: { type: Types.Relationship, ref: 'User', many: true }
 });
 
 MinistryTeam.relationship({ path: 'members', ref: 'User', refPath: 'ministryTeams' });

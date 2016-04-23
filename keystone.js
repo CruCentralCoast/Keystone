@@ -1,10 +1,6 @@
-/*eslint comma-style: [2, "last"]*/
-/*eslint semi: [2, "always"]*/
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
-if (process.env.NODE_ENV === 'development') {
-  require('dotenv').load();
-}
+require('dotenv').load();
 
 // Require keystone
 var keystone = require('keystone');
@@ -15,14 +11,16 @@ var keystone = require('keystone');
 
 keystone.init({
 
-  'name': 'crucentralcoast.com',
-  'brand': 'Cru Central Coast',
+	'name': 'crucentralcoast.com',
+    'port' : 3001,
+	'brand': 'Cru Central Coast Admin Panel',
 
-  'stylus': 'public',
-  'static': 'public',
-  'favicon': 'public/favicon.ico',
-  'views': 'templates/views',
-  'view engine': 'jade',
+	'stylus': 'public',
+	'static': 'public',
+	'favicon': 'public/favicon.ico',
+	'views': 'templates/views',
+	'view engine': 'jade',
+	'less': 'public',
 
   'emails': 'templates/emails',
 
@@ -30,12 +28,12 @@ keystone.init({
   'google server api key': process.env.GOOGLE_SERVER_KEY,
   'default region': 'en',
 
-  'auto update': true,
-  'session': true,
-  'auth': true,
-  'session store': 'mongo',
-  'cookie secret': process.env.COOKIE_SECRET,
-  'user model': 'User'
+	'auto update': true,
+	'session': true,
+	'auth': true,
+	'session store': 'mongo',
+	'cookie secret': process.env.COOKIE_SECRET,
+	'user model': 'User',
 
 });
 
@@ -98,14 +96,11 @@ keystone.set('email tests', require('./routes/emails'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-  'campuses': 'campus',
-  'community-groups': 'community-groups',
-  'events': 'events',
-  'users': 'users',
-  'ministries': 'ministries',
-  'ministry-teams': 'ministry-teams',
-  'resources': ['resources', 'resource-tags'],
-  'summer-missions': 'summer-missions'
+	'users': 'users',
+	'notifications' : 'notifications',
+    'ride sharing' : ['rides', 'passengers'],
+	'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
+    'data' : ['events', 'resources', 'resource-tags', 'summer-missions']
 });
 
 // Start Keystone to connect to your database and initialise the web server

@@ -1,22 +1,57 @@
 var async = require('async'),
 	keystone = require('keystone'),
-    restUtils = require('./restUtils');
+    restUtils = require('./restUtils'),
+	express = require('express'),
+	router = express.Router();
 
 var Event = keystone.list("Event");
 var model = Event.model;
 
-exports.list = function(req, res) {
-	restUtils.list(model, req, res);
-}
+router.route('/')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
+	})
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
+	});
 
-exports.get = function(req, res) {
-	restUtils.get(model, req, res);
-}
+router.route('/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	})
+	.patch(function(req, res, next) {
+		restUtils.update(model, req, res);
+	});
 
-exports.find = function(req, res) {
-        restUtils.find(model, req, res);
-}
+router.route('/search')
+	.post(function(req, res, next) {
+		restUtils.search(model, req, res);
+	});
 
-exports.create = function(req, res) {
-        restUtils.create(model, req, res);
-}
+router.route('/enumValues/:key')
+	.get(function(req, res, next) {
+		restUtils.enumValues(model, req, res);
+	});
+
+router.route('/find')
+	.post(function(req, res, next) {
+		restUtils.find(model, req, res);
+	});
+
+router.route('/:id/ministries')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('ministries').exec(function(err, event){
+            if (err) return res.status(400).send(err);
+            return res.json(event.ministries);
+        });
+    });
+
+router.route('/:id/notifications')
+    .get(function(req, res, next) {
+        model.find({_id: req.params.id}).populate('notifications').exec(function(err, event){
+            if (err) return res.status(400).send(err);
+            return res.json(event.notifications);
+        });
+    });
+    
+module.exports = router;

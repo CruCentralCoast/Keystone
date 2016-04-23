@@ -1,0 +1,9 @@
+.row
+	.col-xs-4
+		h3 Ministries
+		.list-group
+			each ministry in ministries
+				a.list-group-item(onclick='renderCommunityGroups("#{ministry._id}", "#{ministry.name}")')= ministry.name
+			a.list-group-item.list-group-item-success(href='/keystone/ministries')
+				span.glyphicon.glyphicon-plus()
+				| &nbspAdd Ministry
