@@ -1,27 +1,41 @@
 var async = require('async'),
 	keystone = require('keystone'),
-	restUtils = require('./restUtils');
+	restUtils = require('./restUtils'),
+	express = require('express'),
+	router = express.Router();
 
 var SummerMission = keystone.list("SummerMission");
 var model = SummerMission.model;
 
-exports.list = function(req, res) {
-        restUtils.list(model, req, res);
-}
+router.route('/')
+	.get(function(req, res, next) {
+		restUtils.list(model, req, res);
+	})
+	.post(function(req, res, next) {
+		restUtils.create(model, req, res);
+	});
 
-exports.get = function(req, res) {
-        restUtils.get(model, req, res);
-}
+router.route('/:id')
+	.get(function(req, res, next) {
+		restUtils.get(model, req, res);
+	})
+	.patch(function(req, res, next) {
+		restUtils.update(model, req, res);
+	});
 
-exports.find = function(req, res) {
-        restUtils.find(model, req, res);
-}
+router.route('/search')
+	.post(function(req, res, next) {
+		restUtils.search(model, req, res);
+	});
 
-exports.create = function(req, res) {
-        restUtils.create(model, req, res);
-}
+router.route('/enumValues/:key')
+	.get(function(req, res, next) {
+		restUtils.enumValues(model, req, res);
+	});
 
-//updates a summer mission
-exports.update = function(req, res) {
-    restUtils.update(model, req, res);
-}
+router.route('/find')
+	.post(function(req, res, next) {
+		restUtils.find(model, req, res);
+	});
+
+module.exports = router;
