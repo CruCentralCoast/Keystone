@@ -1,9 +1,10 @@
+/*eslint comma-style: [2, "last"]*/
+/*eslint semi: [2, "always"]*/
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').load();
 }
-
 
 // Require keystone
 var keystone = require('keystone');
@@ -14,8 +15,8 @@ var keystone = require('keystone');
 
 keystone.init({
 
-	'name': 'crucentralcoast.com',
-	'brand': 'Cru Central Coast Admin Panel',
+  'name': 'crucentralcoast.com',
+  'brand': 'Cru Central Coast',
 
 	'stylus': 'public',
 	'static': 'public',
@@ -30,12 +31,12 @@ keystone.init({
   'google server api key': process.env.GOOGLE_SERVER_KEY,
   'default region': 'en',
 
-	'auto update': true,
-	'session': true,
-	'auth': true,
-	'session store': 'mongo',
-	'cookie secret': process.env.COOKIE_SECRET,
-	'user model': 'User',
+  'auto update': true,
+  'session': true,
+  'auth': true,
+  'session store': 'mongo',
+  'cookie secret': process.env.COOKIE_SECRET,
+  'user model': 'User'
 
 });
 
