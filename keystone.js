@@ -1,6 +1,9 @@
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
-require('dotenv').load();
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').load();
+}
+
 
 // Require keystone
 var keystone = require('keystone');
