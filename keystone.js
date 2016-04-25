@@ -101,9 +101,9 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
 	'users': 'users',
 	'notifications' : 'notifications',
-    'ride sharing' : ['rides', 'passengers'],
+  'ride sharing' : ['rides', 'passengers'],
 	'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
-    'data' : ['events', 'resources', 'resource-tags', 'summer-missions']
+  'data' : ['events', 'resources', 'resource-pages', 'resource-tags', 'summer-missions']
 });
 
 // Start Keystone to connect to your database and initialise the web server

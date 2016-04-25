@@ -1,6 +1,7 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
+
 /**
  * Summer Mission Model
  * ==========
