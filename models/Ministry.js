@@ -45,7 +45,7 @@ Ministry.add({
     watch: true,
     value: function() {
       console.log(this.image.url);
-      return 'https:' + this.image.url;
+      return this.image.url;
     },
     format: function(url) {
       console.log(url);
