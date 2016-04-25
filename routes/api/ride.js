@@ -1,17 +1,16 @@
 var async = require('async'),
 	keystone = require('keystone'),
     gcm = require('node-gcm'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path"),
+    dotenv = require('dotenv'),
     restUtils = require('./restUtils'),
     gcmUtils = require('./gcmUtils'),
 	express = require('express'),
 	router = express.Router();
 
+dotenv.load();
 var model = keystone.list("Ride").model;
 
-var properties = propertyReader(root + '/properties.ini');
-var gcmAPIKey = properties.path().gcm.api.key;
+var gcmAPIKey = process.env.GCM_API_KEY;
 
 var notificationTitle = "Cru Ride Sharing";
 

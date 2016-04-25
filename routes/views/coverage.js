@@ -1,7 +1,6 @@
 var keystone = require('keystone'),
     express = require('express'),
-    router = express.Router(),
-    root = require('app-root-path');
+    router = express.Router();
     
 router.route('/')
     .get(function(req, res, next) {

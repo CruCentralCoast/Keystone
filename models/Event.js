@@ -23,11 +23,11 @@ Event.add({
              'image/jpeg',
              'image/gif'
            ],
-           s3path: '/images',
+           s3path: process.env.IMAGE_ROOT_PATH + '/events',
            //  function with arguments current model and client file name to return the new filename to upload.
            filename: function(item, filename, originalname) {
 		         // prefix file name with object id
-		         return item.slug + '.' + originalname.split('.')[1];
+		         return item.slug + '.' + originalname.split('.')[1].toLowerCase();
 	         },
            headers: function(item, file) {
 		         var headers = {};
@@ -62,5 +62,5 @@ Event.add({
     notifications: { type: Types.Relationship, ref: 'Notification', label: 'These are the notifications being sent for this event', many: true }
 });
 
-Event.defaultColumns = 'name, location, startDate, endDate';
+Event.defaultColumns = 'name, location, startDate, endDate, imageLink';
 Event.register();
