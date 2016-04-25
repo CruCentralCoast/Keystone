@@ -13,7 +13,7 @@ ResourcePage.add({
 	author: { type: Types.Relationship, ref: 'User', index: true },
 	publishedDate: { type: Types.Date, index: true },
 	content: {
-		type: Types.Markdown, height: 350
+		type: Types.Html, wysiwyg: true, height: 350
 	},
 	tags: { type: Types.Relationship, ref: 'ResourceTag', many: true }
 });

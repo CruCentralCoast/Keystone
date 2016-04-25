@@ -36,7 +36,11 @@ keystone.init({
   'auth': true,
   'session store': 'mongo',
   'cookie secret': process.env.COOKIE_SECRET,
-  'user model': 'User'
+  'user model': 'User',
+
+  'wysiwyg images': true,
+  'wysiwyg s3 images': true
+
 
 });
 
@@ -84,15 +88,6 @@ keystone.set('email locals', {
 // Be sure to update this rule to include your site's actual domain, and add
 // other rules your email templates require.
 
-keystone.set('email rules', [{
-  find: '/images/',
-  replace: (keystone.get('env') === 'production') ? 'http://crucentralcoast.com/images/' : 'http://localhost:3000/images/'
-}, {
-  find: '/keystone/',
-  replace: (keystone.get('env') === 'production') ? 'http://crucentralcoast.com/keystone/' : 'http://localhost:3000/keystone/'
-}]);
-
-// Load your project's email test routes
 
 keystone.set('email tests', require('./routes/emails'));
 
