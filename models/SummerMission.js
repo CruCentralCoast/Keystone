@@ -30,21 +30,22 @@ var formatAdminUIPreview = function formatAdminUIPreview(item, file) {
 SummerMission.add({
   name: { type: String, required: true, initial: true },
   description: { type: Types.Textarea, initial: true },
-  image: { type: Types.S3File,
-           required: false,
-           allowedTypes: [
-             'image/png',
-             'image/jpeg',
-             'image/gif'
-           ],
-           s3path: s3path,
-           //  function with arguments current model and client file name to return the new filename to upload.
-           filename: function(item, filename, originalname) {
-             // prefix file name with object id
-             return item.slug + '-image.' + originalname.split('.')[1].toLowerCase();
-           },
-           headers: cacheControl,
-           format: formatAdminUIPreview
+  image: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-image.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
   },
   imageLink: {
     type: Types.Url,
@@ -58,22 +59,23 @@ SummerMission.add({
       return url;
     }
   },
-  squareImage: { type: Types.S3File,
-           required: false,
-           allowedTypes: [
-             'image/png',
-             'image/jpeg',
-             'image/gif'
-           ],
-           s3path: s3path,
-           //  function with arguments current model and client file name to return the new filename to upload.
-           filename: function(item, filename, originalname) {
-             // prefix file name with object id
-             return item.slug + '-square.' + originalname.split('.')[1].toLowerCase();
-           },
-           headers: cacheControl,
-           format: formatAdminUIPreview
-         },
+  squareImage: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-square.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
+  },
   squareImageLink: {
     type: Types.Url,
     hidden: false,
@@ -86,22 +88,23 @@ SummerMission.add({
       return url;
     }
   },
-  bannerImage: { type: Types.S3File,
-                 required: false,
-                 allowedTypes: [
-                   'image/png',
-                   'image/jpeg',
-                   'image/gif'
-                 ],
-                 s3path: s3path,
-                 //  function with arguments current model and client file name to return the new filename to upload.
-                 filename: function(item, filename, originalname) {
-                   // prefix file name with object id
-                   return item.slug + '-banner.' + originalname.split('.')[1].toLowerCase();
-                 },
-                 headers: cacheControl,
-                 format: formatAdminUIPreview
-               },
+  bannerImage: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-banner.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
+  },
   bannerImageLink: {
     type: Types.Url,
     hidden: false,
@@ -114,21 +117,22 @@ SummerMission.add({
       return url;
     }
   },
-	groupImage: { type: Types.S3File,
-           required: false,
-           allowedTypes: [
-             'image/png',
-             'image/jpeg',
-             'image/gif'
-           ],
-           s3path: s3path,
-           //  function with arguments current model and client file name to return the new filename to upload.
-           filename: function(item, filename, originalname) {
-             // prefix file name with object id
-             return item.slug + '-group-photo.' + originalname.split('.')[1].toLowerCase();
-           },
-           headers: cacheControl,
-           format: formatAdminUIPreview
+  groupImage: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-group-photo.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
   },
   groupImageLink: {
     type: Types.Url,

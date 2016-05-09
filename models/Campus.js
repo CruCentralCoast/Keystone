@@ -30,21 +30,22 @@ var formatAdminUIPreview = function formatAdminUIPreview(item, file) {
 Campus.add({
 	name: { type: String, required: true },
 	location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
-	image: { type: Types.S3File,
-           required: false,
-           allowedTypes: [
-             'image/png',
-             'image/jpeg',
-             'image/gif'
-           ],
-           s3path: s3path,
-           //  function with arguments current model and client file name to return the new filename to upload.
-           filename: function(item, filename, originalname) {
-             // prefix file name with object id
-             return item.slug + '.' + originalname.split('.')[1].toLowerCase();
-           },
-           headers: cacheControl,
-           format: formatAdminUIPreview
+	image: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
   },
   imageLink: {
     type: Types.Url,
@@ -58,22 +59,23 @@ Campus.add({
       return url;
     }
   },
-	squareImage: { type: Types.S3File,
-           required: false,
-           allowedTypes: [
-             'image/png',
-             'image/jpeg',
-             'image/gif'
-           ],
-           s3path: s3path,
-           //  function with arguments current model and client file name to return the new filename to upload.
-           filename: function(item, filename, originalname) {
-             // prefix file name with object id
-             return item.slug + '-square.' + originalname.split('.')[1].toLowerCase();
-           },
-           headers: cacheControl,
-           format: formatAdminUIPreview
-         },
+	squareImage: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-square.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
+  },
   squareImageLink: {
     type: Types.Url,
     hidden: false,
@@ -86,22 +88,23 @@ Campus.add({
       return url;
     }
   },
-  bannerImage: { type: Types.S3File,
-                 required: false,
-                 allowedTypes: [
-                   'image/png',
-                   'image/jpeg',
-                   'image/gif'
-                 ],
-                 s3path: s3path,
-                 //  function with arguments current model and client file name to return the new filename to upload.
-                 filename: function(item, filename, originalname) {
-                   // prefix file name with object id
-                   return item.slug + '-banner.' + originalname.split('.')[1].toLowerCase();
-                 },
-                 headers: cacheControl,
-                 format: formatAdminUIPreview
-               },
+  bannerImage: {
+    type: Types.S3File,
+    required: false,
+    allowedTypes: [
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ],
+    s3path: s3path,
+    //  function with arguments current model and client file name to return the new filename to upload.
+    filename: function(item, filename, originalname) {
+      // prefix file name with object id
+      return item.slug + '-banner.' + originalname.split('.')[1].toLowerCase();
+    },
+    headers: cacheControl,
+    format: formatAdminUIPreview
+  },
   bannerImageLink: {
     type: Types.Url,
     hidden: false,
