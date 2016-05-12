@@ -1,17 +1,16 @@
 var async = require('async'),
 	keystone = require('keystone'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path"),
 	restUtils = require('./restUtils'),
     mongoose = require('mongoose'),
+    dotenv = require('dotenv'),
 	express = require('express'),
 	router = express.Router();
 
+dotenv.load();
 var Resource = keystone.list('Resource');
 var model = Resource.model;
 
-var properties = propertyReader(root + '/properties.ini');
-var leaderAPIKey = properties.path().leader.api.key;
+var leaderAPIKey = process.env.LEADER_API_KEY;
 
 
 router.route('/')

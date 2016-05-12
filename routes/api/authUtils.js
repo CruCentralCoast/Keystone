@@ -1,9 +1,8 @@
 var keystone = require('keystone'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path");
+    dotenv = require('dotenv');
 
-var properties = propertyReader(root + '/properties.ini');
-var leaderAPIKey = properties.path().leader.api.key;
+dotenv.load();
+var leaderAPIKey = process.env.LEADER_API_KEY;
 
 module.exports = {
 

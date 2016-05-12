@@ -2,18 +2,17 @@ var async = require('async'),
 	keystone = require('keystone'),
 	request = require('request'),
     gcm = require('node-gcm'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path"),
     restUtils = require('./restUtils'),
+    dotenv = require('dotenv'),
 	express = require('express'),
 	router = express.Router(),
     gcmUtils = require('./gcmUtils');
 
+dotenv.load();
 var Notification = keystone.list("Notification");
 var model = Notification.model;
 
-var properties = propertyReader(root + '/properties.ini');
-var gcmAPIKey = properties.path().gcm.api.key; // Unique to each group
+var gcmAPIKey = process.env.GCM_API_KEY; // Unique to each group
 
 router.route('/')
 	.get(function(req, res, next) {

@@ -1,18 +1,17 @@
 var async = require('async'),
     keystone = require('keystone'),
+    dotenv = require('dotenv'),
     express = require('express'),
     router = express.Router(),
     gcm = require('node-gcm'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path"),
     restUtils = require('./restUtils'),
     gcmUtils = require('./gcmUtils');
 
+dotenv.load();
 var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
 
-var properties = propertyReader(root + '/properties.ini');
-var gcmAPIKey = properties.path().gcm.api.key;
+var gcmAPIKey = process.env.GCM_API_KEY;
 
 router.route('/')
 	.get(function(req, res, next) {

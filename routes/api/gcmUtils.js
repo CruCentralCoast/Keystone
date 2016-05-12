@@ -1,14 +1,13 @@
 var gcm = require('node-gcm'),
-    propertyReader = require('properties-reader'),
-    root = require("app-root-path");
+    dotenv = require('dotenv');
 
-var properties = propertyReader(root + '/properties.ini');
-var device = properties.path().gcm.device.type;
+dotenv.load();
+var device = process.env.GCM_DEVICE_TYPE;
 
 module.exports = {
     createMessage: function(title, message) {
         // iOS requires a certain message format
-        if (device == "iphone") {
+        if (device === "iphone") {
             return new gcm.Message({
                 notification: {
                     body: message, 
