@@ -16,7 +16,7 @@ var Campus = new keystone.List('Campus', {
 Campus.add({
 	name: { type: String, required: true },
 	location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
-	url: { type: Types.Url }
+	url: { type: Types.Url },
 });
 
 Campus.relationship({ path: 'ministries', ref: 'Ministry', refPath: 'campuses' });
