@@ -6,6 +6,8 @@ var async = require('async'),
 
 var Event = keystone.list("Event");
 var model = Event.model;
+var Ride = keystone.list("Ride");
+var Passenger = keystone.list("Passenger");
 
 router.route('/')
 	.get(function(req, res, next) {
@@ -53,5 +55,33 @@ router.route('/:id/notifications')
             return res.json(event.notifications);
         });
     });
+
+router.route('/:id/:gcm_id/')
+	.get(function(req, res, next) {
+		var status = 0;
+		Ride.model.find({event: req.params.id, gcm_id: req.params.gcm_id}).exec(function (err, rides) {
+			if(err) return res.status(400).send(err);
+			if(rides && rides.length > 0)
+				return res.status(200).send({"value": 1})
+		
+			Passenger.model.find({gcm_id: req.params.gcm_id}).exec(function (err, passengers) {
+				if(err) return res.status(400).send(err);
+				if(passengers && passengers.length > 0)
+				{
+					passengers.forEach(function (passenger, index, array){
+						Ride.model.find({"$and": [ {"event": req.params.id}, {"passengers": {"$in": [passenger._id]}}]}).exec(function (err, rides) {
+							if(err) return res.status(400).send(err);
+							if(rides && rides.length > 0) 
+								return res.status(200).send({"value": 2})
+							else
+								return res.status(200).send({"value": 0})	
+						})
+					});
+				}
+				else
+					return res.status(200).send({"value": 0})
+			})
+		})
+	})
     
 module.exports = router;
