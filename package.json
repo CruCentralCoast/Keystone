@@ -3,17 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "app-root-path": "https://github.com/inxilpro/node-app-root-path.git",
     "async": "^1.5.2",
     "body-parser": "^1.14.2",
+    "bower": "^1.7.7",
     "connect-mongo": "^0.4.1",
     "dotenv": "^1.1.0",
     "keystone": "^0.3.14",
-    "underscore": "^1.8.3",
+    "mongoose-validators": "^0.1.0",
     "node-gcm": "^0.14.0",
     "properties-reader": "^0.0.15",
-    "app-root-path": "https://github.com/inxilpro/node-app-root-path.git",
-    "unicode": "^0.6.1",
-    "bower": "^1.7.7"
+    "underscore": "^1.8.3",
+    "unicode": "^0.6.1"
   },
   "devDependencies": {
     "blanket": "^1.2.2",

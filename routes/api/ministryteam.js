@@ -16,7 +16,10 @@ var gcmAPIKey = properties.path().gcm.api.key;
 
 router.route('/')
 	.get(function(req, res, next) {
-		restUtils.list(model, req, res);
+		model.find().populate("leaders", "name.first name.last email phone").exec(function(err, teams) {
+            if (err) return res.status(400).send(err);
+            return res.json(teams);
+        });
 	})
 	.post(function(req, res, next) {
 		restUtils.create(model, req, res);
@@ -24,7 +27,10 @@ router.route('/')
 
 router.route('/:id')
 	.get(function(req, res, next) {
-		restUtils.get(model, req, res);
+		model.findById(req.params.id).populate("leaders", "name.first name.last email phone").exec(function(err, team) {
+            if (err) return res.status(400).send(err);
+            return res.json(team);
+        });
 	})
 	.patch(function(req, res, next) {
 		restUtils.update(model, req, res);
@@ -96,6 +102,15 @@ router.route('/:id/join')
                 });
             }
         });
-    })
+    });
+    
+router.route("/:id/leaders")
+    .get(function(req, res, next) {
+        model.findOne({_id: req.params.id}).populate("leaders").exec(function(err, team) {
+            if (err) return res.status(400).send(err);
+            console.log(team.leaders);
+            return res.json(team.leaders);
+        });
+    });
 
 module.exports = router;
