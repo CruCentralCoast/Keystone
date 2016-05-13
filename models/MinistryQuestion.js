@@ -14,8 +14,9 @@ MinistryQuestion.add({
     ministry : { type: Types.Relationship, ref: 'Ministry', initial: true},
 	question: { type: String, required: true, initial: true },
     type: { type: Types.Select, options: "text, select, datetime", initial: true },
-	selectOptions: { type: Types.Relationship, ref: 'MinistryQuestionOption', many: true}
+	selectOptions: { type: Types.Relationship, ref: 'MinistryQuestionOption', many: true},
+    required: { type: Boolean, initial: true, required: true, default: true}
 });
 
-MinistryQuestion.defaultColumns = 'ministry, question, type, selectOptions';
+MinistryQuestion.defaultColumns = 'ministry, question, type, selectOptions, required';
 MinistryQuestion.register();

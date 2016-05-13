@@ -13,6 +13,7 @@ var Event = new keystone.List('Event', {
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/events';
+console.log(s3path);
 
 var cacheControl = function cacheControl(item, file) {
   var headers = {};

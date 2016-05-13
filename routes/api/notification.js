@@ -48,42 +48,42 @@ router.route('/find')
 // Pushes a simple notification to a topic
 router.route('/push')
 	.post(function(req, res) {
-		var success= true;
+		var success = true;
 
 		req.body.ministries.forEach(function(ministryString, index) {
-			keystone.list('Ministry').model.find().where('_id', ministryString)
-				.exec(function(err, ministries) {
-                    if (err) return res.send(err);
-                    // Defaults to everyone if no ministries are selected
-					if (!ministries) {
-						ministries = [{_id: 'global', name: 'Cru Central Coast'}]
-					}
-					ministries.forEach(function(ministry) {
-						var to = '/topics/' + ministry._id;
+            console.log(ministryString);
+            var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
+			keystone.list('Ministry').model.find(find)
+                .exec(function(err, ministries) {
+                if (err) return res.send(err);
+                // Defaults to everyone if no ministries are selected
+                if (ministries.length == 0) {
+                    ministries = [{_id: 'global', name: 'Cru Central Coast'}]
+                }
+                ministries.forEach(function(ministry) {
+                    var to = '/topics/' + ministry._id;
 
-						// Sets up the message data
-						var message = gcmUtils.createMessage(ministry.name, req.body.msg);
+                    // Sets up the message data
+                    var message = gcmUtils.createMessage(ministry.name, req.body.msg);
 
-						// Sets up the sender based on the API key
-						var sender = new gcm.Sender(gcmAPIKey);
+                    // Sets up the sender based on the API key
+                    var sender = new gcm.Sender(gcmAPIKey);
 
-						sender.send(message, { topic: to }, function (err, response) {
-							if (err) {
-								console.error(err);
-								success = false;
-							}
-							else {
-								console.log(response);
-							}
-						});
-					});
-				});
-		});
-
-        // returns the message
-		res.json({
-			post: req.body.msg,
-			success: success
+                    sender.send(message, { topic: to }, function (err, response) {
+                        if (err) {
+                            console.error(err);
+                            success = false;
+                        }
+                        else {
+                            // returns the message
+                            return res.json({
+                                post: req.body.msg,
+                                success: success
+                            });
+                        }
+                    });
+                });
+            });
 		});
 	});
     
