@@ -6,7 +6,8 @@ var async = require('async'),
     dotenv = require('dotenv'),
 	express = require('express'),
 	router = express.Router(),
-    gcmUtils = require('./gcmUtils');
+    gcmUtils = require('./gcmUtils'),
+    notificationUtils = require('./notificationUtils');
 
 dotenv.load();
 var Notification = keystone.list("Notification");
@@ -63,24 +64,13 @@ router.route('/push')
                 ministries.forEach(function(ministry) {
                     var to = '/topics/' + ministry._id;
 
-                    // Sets up the message data
-                    var message = gcmUtils.createMessage(ministry.name, req.body.msg);
-
-                    // Sets up the sender based on the API key
-                    var sender = new gcm.Sender(gcmAPIKey);
-
-                    sender.send(message, { topic: to }, function (err, response) {
-                        if (err) {
-                            console.error(err);
-                            success = false;
-                        }
-                        else {
-                            // returns the message
-                            return res.json({
-                                post: req.body.msg,
-                                success: success
-                            });
-                        }
+                    notificationUtils.send(to, ministry.name, req.body.msg, {}, function(err, response, notification) {
+                        if (err) return res.send(err);
+                        console.log(notification);
+                        return res.json({
+                            post: req.body.msg,
+                            success: true
+                        });
                     });
                 });
             });
