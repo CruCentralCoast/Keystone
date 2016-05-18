@@ -13,14 +13,19 @@ router.route('/')
 
 		User.model.update({gcmId:req.body.old}, {gcmId:req.body.new}, null, function(err, numAffected){
 			if(err) return res.status(400).send(err);
+			else
+			{
+				Ride.model.update({gcm_id:req.body.old}, {gcm_id:req.body.new}, null, function(err, numAffected){
+					if(err) return res.status(400).send(err);
+					else
+					{
+						Passenger.model.update({gcm_id:req.body.old}, {gcm_id:req.body.new}, null, function(err, numAffected){
+							if(err) return res.status(400).send(err);
+							else return res.status(200).send({success: true});
+						})
+					}
+				})
+			}
 		})
-		Ride.model.update({gcm_id:req.body.old}, {gcm_id:req.body.new}, null, function(err, numAffected){
-			if(err) return res.status(400).send(err);
-		})
-		Passenger.model.update({gcm_id:req.body.old}, {gcm_id:req.body.new}, null, function(err, numAffected){
-			if(err) return res.status(400).send(err);
-		})
-
-		return res.status(200).send({success: true});
 	});
 module.exports = router;
