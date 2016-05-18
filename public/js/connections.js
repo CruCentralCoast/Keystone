@@ -62,7 +62,7 @@ function initTagit()
 {
 	$.ajax({
 		type: 'GET',
-		url: '/api/ministryquestionoption',
+		url: '/api/ministryquestionoptions',
 		success: function(options) {
 			var tags = [];
 			options.forEach(function(option) {
@@ -84,7 +84,7 @@ function initTagit()
             $('.taggable').tagit("option", "afterTagAdded", function(event, ui) {
                 $.ajax({
                     type: 'PATCH',
-                    url: '/api/ministryquestion/' + ui.tag.parent().attr("id").split('_')[1] + "/options/",
+                    url: '/api/ministryquestions/' + ui.tag.parent().attr("id").split('_')[1] + "/options/",
                     data: {
                         value: ui.tag.find('.tagit-label').html()
                     }
@@ -93,11 +93,10 @@ function initTagit()
             $('.taggable').tagit("option", "beforeTagRemoved", function(event, ui) {
                 $.ajax({
                     type: 'DELETE',
-                    url: '/api/ministryquestion/' + ui.tag.parent().attr("id").split('_')[1] + "/options/" + ui.tag.find('.tagit-label').html()
+                    url: '/api/ministryquestions/' + ui.tag.parent().attr("id").split('_')[1] + "/options/" + ui.tag.find('.tagit-label').html()
                 });
             });
 			$('.taggable').tagit("option", "availableTags", tags);
-			console.log($('.taggable').tagit("option", "availableTags"));
 		}
 	})
 }

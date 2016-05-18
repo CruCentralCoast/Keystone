@@ -24,7 +24,7 @@ router.route('/campus/:campusID')
 	.get(function(req, res, next) {
 		var view = new keystone.View(req, res);
 		
-		view.query('ministries', keystone.list('Ministry').model.find({campuses: req.params.campusID}));
+		view.query('ministries', keystone.list('Ministry').model.find({campus: req.params.campusID}));
 		view.render('./includes/campusDetails');
 	});
 
@@ -35,7 +35,7 @@ router.route('/ministry/:ministryID')
 		view.query('questions', keystone.list('MinistryQuestion').model.find({ministry: req.params.ministryID}).populate('selectOptions'));
 		res.locals['questionTypes'] = keystone.list('MinistryQuestion').model.schema.path('type').enumValues;
 		view.query('selectOptions', keystone.list('MinistryQuestionOption').model.find({}, 'value'));
-		view.query('communityGroups', keystone.list('CommunityGroup').model.find({parentMinistry: req.params.ministryID}));
+		view.query('communityGroups', keystone.list('CommunityGroup').model.find({ministry: req.params.ministryID}));
 		view.render('./includes/ministryDetails');
 	});
 
