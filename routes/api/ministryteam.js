@@ -13,6 +13,8 @@ var model = MinistryTeam.model;
 
 var gcmAPIKey = process.env.GCM_API_KEY;
 
+var notifications = require('./notificationUtils.js');
+
 router.route('/')
 	.get(function(req, res, next) {
 		model.find().populate("leaders", "name.first name.last email phone").exec(function(err, teams) {
@@ -81,25 +83,15 @@ router.route('/:id/join')
 
                 response.push(leaderInfo);
             });
+               
+            var message = name.first + " " + name.last + " has joined " + team.name + ". Their phone number is " + phone + ".";
+            var payload = {};
+            
+            notifications.send(regTokens, team.name, message, payload, function(err, res, body) {
+                // Do nothing I guess
+            });
             
             res.json(response);
-            
-            // send a push notif to all the leaders
-            var message = gcmUtils.createMessage(team.name, name + " has joined " + team.name + ". Their phone numer is " + phone + ".");
-            
-            // Sets up the sender based on the API key
-            var sender = new gcm.Sender(gcmAPIKey);
-            if (regTokens.length > 0) {
-                sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-                    if (err) {
-                        console.error(err);
-                        success = false;
-                    }
-                    else {
-                        console.log(response);
-                    }
-                });
-            }
         });
     });
     
