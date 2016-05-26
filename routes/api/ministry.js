@@ -69,14 +69,17 @@ function getValidGroups(groups, answers)
 {
     var valid_groups = [];
     groups.forEach(function(group) {
-        var valid = true;
-        answers.forEach(function(answer) {
-            if (valid && group.answers[answer.question] != answer.value) {
-                valid = false;
-            }
-        });
-        if (valid)
-            valid_groups.push(group);
+        if (group.answers) 
+        {
+            var valid = true;
+            answers.forEach(function(answer) {
+                if (valid && group.answers[answer.question] != answer.value) {
+                    valid = false;
+                }
+            });
+            if (valid)
+                valid_groups.push(group);
+        }
     });
     return valid_groups;
 }
