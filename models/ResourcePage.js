@@ -15,7 +15,6 @@ ResourcePage.add({
 	content: {
 		type: Types.Html, wysiwyg: true, height: 350
 	},
-  isPrivate: { type: Types.Boolean, label: 'Private Resource?', required: true },
 	tags: { type: Types.Relationship, ref: 'ResourceTag', many: true }
 });
 
