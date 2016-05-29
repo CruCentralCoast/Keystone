@@ -9,7 +9,14 @@ var model = User.model;
 
 router.route('/phone/:number')
     .get(function(req, res, next) {
-        model.findOne({'phone': req.params.number}).exec(function(err, user) {
+        if (isNaN(req.params.number)) {
+            return res.status(400).send('Error: Invalid phone number format.');
+        }
+        if (req.params.number.length < 10)
+        {
+            return res.status(400).send('Error: Phone number not long enough.');
+        }
+        model.findOne({'phone': RegExp(req.params.number + '$')}).exec(function(err, user) {
             if (err) return res.send(err);
             return res.json(user);
         });
