@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 var keystone = require('keystone');
 
 before(function(done) {
@@ -10,6 +12,14 @@ before(function(done) {
     });
     keystone.import('../models');
     keystone.set('routes', require('../routes'));
+    
+    keystone.set('locals', {
+      _: require('underscore'),
+      env: keystone.get('env'),
+      utils: keystone.utils,
+      editable: keystone.content.editable
+    });
+    
     keystone.start();
     done();
 })
