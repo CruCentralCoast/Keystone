@@ -56,7 +56,8 @@ router.route('/:id')
 					success = false;
 				}
 				else {
-					console.log(response);
+                    if (!process.env.TESTING)
+                        console.log(response);
 				}
 			});
 			// END: Send Notification to Passenger
@@ -107,7 +108,8 @@ router.route('/:id/passengers')
 						success = false;
 					}
 					else {
-						console.log(response);
+                        if(!process.env.TESTING)
+                            console.log(response);
 					}
 				});
 				ride.save();
@@ -140,7 +142,8 @@ router.route('/:id/passengers/:passenger_id')
 						success = false;
 					}
 					else {
-						console.log(response);
+                        if(!process.env.TESTING)
+                            console.log(response);
 					}
 				});
 				// END: Send Notification to Driver
@@ -157,7 +160,8 @@ router.route('/:id/passengers/:passenger_id')
 						success = false;
 					}
 					else {
-						console.log(response);
+                        if(!process.env.TESTING)
+                            console.log(response);
 					}
 				});
 				// END: Send Notification to Passenger
