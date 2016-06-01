@@ -63,8 +63,6 @@ router.route('/:id/join')
             var leaderInfo = [];
             var regTokens = [];
 
-            console.log(team.leaders);
-
             // for every leader send them the person that joined's info
             // and get their info to send to the user
             team.leaders.forEach(function(leader) {
@@ -85,8 +83,10 @@ router.route('/:id/join')
                 phone: phone
             };
             
-            notifications.send(regTokens, team.name, message, payload, function(err, response) {
-                console.log(response);
+            regTokens.forEach(function(token) {
+                notifications.send(token, team.name, message, payload, function(err, response) {
+                    console.log(response);
+                });
             });
             
             res.json(leaderInfo);

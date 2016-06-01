@@ -60,7 +60,7 @@ router.route('/:id/notifications')
 router.route('/:id/:gcm_id') 
     .get(function(req, res, next) {
         Ride.model.findOne({event: req.params.id, gcm_id: req.params.gcm_id}).exec(function (err, ride) {
-			if(err) return res.status(400).send(err);
+			if(err) return res.status(400).send(err); 
 			if(ride)
                 return res.status(200).json({value: 1}); //gcm_id is driving for this event
             
