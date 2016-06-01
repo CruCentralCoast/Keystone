@@ -17,7 +17,7 @@ var notifications = require('./notificationUtils.js');
 
 router.route('/')
 	.get(function(req, res, next) {
-		model.find().populate("leaders", "name.first name.last email phone").exec(function(err, teams) {
+		model.find().populate('leaders').exec(function(err, teams) {
             if (err) return res.status(400).send(err);
             return res.json(teams);
         });
@@ -28,7 +28,7 @@ router.route('/')
 
 router.route('/:id')
 	.get(function(req, res, next) {
-		model.findById(req.params.id).populate("leaders", "name.first name.last email phone").exec(function(err, team) {
+		model.findById(req.params.id).populate('leaders').exec(function(err, team) {
             if (err) return res.status(400).send(err);
             return res.json(team);
         });

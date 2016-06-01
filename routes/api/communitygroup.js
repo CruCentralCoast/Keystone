@@ -10,16 +10,22 @@ var model = CommunityGroup.model;
 
 router.route('/')
 	.get(function(req, res, next) {
-		restUtils.list(model, req, res);
-	})
+        model.find({}).populate('leaders').exec(function(err, communitygroups){
+            if (err) return res.status(400).send(err);
+            return res.json(communitygroups);
+        });
+    });
 	.post(function(req, res, next) {
 		restUtils.create(model, req, res);
 	});
 
 router.route('/:id')
 	.get(function(req, res, next) {
-		restUtils.get(model, req, res);
-	})
+        model.findOne({_id: req.params.id}).populate('leaders').exec(function(err, communitygroup){
+            if (err) return res.status(400).send(err);
+            return res.json(communitygroup);
+        });
+    });
 	.patch(function(req, res, next) {
 		restUtils.update(model, req, res);
 	});
@@ -49,7 +55,7 @@ router.route('/:id/answers')
 
 router.route('/:id/leaders')
     .get(function(req, res, next) {
-        model.find({_id: req.params.id}).populate('leaders').exec(function(err, communitygroup){
+        model.findOne({_id: req.params.id}).populate('leaders').exec(function(err, communitygroup){
             if (err) return res.status(400).send(err);
             return res.json(communitygroup.leaders);
         });
@@ -57,7 +63,7 @@ router.route('/:id/leaders')
     
 router.route('/:id/ministry')
     .get(function(req, res, next) {
-        model.find({_id: req.params.id}).populate('ministry').exec(function(err, communitygroup){
+        model.findOne({_id: req.params.id}).populate('ministry').exec(function(err, communitygroup){
             if (err) return res.status(400).send(err);
             return res.json(communitygroup.ministry);
         });
