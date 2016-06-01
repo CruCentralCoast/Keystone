@@ -16,7 +16,7 @@ router.route('/')
             if (err) return res.status(400).send(err);
             return res.json(communitygroups);
         });
-    });
+    })
 	.post(function(req, res, next) {
 		restUtils.create(model, req, res);
 	});
@@ -27,7 +27,7 @@ router.route('/:id')
             if (err) return res.status(400).send(err);
             return res.json(communitygroup);
         });
-    });
+    })
 	.patch(function(req, res, next) {
 		restUtils.update(model, req, res);
 	});
