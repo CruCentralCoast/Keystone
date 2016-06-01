@@ -7,6 +7,8 @@ var async = require('async'),
 	express = require('express'),
 	router = express.Router();
 
+var notifications = require("./notificationUtils");
+    
 dotenv.load();
 var model = keystone.list("Ride").model;
 
@@ -34,24 +36,18 @@ router.route('/:id')
 
 			success = true;
 
-			// START: Send Notification to Passengers
+            // START: Send Notification to Passengers
 			var regTokens = [];
 			ride.passengers.forEach(function(passenger) {
 				regTokens.push(passenger.gcm_id);
 			});
-
-			// Sets up the message data
-			var message = new gcm.Message({
-				data: {
-					message: "You have been dropped from a ride to " + ride.event.name + ".",
-					title: notificationTitle
-				}
-			});
-
-			var sender = new gcm.Sender(gcmAPIKey);
-
-			sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-				if (err) {
+            
+            var message = "You have been dropped from a ride to " + ride.event.name + ".";
+            
+            var payload = {}; //TODO: add in payload type and other info (if neccessary)
+            
+            notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
+                if (err) {
 					console.error(err);
 					success = false;
 				}
@@ -59,8 +55,7 @@ router.route('/:id')
                     if (!process.env.TESTING)
                         console.log(response);
 				}
-			});
-			// END: Send Notification to Passenger
+            });
 
 			ride.passengers.forEach(function(passenger) {
 				passenger.remove();
@@ -96,14 +91,12 @@ router.route('/:id/passengers')
 
 				var regTokens = [ride.gcm_id];
 
-				// Sets up the message data
-				var message = gcmUtils.createMessage(ride.event.name, "Passenger " + passenger.name + " has been added to your car.");
-
-				// Sets up the sender based on the API key
-				var sender = new gcm.Sender(gcmAPIKey);
-
-				sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-					if (err) {
+                var message = "Passenger " + passenger.name + " has been added to your car.";
+                
+                var payload = {} // TODO add info for contact cards
+                
+                notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
+                    if (err) {
 						console.error(err);
 						success = false;
 					}
@@ -111,7 +104,8 @@ router.route('/:id/passengers')
                         if(!process.env.TESTING)
                             console.log(response);
 					}
-				});
+                });
+                
 				ride.save();
 				return res.status(200).json(ride);
 			});
@@ -122,50 +116,44 @@ router.route('/:id/passengers/:passenger_id')
 	.delete(function(req, res) {
 		keystone.list("Passenger").model.findOne().where("_id", req.params.passenger_id).exec(function(err, passenger) {
 			model.findOne().where("_id", req.params.id).populate("event").exec(function(err, ride) {
-
-
 				var index = ride.passengers.indexOf(req.params.passenger_id);
 				ride.passengers.splice(index, 1);
 
-				// START: Send Notification to Driver
-				var regTokens = [ride.gcm_id];
-
-				// Sets up the message data
-				var message = gcmUtils.createMessage(ride.event.name, "Passenger " + passenger.name + " has been dropped from your car.");
-
-				// Sets up the sender based on the API key
-				var sender = new gcm.Sender(gcmAPIKey);
-
-				sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-					if (err) {
-						console.error(err);
-						success = false;
-					}
-					else {
-                        if(!process.env.TESTING)
-                            console.log(response);
-					}
-				});
-				// END: Send Notification to Driver
-
-				// START: Send Notification to Passenger
-				regTokens = [passenger.gcm_id];
-
-				// Sets up the message data
-				message = gcmUtils.createMessage(notificationTitle, "You have been dropped from a ride to " + ride.event.name + ".");
-
-				sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-					if (err) {
-						console.error(err);
-						success = false;
-					}
-					else {
-                        if(!process.env.TESTING)
-                            console.log(response);
-					}
-				});
-				// END: Send Notification to Passenger
-
+                async.series([function(cb) {
+                        // START: Send Notification to Driver
+                        var regTokens = [ride.gcm_id];
+                        var message = "Passenger " + passenger.name + " has been dropped from your car.";                
+                        var payload = {}; // TODO I don't think this needs a payload, but who knows               
+                        notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
+                            if (err) {
+                                console.error(err);
+                                success = false;
+                            }
+                            else {
+                                if(!process.env.TESTING)
+                                    console.log(response);
+                            }
+                            cb();
+                        });
+                        // END: Send Notification to Driver
+                    }, function(cb) {
+                        // START: Send Notification to Passenger
+                        var regTokens = [passenger.gcm_id];
+                        var message = "You have been dropped from a ride to " + ride.event.name + ".");              
+                        var payload = {}; //TODO once again i don't THINK this needs anything else
+                        notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
+                            if (err) {
+                                console.error(err);
+                                success = false;
+                            }
+                            else {
+                                if(!process.env.TESTING)
+                                    console.log(response);
+                            }
+                            cb();
+                        });
+                        // END: Send Notification to Passenger
+                    }]);
 				keystone.list("Passenger").model.remove(passenger);
 				ride.save();
 				return res.json(ride);
