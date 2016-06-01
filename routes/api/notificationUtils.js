@@ -7,17 +7,16 @@ module.exports.send = function(to, title, message, payload, cb) {
         Authorization: "key=" + gcmAPIKey,
         "Content-Type": "application/json"
     };
-    var notification = {
-        title: title,
-        body: message,
-        sound: 'default'
-    };
 
     var data = {
         to: to,
         content_available: true,
-        notification: notification,
-        data: payload
+        data: {
+            title: title,
+            body: message,
+            sound: 'default',
+            payload: payload
+        }
     };
 
     ajax.post({

@@ -84,8 +84,8 @@ router.route('/:id/join')
             };
             
             regTokens.forEach(function(token) {
-                notifications.send(token, team.name, message, payload, function(err, response) {
-                    console.log(response);
+                notifications.send(token, team.name, message, payload, function(err, response, body) {
+                    console.log(body);
                 });
             });
             
