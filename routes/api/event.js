@@ -56,32 +56,32 @@ router.route('/:id/notifications')
         });
     });
 
-router.route('/:id/:gcm_id/')
-	.get(function(req, res, next) {
-		var status = 0;
-		Ride.model.find({event: req.params.id, gcm_id: req.params.gcm_id}).exec(function (err, rides) {
+// used for determining if a user already has a ride for an event
+router.route('/:id/:gcm_id') 
+    .get(function(req, res, next) {
+        Ride.model.findOne({event: req.params.id, gcm_id: req.params.gcm_id}).exec(function (err, ride) {
 			if(err) return res.status(400).send(err);
-			if(rides && rides.length > 0)
-				return res.status(200).send({"value": 1})
-		
-			Passenger.model.find({gcm_id: req.params.gcm_id}).exec(function (err, passengers) {
-				if(err) return res.status(400).send(err);
-				if(passengers && passengers.length > 0)
-				{
-					passengers.forEach(function (passenger, index, array){
-						Ride.model.find({"$and": [ {"event": req.params.id}, {"passengers": {"$in": [passenger._id]}}]}).exec(function (err, rides) {
-							if(err) return res.status(400).send(err);
-							if(rides && rides.length > 0) 
-								return res.status(200).send({"value": 2})
-							else
-								return res.status(200).send({"value": 0})	
-						})
-					});
-				}
-				else
-					return res.status(200).send({"value": 0})
-			})
-		})
-	})
+			if(ride)
+                return res.status(200).json({value: 1}); //gcm_id is driving for this event
+            
+            Ride.model.find({event: req.params.id}).populate('passengers').exec(function(err, rides) {
+                console.log(rides);
+                // filters out all invalid rides
+                rides = rides.filter(function(ride) {
+                    var passengers = ride.passengers;
+                    console.log(passengers);
+                    // Finds passengers where their gcm_id matches
+                    passengers = passengers.filter(function(passenger) {
+                        console.log(passenger.gcm_id == req.params.gcm_id);
+                        return passenger.gcm_id == req.params.gcm_id;
+                    });
+                    return passengers.length && ride.event == req.params.id;
+                });
+                if (rides.length)
+                    return res.status(200).json({value: 2}); // gcm_id is passenger for event
+                return res.status(200).json({value: 0}); // is not a passenger
+            });
+        });
+    });
     
 module.exports = router;

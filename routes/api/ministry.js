@@ -67,6 +67,7 @@ router.route('/:id/campus')
 // Filters out valid groups based on MinistryQuestionAnswers
 function getValidGroups(groups, answers)
 {
+    console.log(groups);
     var valid_groups = [];
     groups.forEach(function(group) {
         if (group.answers) 
