@@ -139,7 +139,7 @@ router.route('/:id/passengers/:passenger_id')
                     }, function(cb) {
                         // START: Send Notification to Passenger
                         var regTokens = [passenger.gcm_id];
-                        var message = "You have been dropped from a ride to " + ride.event.name + ".");              
+                        var message = "You have been dropped from a ride to " + ride.event.name + ".";              
                         var payload = {}; //TODO once again i don't THINK this needs anything else
                         notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
                             if (err) {
