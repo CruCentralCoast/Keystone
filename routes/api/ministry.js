@@ -87,7 +87,7 @@ function getValidGroups(groups, answers)
 // Returns community groups for a ministry based on answers to questions
 router.route('/:id/communitygroups')
     .post(function(req, res, next) {
-        CommunityGroup.find({ ministry: req.params.id }).exec(function(err, groups) {
+        CommunityGroup.find({ ministry: req.params.id }).populate('leaders').exec(function(err, groups) {
             if (err) return res.send(err);
             
             var valid_groups = [];
