@@ -3,6 +3,8 @@ var async = require('async'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router();
+    
+var notifications = require('./notificationUtils');
 
 var CommunityGroup = keystone.list("CommunityGroup");
 var MinistryQuestionAnswer = keystone.list('MinistryQuestionAnswer').model;
@@ -66,6 +68,48 @@ router.route('/:id/ministry')
         model.findOne({_id: req.params.id}).populate('ministry').exec(function(err, communitygroup){
             if (err) return res.status(400).send(err);
             return res.json(communitygroup.ministry);
+        });
+    });
+    
+router.route('/:id/join')
+    .post(function(req, res, next) {
+        var communityGroupId = req.params.id;
+        var name = req.body.name;
+        var phone = req.body.phone;
+        
+        model.findById(communityGroupId).populate("leaders").exec(function(err, group) {
+            if (err) return res.apiError('failed to join community  group', err);
+        
+            var leaderInfo = [];
+            var regTokens = [];
+
+            console.log(group.leaders);
+
+            // for every leader send them the person that joined's info
+            // and get their info to send to the user
+            group.leaders.forEach(function(leader) {
+                leaderInfo.push({
+                    name: leader.name,
+                    phone: leader.phone,
+                    email: leader.email
+                });
+                if (leader.gcmId) {
+                    regTokens.push(leader.gcmId);
+                }
+            });
+               
+            var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
+            var payload = {
+                type: 'communitygroup_join',
+                name: name,
+                phone: phone
+            };
+            
+            notifications.send(regTokens, group.name, message, payload, function(err, response) {
+                console.log(response);
+            });
+            
+            res.json(leaderInfo);
         });
     });
     

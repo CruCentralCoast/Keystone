@@ -3,7 +3,6 @@ var async = require('async'),
     dotenv = require('dotenv'),
     express = require('express'),
     router = express.Router(),
-    gcm = require('node-gcm'),
     restUtils = require('./restUtils'),
     gcmUtils = require('./gcmUtils');
 
@@ -13,7 +12,7 @@ var model = MinistryTeam.model;
 
 var gcmAPIKey = process.env.GCM_API_KEY;
 
-var notifications = require('./notificationUtils.js');
+var notifications = require('./notificationUtils');
 
 router.route('/')
 	.get(function(req, res, next) {
@@ -57,13 +56,11 @@ router.route('/:id/join')
         var ministryTeamId = req.params.id;
         var name = req.body.name;
         var phone = req.body.phone;
-
-        var userModel = keystone.list("User").model;
         
         model.findById(ministryTeamId).populate("leaders").exec(function(err, team) {
             if (err) return res.apiError('failed to join ministry team', err);
         
-            var response = [];
+            var leaderInfo = [];
             var regTokens = [];
 
             console.log(team.leaders);
@@ -71,27 +68,28 @@ router.route('/:id/join')
             // for every leader send them the person that joined's info
             // and get their info to send to the user
             team.leaders.forEach(function(leader) {
-                var leaderInfo = {
+                leaderInfo.push({
                     name: leader.name,
                     phone: leader.phone,
                     email: leader.email
-                };
-                console.log(leaderInfo);
+                });
                 if (leader.gcmId) {
                     regTokens.push(leader.gcmId);
                 }
-
-                response.push(leaderInfo);
             });
                
-            var message = name.first + " " + name.last + " has joined " + team.name + ". Their phone number is " + phone + ".";
-            var payload = {};
+            var message = name.first + " " + name.last + " wants to join " + team.name + ". Their phone number is " + phone + ".";
+            var payload = {
+                type: 'ministryteam_join',
+                name: name,
+                phone: phone
+            };
             
-            notifications.send(regTokens, team.name, message, payload, function(err, res, body) {
-                // Do nothing I guess
+            notifications.send(regTokens, team.name, message, payload, function(err, response) {
+                console.log(response);
             });
             
-            res.json(response);
+            res.json(leaderInfo);
         });
     });
     
