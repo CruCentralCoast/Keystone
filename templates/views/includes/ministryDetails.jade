@@ -1,36 +1,43 @@
 .row
-	.col-xs-4
-		h3 Community Groups
-		.list-group
-			each group in communityGroups
-				a.list-group-item(onclick='renderCommunityGroupInfo("#{group._id}", "#{group.name}")')= group.name
-			a.list-group-item.list-group-item-success(href='/keystone/community-groups')
-				span.glyphicon.glyphicon-plus()
-				| &nbspAdd Community Group
-	.col-xs-8
-		h3 Ministry Questions
-		each question in questions
-			table.table-striped
-				tr
-					td
-						.form-group
-							label(for="question_#{question._id}") Question
-							textarea.form-control(id='question_#{question._id}')= question.question
-						.form-group
-							label(for="type_#{question._id}") Type
-							select.form-control(id="type_#{question._id}")
-								each type in questionTypes
-									- var selected = type == question.type ? true : false;
-									option(selected=selected, value=type)= type
-						- var hidden = 'select' != question.type ? true : false;
-						.form-group(hidden=hidden)
-							label(for="select_#{question._id}") Options
-							ul.taggable.form-control(id="select_#{question._id}")
-								each option in question.selectOptions
-									li= option.value
-				
-
+    .col-xs-4
+        h3 Community Groups
+        .list-group
+            each group in communityGroups
+                a.list-group-item(onclick='renderCommunityGroupInfo("#{group._id}", "#{group.name}")')= group.name
+            a.list-group-item.list-group-item-success(href='/keystone/community-groups')
+                | &nbspAdd Community Group&nbsp&nbsp
+                span.glyphicon.glyphicon-plus()
+    .col-xs-8
+        h3 Ministry Questions 
+        each question in questions
+            table.table-striped
+                tr
+                    td
+                        input(type='hidden' value='#{question._id}')
+                        .form-group
+                            label(for="question_#{question._id}") Question
+                            textarea.form-control(id='question_#{question._id}')= question.question
+                        .form-group
+                            label(for="type_#{question._id}") Type
+                            select.form-control(id="type_#{question._id}")
+                                each type in questionTypes
+                                    - var selected = type == question.type ? true : false;
+                                    option(selected=selected, value=type)= type
+                        - var hidden = 'select' != question.type ? true : false;
+                        .form-group(hidden=hidden)
+                            label(for="select_#{question._id}") Options
+                            ul.taggable.form-control(id="select_#{question._id}")
+                                each option in question.selectOptions
+                                    li= option.value
+                        .form-group
+                            label(for="required_#{question._id}") Required
+                            input(id="required_#{question._id}" type='checkbox' checked=question.required)
+                
+        button.btn.btn-primary.add#add-question
+            | Add Question&nbsp&nbsp
+            span.glyphicon.glyphicon-plus() 
+            
 script(type='text/javascript').
-	initTagit();
-	typeSelectInit();
-	
+    initTagit();
+    typeSelectInit();
+    

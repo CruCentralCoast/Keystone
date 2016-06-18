@@ -4,9 +4,11 @@
 
 var keystone = require('keystone'),
 	express = require('express'),
-	router = express.Router();
+	router = express.Router(),
+    restUtils = require('./restUtils');
 
 var MinistryQuestion = keystone.list('MinistryQuestion').model;
+var model = MinistryQuestion;
 var MinistryQuestionOption = keystone.list('MinistryQuestionOption').model;
 
 router.route('/')
@@ -29,6 +31,9 @@ router.route('/:id')
 			if (err) return res.send(err);
 			return res.json(question);
 		});
+	})
+    .patch(function(req, res, next) {
+		restUtils.update(model, req, res);
 	});
     
 // Adds an option to a question

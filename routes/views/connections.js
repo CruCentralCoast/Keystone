@@ -39,4 +39,15 @@ router.route('/ministry/:ministryID')
 		view.render('./includes/ministryDetails');
 	});
 
+router.route('/communityGroup/:id')
+	.get(function(req, res, next) {
+		var view = new keystone.View(req, res);
+		view.query('communityGroup', keystone.list('CommunityGroup').model.findById(req.params.id).populate('leaders'));
+        keystone.list('CommunityGroup').model.findById(req.params.id).exec(function(err, group) {
+            view.query('questions', keystone.list('MinistryQuestion').model.find({ministry: group.ministry}).populate('selectOptions'));
+            view.query('answers', keystone.list('MinistryQuestionAnswer').model.find({communityGroup: group._id}));
+            view.render('./includes/communityGroupDetails');
+        });       
+	});
+    
 module.exports = router;

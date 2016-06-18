@@ -41,6 +41,40 @@ function renderCommunityGroups(ministryID, ministryName) {
 			previous.html("<a href='#' onclick='renderMinistries(\"" + previous.attr('data-campus-id') + "\", \"" + previous.attr('data-campus-name') + "\")'>" + previous.attr('data-campus-name') + "</a>");
 			$('.breadcrumb').append("<li id='ministry-crumb' data-ministry-name='" + ministryName + "' data-ministry-id='" + ministryID + "'>" + ministryName + "</li>");
 			$('.content').html(view);
+            $('textarea').keyup(function() {
+                var id = $(this).parent().siblings('input').val();
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/ministryquestions/' + id,
+                    data: {
+                        question: $(this).val()
+                    }
+                });
+            });
+            $('select').change(function() {
+                var id = $(this).parent().siblings('input').val();
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/ministryquestions/' + id,
+                    data: {
+                        type: $(this).val()
+                    }
+                });
+            });
+            $('input[type="checkbox"]').change(function() {
+                var id = $(this).parent().siblings('input').val();
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/ministryquestions/' + id,
+                    data: {
+                        required: $(this).is(':checked')
+                    }
+                });
+            });
+            $("#add-question").click(function() {
+                console.log('click');
+                window.location.href = '/keystone/ministry-questions';
+            });
 		}
 	})
 }
@@ -49,7 +83,7 @@ function renderCommunityGroupInfo(groupID, groupName) {
 	var previous = $('.breadcrumb li').last();
 	previous.html("<a href='#' onclick='renderCommunityGroups(\"" + previous.attr('data-ministry-id') + "\", \"" + previous.attr('data-ministry-name') + "\")'>" + previous.attr('data-ministry-name') + "</a>");
 	$('.breadcrumb').append("<li id='ministry-crumb'>" + groupName + "</li>");
-	$('.content').html('');
+	$('.content').load('/connections/communityGroup/' + groupID);  
 }
 
 function backOne() {
