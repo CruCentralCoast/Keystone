@@ -19,12 +19,12 @@ module.exports = {
 			}
 
 			keystone.session.signin({ email: user.email, password: req.body.password }, req, res, function(user) {
-                if (req.body.gcmId) {
-                    var model = keystone.list("User").model;
-                    user.getUpdateHandler(req).process({email:user.email, gcmId:req.body.gcmId}, function(err) {
-                        console.log(err)
-                    })
-                }
+                		if (req.body.gcmId) {
+                    			var model = keystone.list("User").model;
+                    			user.getUpdateHandler(req).process({email:user.email, gcmId:req.body.gcmId}, function(err) {
+                        			console.log(err)
+                    			})
+                		}
 				return res.json({
 					success: true,
 					LeaderAPIKey: leaderAPIKey 
