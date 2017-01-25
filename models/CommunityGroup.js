@@ -18,6 +18,7 @@ CommunityGroup.add({
     description: { type: String, initial: true },
 	meetingTime: { label: 'Meeting Time (Ignore Date)',type: Date, initial: true},
     dayOfWeek: { type: Types.Select, initial: true, options: 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday'},
+    type: { type: Types.Select, required: true, initial: true, emptyOption: false, options: 'Freshmen, Sophomore, Junior, Senior, Graduate, Faculty, Mixed Ages, Mixed Sexes' },
     leaders: { type: Types.Relationship, ref: 'User', many: true },
 	ministry: { type: Types.Relationship, ref: 'Ministry', initial: true }
 });
