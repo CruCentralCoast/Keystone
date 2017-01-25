@@ -101,7 +101,6 @@ router.route('/:id/communitygroups')
                     
                     // Filters out non-required answers
                     answers = answers.filter(function(answer) {
-                        console.log(answer.question.required);
                         return answer.question.required;
                     });
                     
@@ -112,10 +111,12 @@ router.route('/:id/communitygroups')
                         // Since mongoose find queries are asynchronous, we can't guarantee the value of i
                         // thus forcing us to get the index again
                         groups.some(function(group, idx) {
-                            if (group._id + '' == answers[0].communityGroup + '') {
-                                index = idx;
-                                return true;
-                            }
+			    answers[0].communityGroup.forEach(function(gr) {
+			        if (group._id + '' == gr + '') {
+				    index = idx;
+				    return true;
+				}
+			    });
                         });
                         // Converts the mongoose doc into a regular object so that we can modify the fields
                         groups[index] = groups[index].toObject(); 
