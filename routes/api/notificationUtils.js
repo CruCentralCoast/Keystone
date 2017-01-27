@@ -11,6 +11,7 @@ module.exports.send = function(to, title, message, payload, cb) {
     var data = {
         to: to,
         content_available: true,
+        priority: "high",
         data: {
             title: title,
             body: message,
