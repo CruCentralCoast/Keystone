@@ -1,4 +1,3 @@
-
 module.exports = {
 
     search : function(model, req, res) {

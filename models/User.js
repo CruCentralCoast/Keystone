@@ -2,6 +2,7 @@ var async = require('async');
 var crypto = require('crypto');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
+var validators = require('mongoose-validators');
 
 /**
  * Users Model
@@ -16,7 +17,7 @@ var User = new keystone.List('User', {
 User.add({
 	name: { type: Types.Name, required: true, index: true },
 	email: { type: Types.Email, required: true, initial: true, index: true },
-	phone: { type: String, initial: true, index: true },
+	phone: { type: String, initial: true, index: true , validate: [validators.isNumeric(), validators.isLength(10)]},
 	password: { type: Types.Password, initial: true },
 	resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {

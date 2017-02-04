@@ -5,6 +5,8 @@ var async = require('async'),
 	router = express.Router();
 
 var Ministry = keystone.list("Ministry");
+var CommunityGroup = keystone.list("CommunityGroup").model;
+var MinistryQuestionAnswer = keystone.list("MinistryQuestionAnswer").model;
 var model = Ministry.model;
 
 router.route('/:id/questions')
@@ -59,6 +61,80 @@ router.route('/:id/campus')
         model.find({_id: req.params.id}).populate('campus').exec(function(err, ministry){
             if (err) return res.status(400).send(err);
             return res.json(ministry.campus);
+        });
+    });
+    
+// Filters out valid groups based on MinistryQuestionAnswers
+function getValidGroups(groups, answers)
+{
+    console.log(groups);
+    var valid_groups = [];
+    groups.forEach(function(group) {
+        if (group.answers) 
+        {
+            var valid = true;
+            answers.forEach(function(answer) {
+                if (valid && group.answers[answer.question] != answer.value) {
+                    valid = false;
+                }
+            });
+            if (valid)
+                valid_groups.push(group);
+        }
+    });
+    return valid_groups;
+}
+    
+// Returns community groups for a ministry based on answers to questions
+router.route('/:id/communitygroups')
+    .post(function(req, res, next) {
+        CommunityGroup.find({ ministry: req.params.id }).populate('leaders').exec(function(err, groups) {
+            if (err) return res.send(err);
+            
+            var valid_groups = [];
+            var count = 0; // Used to enforce synchronicity when complete
+            
+            // Finds the answers that each community group provided
+            groups.forEach(function(group, i) {
+                MinistryQuestionAnswer.find({communityGroup: group._id}).populate('question').exec(function(err, answers) {
+                    if (err) return res.send(err);
+                    
+                    // Filters out non-required answers
+                    answers = answers.filter(function(answer) {
+                        return answer.question.required;
+                    });
+                    
+                    // As long as there is an answer, proceed
+                    if (answers.length > 0) {
+                        var index = -1;
+                        // Gets the index of the community group that we searched for earlier
+                        // Since mongoose find queries are asynchronous, we can't guarantee the value of i
+                        // thus forcing us to get the index again
+                        groups.some(function(group, idx) {
+			    answers[0].communityGroup.forEach(function(gr) {
+			        if (group._id + '' == gr + '') {
+				    index = idx;
+				    return true;
+				}
+			    });
+                        });
+                        // Converts the mongoose doc into a regular object so that we can modify the fields
+                        groups[index] = groups[index].toObject(); 
+                        
+                        // Adds the answers to the group objects for ease of use later
+                        groups[index].answers = new Object();
+                        answers.forEach(function(answer, idx) {
+                            groups[index].answers[answer.question._id] = answer.answer;
+                        });
+                    }
+                    
+                    // Checks to see if all groups have been iterated through
+                    if (++count == groups.length) {
+                        valid_groups = getValidGroups(groups, req.body.answers);
+                        return res.json(valid_groups);
+                    }
+                });
+            });
         });
     });
     

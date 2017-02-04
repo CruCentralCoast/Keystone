@@ -1,0 +1,44 @@
+.row
+    .col-xs-6
+        h3 Name
+        .form-group
+            input.form-control(type='text' value='#{communityGroup.name}')
+        h3 Description
+        .form-group
+            textarea.form-control #{communityGroup.description}
+        h3 Meeting Time
+        .form-group
+            .row
+                .col-xs-6
+                    select.form-control(value="#{communityGroup.dayOfWeek}")
+                        option Sunday
+                        option Monday
+                        option Tuesday
+                        option Wednesday
+                        option Thursday
+                        option Friday
+                        option Saturday
+                .col-xs-6
+                    input.form-control(type="text" value=communityGroup.meetingTime)
+        h3 Leaders
+        table.table-striped
+            each leader in communityGroup.leaders
+                tr
+                    td
+                        h4 #{leader.name.first} #{leader.name.last}
+                        div Phone: #{leader.phone}
+                        div Email: #{leader.email}
+        
+    .col-xs-6
+        h3 Ministry Questions
+        each question in questions
+            .form-group
+                label(for="answer_#{question._id}") #{question.question}
+                case question.type
+                    when 'text'
+                        input.form-control(id="answer_#{question._id}" value="#{answers[0].answer}")
+                    when 'select'
+                        select.form-control(id="answer_#{question._id}" value="#{answers[0].answer}")
+                            each option in question.selectOptions
+                                option=option.value
+                

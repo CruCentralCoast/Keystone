@@ -42,6 +42,7 @@ var users = require('./api/user');
 var ministries = require('./api/ministry');
 var summermissions = require('./api/summermission');
 var notifications = require('./api/notification');
+var gcm = require('./api/gcm');
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -81,8 +82,8 @@ exports = module.exports = function(app) {
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 	
 	// API stuff
-	app.post('/api/signin', routes.api.authUtils.signin);
-	app.post('/api/signout', routes.api.authUtils.signout);
+	app.use('/api/signin', routes.api.authUtils.signin);
+	app.use('/api/signout', routes.api.authUtils.signout);
 
 	//addApiRoutes(app, 'summermission', routes.api.summermission);	
 	//addApiRoutes(app, 'ministry', routes.api.ministry);	
@@ -125,4 +126,5 @@ exports = module.exports = function(app) {
 	app.use('/api/ministries', ministries);
 	app.use('/api/summermissions', summermissions);
 	app.use('/api/notifications', notifications);
+	app.use('/api/gcm', gcm);
 };

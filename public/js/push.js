@@ -36,12 +36,12 @@ $("#push-form").ajaxForm({
 
             $.ajax({
                 type: 'POST',
-                url: 'api/notification/create',
+                url: 'api/notifications',
                 data: {
                     message: $("#push-form textarea").val(),
                     sent: true,
                     ministries: $("#push-form select").val(),
-                    time: new Date(Date.now)}
+                    time: new Date()}
             });
         }           
         else {

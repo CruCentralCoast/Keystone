@@ -13,6 +13,7 @@ var Event = new keystone.List('Event', {
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/events';
+console.log(s3path);
 
 var cacheControl = function cacheControl(item, file) {
   var headers = {};
@@ -29,7 +30,7 @@ var formatAdminUIPreview = function formatAdminUIPreview(item, file) {
 // these models were created under, the 'format' properties on s3files is broken, so the html is
 // not rendered in the admin UI. Eventually this may be fixed.
 Event.add({
-  name: { type: String, required: true, initial: true },
+	name: { type: String, required: true, initial: true },
   description: { type: Types.Textarea, initial: true },
   image: {
     type: Types.S3File,

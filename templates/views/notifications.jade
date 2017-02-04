@@ -18,13 +18,13 @@ block content
                 // Tab for sending a single notification
                 .tab-pane.active#individual
                     h3 Send a Notification
-                    form#push-form(action='api/notification/push', method='POST')
+                    form#push-form(action='api/notifications/push', method='POST')
                         .form-group
                             textarea.form-control#msg(class='', name='msg', placeholder='Message to send', required)
                         .form-group         
                             select.form-control(name='ministries[]', required, multiple)
                                 option(value='', selected='', disabled) Select ministries                   
-                                option(value='') Everyone                 
+                                option(value='global') Everyone                 
                         .form-group
                             input.btn.btn-primary(type='submit', value='Send Push Notification')    
                             
@@ -32,7 +32,7 @@ block content
                             
                 .tab-pane#schedule
                     h3 Schedule a Notification
-                    form#schedule-form(action='api/notification/create', method='POST')
+                    form#schedule-form(action='api/notifications', method='POST')
                         .form-group
                             textarea.form-control(name='message', placeholder='Message to send', required)
                         .form-group
@@ -43,7 +43,7 @@ block content
                         .form-group         
                             select.form-control(name='ministries[]', required, multiple)
                                 option(value='', selected='', disabled) Select ministries                   
-                                option(value='') Everyone
+                                option(value='global') Everyone
                         .form-group
                             input.btn.btn-primary(type='submit', value='Schedule Push Notification')
                     include ./includes/scheduled-notifications.jade
