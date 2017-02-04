@@ -11,7 +11,7 @@ var MinistryQuestion = new keystone.List('MinistryQuestion', {
 });
 
 MinistryQuestion.add({
-    ministry : { type: Types.Relationship, ref: 'Ministry', initial: true},
+  ministry : { type: Types.Relationship, ref: 'Ministry', initial: true, many: true },
 	question: { type: String, required: true, initial: true },
     //type: { type: Types.Select, options: "text, select, datetime", initial: true },
     type: { type: Types.Select, options: "text, select", initial: true }, // couldn't think of a reason to have datetime
