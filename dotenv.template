@@ -3,9 +3,6 @@ MONGO_URI=
 
 COOKIE_SECRET=
 
-# Don't think we even use this anymore
-CLOUDINARY_URL=
-
 # Google keys for maps
 GOOGLE_BROWSER_KEY=
 GOOGLE_SERVER_KEY=
