@@ -1,5 +1,3 @@
-require('dotenv').load();
-
 var keystone = require('keystone');
 
 before(function(done) {

@@ -3,13 +3,11 @@ var async = require('async'),
 	request = require('request'),
     gcm = require('node-gcm'),
     restUtils = require('./restUtils'),
-    dotenv = require('dotenv'),
 	express = require('express'),
 	router = express.Router(),
     gcmUtils = require('./gcmUtils'),
     notificationUtils = require('./notificationUtils');
 
-dotenv.load();
 var Notification = keystone.list("Notification");
 var model = Notification.model;
 

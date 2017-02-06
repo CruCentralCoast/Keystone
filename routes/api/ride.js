@@ -1,15 +1,13 @@
 var async = require('async'),
 	keystone = require('keystone'),
     gcm = require('node-gcm'),
-    dotenv = require('dotenv'),
     restUtils = require('./restUtils'),
     gcmUtils = require('./gcmUtils'),
 	express = require('express'),
 	router = express.Router();
 
 var notifications = require("./notificationUtils");
-    
-dotenv.load();
+
 var model = keystone.list("Ride").model;
 
 var gcmAPIKey = process.env.GCM_API_KEY;

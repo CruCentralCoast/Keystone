@@ -1,7 +1,5 @@
-var keystone = require('keystone'),
-    dotenv = require('dotenv');
+var keystone = require('keystone')
 
-dotenv.load();
 var leaderAPIKey = process.env.LEADER_API_KEY;
 
 module.exports = {

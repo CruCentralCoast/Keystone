@@ -1,12 +1,10 @@
 var async = require('async'),
     keystone = require('keystone'),
-    dotenv = require('dotenv'),
     express = require('express'),
     router = express.Router(),
     restUtils = require('./restUtils'),
     gcmUtils = require('./gcmUtils');
 
-dotenv.load();
 var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
 

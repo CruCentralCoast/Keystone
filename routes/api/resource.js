@@ -2,11 +2,9 @@ var async = require('async'),
 	keystone = require('keystone'),
 	restUtils = require('./restUtils'),
     mongoose = require('mongoose'),
-    dotenv = require('dotenv'),
 	express = require('express'),
 	router = express.Router();
 
-dotenv.load();
 var Resource = keystone.list('Resource');
 var model = Resource.model;
 

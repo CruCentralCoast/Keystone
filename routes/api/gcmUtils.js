@@ -1,7 +1,5 @@
-var gcm = require('node-gcm'),
-    dotenv = require('dotenv');
+var gcm = require('node-gcm')
 
-dotenv.load();
 var device = process.env.GCM_DEVICE_TYPE;
 
 module.exports = {
