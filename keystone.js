@@ -19,7 +19,6 @@ keystone.init({
 
 	'name': 'crucentralcoast.com',
 	'brand': 'Cru Central Coast Admin Panel',
-    'port' : 3001,
 
 	'stylus': 'public',
 	'static': 'public',
