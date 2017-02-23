@@ -58,23 +58,6 @@ Resource.add({
 		value: imageUtils.squareImageLinkValue,
 		format: imageUtils.imageLinkFormat
 	},
-	bannerImage: {
-		type: Types.S3File,
-		required: false,
-		allowedTypes: imageUtils.allowedTypes,
-		s3path: s3path,
-		filename: imageUtils.bannerFileName,
-		headers: imageUtils.cacheControl,
-		format: imageUtils.formatAdminUIPreview
-	},
-	bannerImageLink: {
-		type: Types.Url,
-		hidden: false,
-		noedit: true,
-		watch: true,
-		value: imageUtils.bannerImageLinkValue,
-		format: imageUtils.imageLinkFormat
-  	},
 	tags: { type: Types.Relationship, initial: true, required: false, ref: 'ResourceTag', many: true }
 });
 
