@@ -20,9 +20,9 @@ Resource.add({
 	url: { type: Types.Url, required: true, initial: true },
 	type: { type: Types.Select, emptyOption: false, initial: true, required: true, numeric: false, options: ['article', 'audio', 'video'] },
 	date: { type: Types.Date, yearRange: [2000, 2030] },
-	title: { type: Types.Text, initial: true, required: true},
-	author: {type: Types.Text, initial: true, required: true},
-	description: { type: Types.Textarea, initial: true},
+	title: { type: Types.Text, initial: true, required: true },
+	author: {type: Types.Text, initial: true, required: true },
+	description: { type: Types.Textarea, initial: true },
    restricted: { type: Types.Boolean, initial: true, required: true, note: 'Whether the resource is only for leaders' },
    image: {
    	type: Types.S3File,
