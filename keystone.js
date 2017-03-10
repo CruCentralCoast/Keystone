@@ -16,7 +16,6 @@ var keystone = require('keystone');
 // and documentation.
 
 keystone.init({
-
 	'name': 'crucentralcoast.com',
 	'brand': 'Cru Central Coast Admin Panel',
 
@@ -27,23 +26,21 @@ keystone.init({
 	'view engine': 'jade',
 	'less': 'public',
 
-  'emails': 'templates/emails',
+   'emails': 'templates/emails',
 
-  'google api key': process.env.GOOGLE_BROWSER_KEY,
-  'google server api key': process.env.GOOGLE_SERVER_KEY,
-  'default region': 'en',
+   'google api key': process.env.GOOGLE_BROWSER_KEY,
+   'google server api key': process.env.GOOGLE_SERVER_KEY,
+   'default region': 'en',
 
-  'auto update': true,
-  'session': true,
-  'auth': true,
-  'session store': 'mongo',
-  'cookie secret': process.env.COOKIE_SECRET,
-  'user model': 'User',
+   'auto update': true,
+   'session': true,
+   'auth': true,
+   'session store': 'mongo',
+   'cookie secret': process.env.COOKIE_SECRET,
+   'user model': 'User',
 
-  'wysiwyg images': true,
-  'wysiwyg s3 images': true
-
-
+   'wysiwyg images': true,
+   'wysiwyg s3 images': true
 });
 
 // Load your project's Models
@@ -98,9 +95,9 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
 	'users': 'users',
 	'notifications' : 'notifications',
-  'ride sharing' : ['rides', 'passengers'],
+   'ride sharing' : ['rides', 'passengers'],
 	'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
-  'data' : ['events', 'resources', 'resource-pages', 'resource-tags', 'summer-missions']
+   'data' : ['events', 'resources', 'resource-pages', 'resource-tags', 'summer-missions']
 });
 
 // Start Keystone to connect to your database and initialise the web server

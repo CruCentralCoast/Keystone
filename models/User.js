@@ -31,7 +31,7 @@ User.add({
 	schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
 	ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
 	summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
-  gcmId: { type: String }
+   gcmId: { type: String }
 	// communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
 	notifications: {
@@ -40,8 +40,8 @@ User.add({
 		summerMissionUpdates: { type: Boolean, default: true }
 	}
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can administer the website' },
-	isVerified: { type: Boolean, label: 'Has a verified email address' }
+	isAdmin: { type: Boolean, default: false, label: 'Can administer the website' },
+	isVerified: { type: Boolean, default: false, label: 'Has a verified email address' }
 });
 
 

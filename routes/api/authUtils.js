@@ -3,11 +3,9 @@ var keystone = require('keystone')
 var leaderAPIKey = process.env.LEADER_API_KEY;
 
 module.exports = {
-
 	signin: function(req, res) {
-  
 		if (!req.body.username || !req.body.password) return res.json({ success: false });
-  
+
 		keystone.list('User').model.findOne({ email: req.body.username }).exec(function(err, user) {
 			if (err || !user) {
 				return res.json({
@@ -17,15 +15,13 @@ module.exports = {
 			}
 
 			keystone.session.signin({ email: user.email, password: req.body.password }, req, res, function(user) {
-                		if (req.body.gcmId) {
-                    			var model = keystone.list("User").model;
-                    			user.getUpdateHandler(req).process({email:user.email, gcmId:req.body.gcmId}, function(err) {
-                        			console.log(err)
-                    			})
-                		}
+            if (req.body.gcmId) {
+               user.set({ gcmId: req.body.gcmId });
+               user.save();
+            }
 				return res.json({
 					success: true,
-					LeaderAPIKey: leaderAPIKey 
+					LeaderAPIKey: leaderAPIKey
 				});
 			}, function(err) {
 				return res.json({
@@ -41,5 +37,4 @@ module.exports = {
 			res.json({ 'signedout': true });
 		});
 	}
-
 }
