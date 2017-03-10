@@ -3,8 +3,8 @@
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
 if (process.env.NODE_ENV !== 'production') {
- 	require('dotenv').load();
- }
+   require('dotenv').load();
+}
 
 
 
@@ -16,15 +16,15 @@ var keystone = require('keystone');
 // and documentation.
 
 keystone.init({
-	'name': 'crucentralcoast.com',
-	'brand': 'Cru Central Coast Admin Panel',
+   'name': 'crucentralcoast.com',
+   'brand': 'Cru Central Coast Admin Panel',
 
-	'stylus': 'public',
-	'static': 'public',
-	'favicon': 'public/favicon.ico',
-	'views': 'templates/views',
-	'view engine': 'jade',
-	'less': 'public',
+   'stylus': 'public',
+   'static': 'public',
+   'favicon': 'public/favicon.ico',
+   'views': 'templates/views',
+   'view engine': 'jade',
+   'less': 'public',
 
    'emails': 'templates/emails',
 
@@ -52,10 +52,10 @@ keystone.import('models');
 // for each request) should be added to ./routes/middleware.js
 
 keystone.set('locals', {
-  _: require('underscore'),
-  env: keystone.get('env'),
-  utils: keystone.utils,
-  editable: keystone.content.editable
+   _: require('underscore'),
+   env: keystone.get('env'),
+   utils: keystone.utils,
+   editable: keystone.content.editable
 });
 
 // Load your project's Routes
@@ -67,18 +67,18 @@ keystone.set('routes', require('./routes'));
 // default email templates, you may remove them if you're using your own.
 
 keystone.set('email locals', {
-  logo_src: '/images/logo-email.gif',
-  logo_width: 194,
-  logo_height: 76,
-  theme: {
-    email_bg: '#f9f9f9',
-    link_color: '#2697de',
-    buttons: {
-      color: '#fff',
-      background_color: '#2697de',
-      border_color: '#1a7cb7'
-    }
-  }
+   logo_src: '/images/logo-email.gif',
+   logo_width: 194,
+   logo_height: 76,
+   theme: {
+      email_bg: '#f9f9f9',
+      link_color: '#2697de',
+      buttons: {
+         color: '#fff',
+         background_color: '#2697de',
+         border_color: '#1a7cb7'
+      }
+   }
 });
 
 // Setup replacement rules for emails, to automate the handling of differences
@@ -93,10 +93,10 @@ keystone.set('email tests', require('./routes/emails'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'users': 'users',
-	'notifications' : 'notifications',
+   'users': 'users',
+   'notifications' : 'notifications',
    'ride sharing' : ['rides', 'passengers'],
-	'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
+   'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
    'data' : ['events', 'resources', 'resource-pages', 'resource-tags', 'summer-missions']
 });
 
