@@ -1,0 +1,72 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.content {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16pt; 
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    border: 1px solid #AAAAAA;
+    border-radius: 10px;
+    transform: translateY(50%);
+    box-shadow: 0 0 5px 5px #BBBBBB; 
+    
+    h2 {
+        margin-top: 0;   
+    }
+    
+    hr {
+        border: 1px solid gainsboro;
+    }
+    
+    input {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16pt;  
+        margin: 20px 0;
+        padding: 5px 10px;
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+        
+        &[type="text"] {
+            width: 100%;   
+        }
+        
+        &[type="submit"] {
+            background-color: white;
+            margin-bottom: 0;
+            padding: 10px 15px;
+            border: 1px solid gainsboro;
+            color: dodgerblue;
+            
+            &:hover {
+                background-color: dodgerblue;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+    
+    select {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16pt;
+        padding: 5px 10px;
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+        width: 100%;
+        cursor: pointer;
+    }
+    
+    div#result {
+        margin-top: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16pt;
+        color: green;
+    }
+    
+    form {
+        margin: 0;   
+    }
+}

@@ -1,0 +1,22 @@
+# Database location
+MONGO_URI=
+
+COOKIE_SECRET=
+
+# Google keys for maps
+GOOGLE_BROWSER_KEY=
+GOOGLE_SERVER_KEY=
+
+# S3 Images
+S3_BUCKET=
+S3_KEY=
+S3_SECRET=
+IMAGE_ROOT_PATH=
+
+# Leader resources
+LEADER_API_KEY=
+
+# GCM Key
+GCM_API_KEY=
+
+

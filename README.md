@@ -5,6 +5,12 @@ In this project, [Jade](http://jade-lang.com/) is used for HTML templating and [
 
 # Notes to Capstone class
 
+***IMPORTANT***: If you need to store some sort of constant, whether it's an API key, or anything else, do not store it in source control. You should also not create any files (outside of special keystone directories) or assume any knowledge of the filesystem. This node app is designed to run without filesystem access, using microservices and middleware to store information. 
+
+Store constants in a local `.env` file on your machine in the root directory. The app looks for this file and loads constants from it, they are then accessible at `process.env.CONSTANT_NAME`. Otherwise it loads constants from environment variables you define, on heroku these key value pairs are able to be set in the app settings.
+
+---
+
 First of all, please keep all work within the `capstone` branch. This will make it easier to quantify and group the work the class did, and allow for selective merging into `master` later.
 
 There are a number of things that need to happen with this project in order for the mobile app to be able to access the data. First of all, there are some missing data models, such as those for Resources and Community Groups.

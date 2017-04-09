@@ -1,0 +1,10 @@
+.row
+	.col-xs-4
+		h3 Campuses
+		.list-group
+			each campus in campuses
+				a.list-group-item(onclick='renderMinistries("#{campus._id}", "#{campus.name}")')= campus.name
+			a.list-group-item.list-group-item-success(href='/keystone/campus')
+				span.glyphicon.glyphicon-plus() 
+				| &nbspAdd Campus
+		
