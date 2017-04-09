@@ -23,6 +23,8 @@ CommunityGroup.add({
 	ministry: { type: Types.Relationship, ref: 'Ministry', initial: true }
 });
 
+console.log("Time: " + CommunityGroup.meetingTime);
+
 CommunityGroup.relationship({ path: 'answers', ref: 'MinistryQuestionAnswer', refPath: 'ministry'});
 
 CommunityGroup.defaultColumns = 'name, leaders, type';
