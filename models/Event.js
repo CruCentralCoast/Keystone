@@ -126,6 +126,16 @@ Event.add({
         ref: 'Notification',
         label: 'These are the notifications being sent for this event',
         many: true
+    }}, 'Display Options', {
+    displayOnWebsite: { 
+        type: Types.Boolean, 
+        default: false, 
+        label: 'Is this event ready to display on the website?' 
+    },
+    displayOnApp: { 
+        type: Types.Boolean, 
+        default: false, 
+        label: 'Is this event ready to display on the app?' 
     }
 });
 
