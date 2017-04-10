@@ -1,6 +1,6 @@
 {
   "name": "cru-central-coast-keystone",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "ajax-request": "^1.2.1",
@@ -10,7 +10,7 @@
     "bower": "^1.7.7",
     "connect-mongo": "^0.4.1",
     "dotenv": "^1.1.0",
-    "keystone": "^0.3.14",
+    "keystone": "^0.3.21",
     "mongoose-validators": "^0.1.0",
     "node-gcm": "^0.14.0",
     "properties-reader": "^0.0.15",
