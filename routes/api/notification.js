@@ -5,7 +5,6 @@ var async = require('async'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router(),
-    gcmUtils = require('./gcmUtils'),
     notificationUtils = require('./notificationUtils');
 
 var Notification = keystone.list("Notification");
@@ -74,7 +73,7 @@ router.route('/push')
             });
 		});
 	});
-    
+
 // Adds an event notification from the even tnotification page
 // TODO: Debate moving this to the view controller
 router.route('/eventNotification')
@@ -110,22 +109,21 @@ router.route('/eventNotification')
 // Sets a recurring timer to send scheduled push notifications every minute
 setInterval(function() {
     var gcm = require('node-gcm');
-    
+
     // Queries a list of unsent messages
     keystone.list('Notification').model.find().where('sent', false).where('time').lte(Date.now()).populate('ministries')
         .exec(function(err, notifications) {
             if (err) return res.send(err);
-            if(notifications)
-            {
+            if(notifications) {
                 notifications.forEach( function(notification) {
-                
+
                     // Sends the notification to everyone if no ministries are selected
                     if (notification.ministries.length == 0) {
                         notification.ministries = [{_id: 'global', name: 'Cru Central Coast'}]
                     }
                     notification.ministries.forEach(function(ministry) {
                         var to = '/topics/' + ministry._id;
-            
+
                         // Sets up the message data
                         var message = new gcm.Message({
                             data: {
@@ -133,10 +131,10 @@ setInterval(function() {
                                 title: ministry.name
                             }
                         });
-                        
+
                         // Sets up the sender based on the APIkey
                         var sender = new gcm.Sender(gcmAPIKey);
-                        
+
                         sender.send(message, { topic: to }, function (err, response) {
                             if (err) {
                                 console.error(err);
@@ -151,7 +149,7 @@ setInterval(function() {
                     });
                 });
             }
-        });   
+        });
 }, 60000); // Specifies the time to run this function
 
 module.exports = router;

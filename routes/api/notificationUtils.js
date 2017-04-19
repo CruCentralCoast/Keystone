@@ -1,28 +1,22 @@
-var ajax = require("ajax-request");
-var gcmAPIKey = process.env.GCM_API_KEY;
-var url = "https://gcm-http.googleapis.com/gcm/send"
+var admin = require("firebase-admin");
+var serviceAccount = require("cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json");
 
-module.exports.send = function(to, title, message, payload, cb) {
-    var headers = {
-        Authorization: "key=" + gcmAPIKey,
-        "Content-Type": "application/json"
-    };
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://cryptic-cache-161922.firebaseio.com"
+});
 
-    var data = {
-        to: to,
-        content_available: true,
-        priority: "high",
-        data: {
-            title: title,
-            body: message,
-            sound: 'default',
-            payload: payload
-        }
-    };
+module.exports.send = function(tokens, payload, callback) {
+    payload.content_available = true;
+    payload.priority = 'high';
+    payload.data.sound = 'default';
 
-    ajax.post({
-        url: url,
-        headers: headers,
-        data: data
-    }, cb);
+    admin.messaging().sendToDevice(tokens, payload).then(function(response) {
+        console.log("Successfully sent message:", response);
+        callback();
+    })
+    .catch(function(error) {
+        console.log("Error sending message:", error);
+        callback();
+    });
 }

@@ -2,13 +2,10 @@ var async = require('async'),
     keystone = require('keystone'),
     express = require('express'),
     router = express.Router(),
-    restUtils = require('./restUtils'),
-    gcmUtils = require('./gcmUtils');
+    restUtils = require('./restUtils');
 
 var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
-
-var gcmAPIKey = process.env.GCM_API_KEY;
 
 var notifications = require('./notificationUtils');
 
@@ -49,48 +46,49 @@ router.route('/find')
 		restUtils.find(model, req, res);
 	});
 
-router.route('/:id/join')
-    .post(function(req, res, next) {
-        var ministryTeamId = req.params.id;
-        var name = req.body.name;
-        var phone = req.body.phone;
-        
-        model.findById(ministryTeamId).populate("leaders").exec(function(err, team) {
-            if (err) return res.apiError('failed to join ministry team', err);
-        
-            var leaderInfo = [];
-            var regTokens = [];
+router.route('/:id/join').post(function(req, res, next) {
+    var ministryTeamId = req.params.id;
+    var name = req.body.name;
+    var phone = req.body.phone;
 
-            // for every leader send them the person that joined's info
-            // and get their info to send to the user
-            team.leaders.forEach(function(leader) {
-                leaderInfo.push({
-                    name: leader.name,
-                    phone: leader.phone,
-                    email: leader.email
-                });
-                if (leader.gcmId) {
-                    regTokens.push(leader.gcmId);
-                }
+    model.findById(ministryTeamId).populate("leaders").exec(function(err, team) {
+        if (err) return res.apiError('failed to join ministry team', err);
+
+        var leaderInfo = [];
+        var fcmTokens = [];
+
+        // for every leader send them the person that joined's info
+        // and get their info to send to the user
+        team.leaders.forEach(function(leader) {
+            leaderInfo.push({
+                name: leader.name,
+                phone: leader.phone,
+                email: leader.email
             });
-               
-            var message = name.first + " " + name.last + " wants to join " + team.name + ". Their phone number is " + phone + ".";
-            var payload = {
-                type: 'ministryteam_join',
-                name: name,
-                phone: phone
-            };
-            
-            regTokens.forEach(function(token) {
-                notifications.send(token, team.name, message, payload, function(err, response, body) {
-                    console.log(body);
-                });
-            });
-            
-            res.json(leaderInfo);
+            if (leader.fcmId) {
+                fcmTokens.push(leader.fcmId);
+            }
         });
+
+        var payload = {
+            type: 'ministryteam_join',
+            name: name,
+            phone: phone,
+            data: {
+                title: team.name,
+                body: name.first + " " + name.last + " wants to join " +
+                    team.name + ". Their phone number is " + phone + "."
+            }
+        };
+
+        notifications.send(fcmTokens, payload, function(err, response, body) {
+            console.log(body);
+        });
+
+        res.json(leaderInfo);
     });
-    
+});
+
 router.route("/:id/leaders")
     .get(function(req, res, next) {
         model.findOne({_id: req.params.id}).populate("leaders").exec(function(err, team) {
