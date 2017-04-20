@@ -15,8 +15,3 @@ IMAGE_ROOT_PATH=
 
 # Leader resources
 LEADER_API_KEY=
-
-# GCM Key
-GCM_API_KEY=
-
-

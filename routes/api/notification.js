@@ -44,35 +44,40 @@ router.route('/find')
 	});
 
 // Pushes a simple notification to a topic
-router.route('/push')
-	.post(function(req, res) {
-		var success = true;
+router.route('/push').post(function(req, res) {
+    var success = true;
+	req.body.ministries.forEach(function(ministryString, index) {
+        console.log(ministryString);
+        var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
+		keystone.list('Ministry').model.find(find).exec(function(err, ministries) {
+            if (err) return res.send(err);
+            // Defaults to everyone if no ministries are selected
+            if (ministries.length == 0) {
+                ministries = [{_id: 'global', name: 'Cru Central Coast'}]
+            }
+            ministries.forEach(function(ministry) {
+                var topic = '/topics/' + ministry._id;
 
-		req.body.ministries.forEach(function(ministryString, index) {
-            console.log(ministryString);
-            var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
-			keystone.list('Ministry').model.find(find)
-                .exec(function(err, ministries) {
-                if (err) return res.send(err);
-                // Defaults to everyone if no ministries are selected
-                if (ministries.length == 0) {
-                    ministries = [{_id: 'global', name: 'Cru Central Coast'}]
+                var payload = {
+                    notification: {
+                        tite: ministry.name,
+                        body: req.body.msg
+                    }
                 }
-                ministries.forEach(function(ministry) {
-                    var to = '/topics/' + ministry._id;
 
-                    notificationUtils.send(to, ministry.name, req.body.msg, {}, function(err, response, notification) {
-                        if (err) return res.send(err);
-                        console.log(notification);
-                        return res.json({
-                            post: req.body.msg,
-                            success: true
-                        });
+                notificationUtils.send(topic, payload, function(err, response, notification) {
+                    if (err)
+                        return res.send(err);
+                    console.log(notification);
+                    return res.json({
+                        post: req.body.msg,
+                        success: true
                     });
                 });
             });
-		});
+        });
 	});
+});
 
 // Adds an event notification from the even tnotification page
 // TODO: Debate moving this to the view controller
@@ -115,8 +120,7 @@ setInterval(function() {
         .exec(function(err, notifications) {
             if (err) return res.send(err);
             if(notifications) {
-                notifications.forEach( function(notification) {
-
+                notifications.forEach(function(notification) {
                     // Sends the notification to everyone if no ministries are selected
                     if (notification.ministries.length == 0) {
                         notification.ministries = [{_id: 'global', name: 'Cru Central Coast'}]
@@ -126,7 +130,7 @@ setInterval(function() {
 
                         // Sets up the message data
                         var message = new gcm.Message({
-                            data: {
+                            notification: {
                                 message: notification.message,
                                 title: ministry.name
                             }

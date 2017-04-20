@@ -98,9 +98,11 @@ router.route('/:id/join')
 
             var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
             var payload = {
-                type: 'communitygroup_join',
-                name: name,
-                phone: phone
+                data: {
+                    type: 'communitygroup_join',
+                    name: name,
+                    phone: phone
+                }
             };
 
             regTokens.forEach(function(token) {

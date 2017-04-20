@@ -71,13 +71,15 @@ router.route('/:id/join').post(function(req, res, next) {
         });
 
         var payload = {
-            type: 'ministryteam_join',
-            name: name,
-            phone: phone,
-            data: {
+            notification: {
                 title: team.name,
                 body: name.first + " " + name.last + " wants to join " +
                     team.name + ". Their phone number is " + phone + "."
+            },
+            data: {
+                type: 'ministryteam_join',
+                name: name,
+                phone: phone
             }
         };
 

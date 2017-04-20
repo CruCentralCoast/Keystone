@@ -37,7 +37,7 @@ router.route('/:id')
 			});
 
             var payload = {
-                data: {
+                notification: {
                     title: notificationTitle,
                     body: "You have been dropped from a ride to " + ride.event.name + "."
                 }
@@ -89,7 +89,7 @@ router.route('/:id/passengers')
 				var fcmToken = ride.fcm_id;
 
                 var payload = {
-                    data: {
+                    notification: {
                         title: ride.event.name
                         body: "Passenger " + passenger.name + " has been added to your car."
                     }
@@ -123,7 +123,7 @@ router.route('/:id/passengers/:passenger_id')
                         // START: Send Notification to Driver
                         var fcmToken = ride.fcm_id;
                         var payload = {
-                            data: {
+                            notification: {
                                 title: ride.event.name,
                                 body: "Passenger " + passenger.name + " has been dropped from your car."
                             }
@@ -145,7 +145,7 @@ router.route('/:id/passengers/:passenger_id')
                         // START: Send Notification to Passenger
                         var fcmToken = passenger.fcm_id;
                         var payload = {
-                            data: {
+                            notification: {
                                 title: notificationTitle,
                                 body: "You have been dropped from a ride to " + ride.event.name + "."
                             }
