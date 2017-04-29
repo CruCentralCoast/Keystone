@@ -5,6 +5,7 @@ var async = require('async'),
 	router = express.Router();
 
 var notifications = require("./notificationUtils");
+var fcmUtils = require("./fcmUtils");
 
 var model = keystone.list("Ride").model;
 
@@ -36,12 +37,9 @@ router.route('/:id')
 				fcmTokens.push(passenger.fcm_id);
 			});
 
-            var payload = {
-                notification: {
-                    title: notificationTitle,
-                    body: "You have been dropped from a ride to " + ride.event.name + "."
-                }
-            };
+            var payload = fcmUtils.createMessage(
+                notificationTitle,
+                "You have been dropped from a ride to " + ride.event.name + ".");
 
             notifications.send(fcmTokens, payload, function(err, response) {
                 if (err) {
@@ -88,12 +86,8 @@ router.route('/:id/passengers')
 
 				var fcmToken = ride.fcm_id;
 
-                var payload = {
-                    notification: {
-                        title: ride.event.name
-                        body: "Passenger " + passenger.name + " has been added to your car."
-                    }
-                };
+                var payload = fcmUtils.createmessage(ride.event.name,
+                    "Passenger " + passenger.name + " has been added to your car.");
 
                 notifications.send(fcmToken, payload, function(err, response) {
                     if (err) {
@@ -122,12 +116,9 @@ router.route('/:id/passengers/:passenger_id')
                 async.series([function(cb) {
                         // START: Send Notification to Driver
                         var fcmToken = ride.fcm_id;
-                        var payload = {
-                            notification: {
-                                title: ride.event.name,
-                                body: "Passenger " + passenger.name + " has been dropped from your car."
-                            }
-                        };
+                        var payload = fcmUtils.createMessage(
+                            ride.event.name,
+                            "Passenger " + passenger.name + " has been dropped from your car.");
 
                         notifications.send(fcmToken, payload, function(err, response) {
                             if (err) {
@@ -144,12 +135,9 @@ router.route('/:id/passengers/:passenger_id')
                     }, function(cb) {
                         // START: Send Notification to Passenger
                         var fcmToken = passenger.fcm_id;
-                        var payload = {
-                            notification: {
-                                title: notificationTitle,
-                                body: "You have been dropped from a ride to " + ride.event.name + "."
-                            }
-                        };
+                        var payload = fcmUtils.createMessage(
+                            notificationTitle,
+                            "You have been dropped from a ride to " + ride.event.name + ".");
                         notifications.send(fcmToken, payload, function(err, response) {
                             if (err) {
                                 console.error(err);

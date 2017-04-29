@@ -97,13 +97,14 @@ router.route('/:id/join')
             });
 
             var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
-            var payload = {
-                data: {
-                    type: 'communitygroup_join',
-                    name: name,
-                    phone: phone
-                }
-            };
+            var payload = fcmUtils.createMessage(name, phone);
+            // {
+            //     data: {
+            //         type: 'communitygroup_join',
+            //         name: name,
+            //         phone: phone
+            //     }
+            // };
 
             regTokens.forEach(function(token) {
                 notifications.send(token, group.name, message, payload, function(err, response, body) {

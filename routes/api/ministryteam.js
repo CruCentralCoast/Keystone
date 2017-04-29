@@ -8,6 +8,7 @@ var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
 
 var notifications = require('./notificationUtils');
+var fcmUtils = require('./fcmUtils');
 
 router.route('/')
 	.get(function(req, res, next) {
@@ -70,18 +71,21 @@ router.route('/:id/join').post(function(req, res, next) {
             }
         });
 
-        var payload = {
-            notification: {
-                title: team.name,
-                body: name.first + " " + name.last + " wants to join " +
-                    team.name + ". Their phone number is " + phone + "."
-            },
-            data: {
-                type: 'ministryteam_join',
-                name: name,
-                phone: phone
-            }
-        };
+        var payload = fcmUtils.createMessage(team.name,
+            name.first + " " + name.last + " wants to join " +
+            team.name + ". Their phone number is " + phone + ".");
+        // {
+        //     notification: {
+        //         title: team.name,
+        //         body: name.first + " " + name.last + " wants to join " +
+        //             team.name + ". Their phone number is " + phone + "."
+        //     },
+        //     data: {
+        //         type: 'ministryteam_join',
+        //         name: name,
+        //         phone: phone
+        //     }
+        // };
 
         notifications.send(fcmTokens, payload, function(err, response, body) {
             console.log(body);
