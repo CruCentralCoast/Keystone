@@ -1,8 +1,7 @@
 var admin = require("firebase-admin");
-var serviceAccount = require("cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert("cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json"),
   databaseURL: "https://cryptic-cache-161922.firebaseio.com"
 });
 

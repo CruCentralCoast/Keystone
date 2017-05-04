@@ -5,7 +5,8 @@ var async = require('async'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router(),
-    notificationUtils = require('./notificationUtils');
+    notificationUtils = require('./notificationUtils'),
+    fcmUtils = require('./fcmUtils');
 
 var Notification = keystone.list("Notification");
 var model = Notification.model;
@@ -58,12 +59,7 @@ router.route('/push').post(function(req, res) {
             ministries.forEach(function(ministry) {
                 var topic = '/topics/' + ministry._id;
 
-                var payload = {
-                    notification: {
-                        tite: ministry.name,
-                        body: req.body.msg
-                    }
-                }
+                var payload = fcmUtils.createmessage(ministry.name, req.body.ms);
 
                 notificationUtils.send(topic, payload, function(err, response, notification) {
                     if (err)
@@ -113,8 +109,6 @@ router.route('/eventNotification')
 
 // Sets a recurring timer to send scheduled push notifications every minute
 setInterval(function() {
-    var gcm = require('node-gcm');
-
     // Queries a list of unsent messages
     keystone.list('Notification').model.find().where('sent', false).where('time').lte(Date.now()).populate('ministries')
         .exec(function(err, notifications) {
@@ -129,17 +123,9 @@ setInterval(function() {
                         var to = '/topics/' + ministry._id;
 
                         // Sets up the message data
-                        var message = new gcm.Message({
-                            notification: {
-                                message: notification.message,
-                                title: ministry.name
-                            }
-                        });
+                        var message = fcmUtils.createMessage(notification.message, ministry.name);
 
-                        // Sets up the sender based on the APIkey
-                        var sender = new gcm.Sender(gcmAPIKey);
-
-                        sender.send(message, { topic: to }, function (err, response) {
+                        notificationUtils.sendToTopic(to, message, function (err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
@@ -149,7 +135,7 @@ setInterval(function() {
                                 notification.sent = true;
                                 notification.save();
                             }
-                        });
+                        })
                     });
                 });
             }
