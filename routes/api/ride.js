@@ -39,11 +39,11 @@ router.route('/:id')
 			ride.passengers.forEach(function(passenger) {
 				regTokens.push(passenger.gcm_id);
 			});
-            
+
             var message = "You have been dropped from a ride to " + ride.event.name + ".";
-            
+
             var payload = {}; //TODO: add in payload type and other info (if neccessary)
-            
+
             regTokens.forEach(function(token) {
                 notifications.send(token, notificationTitle, message, payload, function(err, response) {
                     if (err) {
@@ -56,7 +56,7 @@ router.route('/:id')
                     }
                 });
             });
-            
+
 			ride.passengers.forEach(function(passenger) {
 				passenger.remove();
 			});
@@ -92,9 +92,9 @@ router.route('/:id/passengers')
 				var regTokens = ride.gcm_id;
 
                 var message = "Passenger " + passenger.name + " has been added to your car.";
-                
+
                 var payload = {} // TODO add info for contact cards
-                
+
                 notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
                     if (err) {
 						console.error(err);
@@ -105,7 +105,7 @@ router.route('/:id/passengers')
                             console.log(response);
 					}
                 });
-                
+
 				ride.save();
 				return res.status(200).json(ride);
 			});
@@ -122,8 +122,8 @@ router.route('/:id/passengers/:passenger_id')
                 async.series([function(cb) {
                         // START: Send Notification to Driver
                         var regTokens = ride.gcm_id;
-                        var message = "Passenger " + passenger.name + " has been dropped from your car.";                
-                        var payload = {}; // TODO I don't think this needs a payload, but who knows               
+                        var message = "Passenger " + passenger.name + " has been dropped from your car.";
+                        var payload = {}; // TODO I don't think this needs a payload, but who knows
                         notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
@@ -139,7 +139,7 @@ router.route('/:id/passengers/:passenger_id')
                     }, function(cb) {
                         // START: Send Notification to Passenger
                         var regTokens = passenger.gcm_id;
-                        var message = "You have been dropped from a ride to " + ride.event.name + ".";              
+                        var message = "You have been dropped from a ride to " + ride.event.name + ".";
                         var payload = {}; //TODO once again i don't THINK this needs anything else
                         notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
                             if (err) {
