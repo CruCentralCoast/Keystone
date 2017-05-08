@@ -15,7 +15,7 @@ router.route('/')
       if (req.query.LeaderAPIKey != leaderAPIKey) {
          params = {"leadersOnly": {"$ne":true}};
       }
-      model.find(params).exec(function(err, items) {
+      model.find(params).sort({createdAt: 'descending'}).exec(function(err, items) {
          if (err) return res.send(err);
          return res.json(items);
       });
