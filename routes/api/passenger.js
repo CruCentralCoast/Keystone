@@ -17,7 +17,15 @@ router.route('/')
 
 router.route('/available')
     .get(function(req, res, next) {
-        var params = {'has_driver': {'$ne': true}, 'event': req.query.eventId};
+        var params = {
+            'event': req.query.eventId,
+            'has_driver': {
+                '$ne': true
+            },
+            'direction': req.query.direction,
+            'gender_pref': req.query.genderPref
+        };
+        
         model.find(params).exec(function(err, passengers) {
 			if (err) return res.send(err);
 			return res.json(passengers);

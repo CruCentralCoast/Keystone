@@ -10,13 +10,13 @@ var Passenger = new keystone.List('Passenger', {
 });
 
 Passenger.add({
-    name: { type: String, initial: true, required: true },
-    phone: { type: String, initial: true, required: true },
-    gcm_id: { type: String },
-    direction: { type: Types.Select, options: 'to, from, both', required: true, initial: true},
-    gender: { type: Types.Select, numeric: true, emptyOption: true, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
-    event: { type: Types.Relationship, ref: 'Event', initial: true, required: true},
-    has_driver: { type: Boolean, initial: false, default: false }
+    name: { label: 'Name', type: String, initial: true, required: true },
+    phone: { label: 'Phone', type: String, initial: true, required: true },
+    gcm_id: { type: String, hidden: true },
+    direction: { label: 'Direction', type: Types.Select, options: 'to, from, both', required: true, initial: true},
+    gender_pref: { label: 'Gender Preference', type: Types.Select, numeric: true, emptyOption: true, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
+    event: { label: 'Event', type: Types.Relationship, ref: 'Event', initial: true, required: true},
+    has_driver: { label: 'Has Driver?', type: Boolean, initial: false, default: false }
 });
 
 Passenger.defaultColumns = 'name, phone, direction';
