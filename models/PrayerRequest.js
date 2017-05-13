@@ -11,7 +11,7 @@ var PrayerRequest = new keystone.List('PrayerRequest', {
 });
 
 PrayerRequest.add({
-   gcm_id: { type: String, required: true, initial: true, hidden: true },
+   fcm_id: { type: String, required: true, initial: true, hidden: true },
    createdAt: { type: Date, default: Date.now, noedit: true },
    leadersOnly: { type: Types.Boolean, noedit: true, initial: true, note: 'Whether the prayer request will only be visible to leaders or will be visible to everyone' },
    genderPreference: { type: Types.Select, options: 'no preference, male, female', initial: true, dependsOn: { leadersOnly: [true] } },
