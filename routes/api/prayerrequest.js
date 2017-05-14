@@ -27,7 +27,7 @@ router.route('/')
 router.route('/fcm_id')
    .get(function(req, res, next) {
       var params = {'fcm_id': req.query.fcm_id};
-      model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).populate('prayerResponse', '-fcm_id').exec(function(err, items) {
+      model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).exec(function(err, items) {
          if (err) return res.send(err);
          return res.json(items);
       });
