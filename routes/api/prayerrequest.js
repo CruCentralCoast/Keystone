@@ -35,12 +35,14 @@ router.route('/fcm_id')
 
 router.route('/:id')
    .get(function(req, res, next) {
-      model.findById(req.params.id).select('-fcm_id').populate('prayerResponse', '-fcm_id').exec(function(err, item) {
+      model.findById(req.params.id).populate('prayerResponse', '-fcm_id').exec(function(err, item) {
          if (err) return res.status(400).send(err);
          if (!item) return res.status(400).send(item);
-         if (item.leadersOnly && req.query.LeaderAPIKey != leaderAPIKey) {
+         if (item.leadersOnly && req.query.LeaderAPIKey && req.query.LeaderAPIKey != leaderAPIKey || req.query.fcm_id && item.fcm_id == req.query.fcm_id) {
             return res.status(403).send('not authorized');
          }
+         item = item.toObject();
+         delete item.fcm_id;
          return res.status(200).json(item);
       });
    });
