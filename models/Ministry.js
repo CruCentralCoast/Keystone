@@ -14,19 +14,25 @@ var Ministry = new keystone.List('Ministry', {
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/ministries';
 
+var s3Storage = new keystone.Storage({
+  adapter: require('keystone-storage-adapter-s3'),
+  s3: {
+    required: false,
+    allowedTypes: imageUtils.allowedTypes,
+    path: s3path,
+    headers: imageUtils.cacheControl,
+    format: imageUtils.formatAdminUIPreview
+  },
+});
 
 Ministry.add({
   name: { type: String, required: true, initial: true },
   description: { type: Types.Textarea, initial: true },
   teams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
   image: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.fileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.fileName
   },
   imageLink: {
     type: Types.Url,
@@ -37,13 +43,9 @@ Ministry.add({
     format: imageUtils.imageLinkFormat
   },
   squareImage: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.squareFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.squareFileName
   },
   squareImageLink: {
     type: Types.Url,
@@ -54,13 +56,9 @@ Ministry.add({
     format: imageUtils.imageLinkFormat
   },
   bannerImage: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.bannerFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.bannerFileName
   },
   bannerImageLink: {
     type: Types.Url,

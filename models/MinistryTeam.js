@@ -14,18 +14,25 @@ var MinistryTeam = new keystone.List('MinistryTeam', {
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/ministry-teams';
 
+var s3Storage = new keystone.Storage({
+  adapter: require('keystone-storage-adapter-s3'),
+  s3: {
+    required: false,
+    allowedTypes: imageUtils.allowedTypes,
+    path: s3path,
+    headers: imageUtils.cacheControl,
+    format: imageUtils.formatAdminUIPreview
+  },
+});
+
 MinistryTeam.add({
   name: { type: String, required: true, initial: true },
   description: { type: Types.Textarea, initial: true },
   parentMinistry: { type: Types.Relationship, ref: 'Ministry', required: true, initial: true },
   image: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.imageFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage,
+    filename: imageUtils.imageFileName
   },
   imageLink: {
     type: Types.Url,
@@ -36,13 +43,9 @@ MinistryTeam.add({
     format: imageUtils.imageLinkFormat
   },
   teamImage: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.teamImageFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage,
+    filename: imageUtils.teamImageFileName
   },
   teamImageLink: {
     type: Types.Url,

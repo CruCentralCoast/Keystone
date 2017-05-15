@@ -13,6 +13,18 @@ var Event = new keystone.List('Event', {
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/events';
+
+var s3Storage = new keystone.Storage({
+  adapter: require('keystone-storage-adapter-s3'),
+  s3: {
+    required: false,
+    allowedTypes: imageUtils.allowedTypes,
+    path: s3path,
+    headers: imageUtils.cacheControl,
+    format: imageUtils.formatAdminUIPreview
+  },
+});
+
 console.log(s3path);
 
 // the separate properties for each imageLink are necessary because in the version of keystone
@@ -22,13 +34,9 @@ Event.add({
 	name: { type: String, required: true, initial: true },
   description: { type: Types.Textarea, initial: true },
   image: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.fileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.fileName
   },
   imageLink: {
     type: Types.Url,
@@ -39,13 +47,9 @@ Event.add({
     format: imageUtils.imageLinkFormat
   },
   squareImage: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.squareFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.squareFileName
   },
   squareImageLink: {
     type: Types.Url,
@@ -56,13 +60,9 @@ Event.add({
     format: imageUtils.imageLinkFormat
   },
   bannerImage: {
-    type: Types.S3File,
-    required: false,
-    allowedTypes: imageUtils.allowedTypes,
-    s3path: s3path,
-    filename: imageUtils.bannerFileName,
-    headers: imageUtils.cacheControl,
-    format: imageUtils.formatAdminUIPreview
+    type: Types.File, 
+    storage: s3Storage, 
+    filename: imageUtils.bannerFileName
   },
   bannerImageLink: {
     type: Types.Url,
@@ -74,8 +74,8 @@ Event.add({
   },
   url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
   location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
-  startDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now, required: true, initial: true },
-  endDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', default: Date.now, required: true, initial: true },
+  startDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', required: true, initial: true },
+  endDate: { type: Types.Datetime, format: 'MMM Do YYYY hh:mm a', required: true, initial: true },
   rideSharing: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
   ministries: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministries is this event for?', many: true },
   notifications: { type: Types.Relationship, ref: 'Notification', label: 'These are the notifications being sent for this event', many: true },

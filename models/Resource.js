@@ -16,6 +16,17 @@ var Resource = new keystone.List('Resource', {
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/resources';
 
+var s3Storage = new keystone.Storage({
+  adapter: require('keystone-storage-adapter-s3'),
+  s3: {
+    required: false,
+    allowedTypes: imageUtils.allowedTypes,
+    path: s3path,
+    headers: imageUtils.cacheControl,
+    format: imageUtils.formatAdminUIPreview
+  },
+});
+
 Resource.add({
 	url: { type: Types.Url, required: true, initial: true },
 	type: { type: Types.Select, emptyOption: false, initial: true, required: true, numeric: false, options: ['article', 'audio', 'video'] },
@@ -25,13 +36,9 @@ Resource.add({
 	description: { type: Types.Textarea, initial: true },
    restricted: { type: Types.Boolean, initial: true, required: true, note: 'Whether the resource is only for leaders' },
    image: {
-   	type: Types.S3File,
-    	required: false,
-   	allowedTypes: imageUtils.allowedTypes,
-    	s3path: s3path,
-		filename: imageUtils.fileName,
-		headers: imageUtils.cacheControl,
-		format: imageUtils.formatAdminUIPreview
+   		type: Types.File, 
+    	storage: s3Storage,
+		filename: imageUtils.fileName
   	},
 	imageLink: {
 		type: Types.Url,
@@ -42,13 +49,9 @@ Resource.add({
 		format: imageUtils.imageLinkFormat
 	},
 	squareImage: {
-		type: Types.S3File,
-		required: false,
-		allowedTypes: imageUtils.allowedTypes,
-		s3path: s3path,
-		filename: imageUtils.squareFileName,
-		headers: imageUtils.cacheControl,
-		format: imageUtils.formatAdminUIPreview
+		type: Types.File, 
+    	storage: s3Storage,
+		filename: imageUtils.squareFileName
 	},
 	squareImageLink: {
 		type: Types.Url,
