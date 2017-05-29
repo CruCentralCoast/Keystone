@@ -17,6 +17,13 @@ router.route('/')
       }
       model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).exec(function(err, items) {
          if (err) return res.send(err);
+         var length = items.length;
+         for (var i = 0; i < length; i++) {
+            var item = items[i].toObject();
+            item.prayerResponseCount = item.prayerResponse.length;
+            delete item.prayerResponse;
+            items[i] = item;
+         }
          return res.json(items);
       });
    })
