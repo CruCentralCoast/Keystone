@@ -3,7 +3,7 @@ var async = require('async'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router();
-    
+
 var notifications = require('./notificationUtils');
 
 var CommunityGroup = keystone.list("CommunityGroup");
@@ -62,7 +62,7 @@ router.route('/:id/leaders')
             return res.json(communitygroup.leaders);
         });
     });
-    
+
 router.route('/:id/ministry')
     .get(function(req, res, next) {
         model.findOne({_id: req.params.id}).populate('ministry').exec(function(err, communitygroup){
@@ -70,16 +70,16 @@ router.route('/:id/ministry')
             return res.json(communitygroup.ministry);
         });
     });
-    
+
 router.route('/:id/join')
     .post(function(req, res, next) {
         var communityGroupId = req.params.id;
         var name = req.body.name;
         var phone = req.body.phone;
-        
+
         model.findById(communityGroupId).populate("leaders").exec(function(err, group) {
             if (err) return res.apiError('failed to join community  group', err);
-        
+
             var leaderInfo = [];
             var regTokens = [];
 
@@ -91,18 +91,21 @@ router.route('/:id/join')
                     phone: leader.phone,
                     email: leader.email
                 });
-                if (leader.gcmId) {
-                    regTokens.push(leader.gcmId);
+                if (leader.fcmId) {
+                    regTokens.push(leader.fcmId);
                 }
             });
-               
+
             var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
-            var payload = {
-                type: 'communitygroup_join',
-                name: name,
-                phone: phone
-            };
-            
+            var payload = fcmUtils.createMessage(name, phone);
+            // {
+            //     data: {
+            //         type: 'communitygroup_join',
+            //         name: name,
+            //         phone: phone
+            //     }
+            // };
+
             regTokens.forEach(function(token) {
                 notifications.send(token, group.name, message, payload, function(err, response, body) {
                     console.log(body);
@@ -111,5 +114,5 @@ router.route('/:id/join')
             res.json(leaderInfo);
         });
     });
-    
+
 module.exports = router;
