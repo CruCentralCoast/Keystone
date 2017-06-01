@@ -12,7 +12,8 @@ var leaderAPIKey = process.env.LEADER_API_KEY;
 router.route('/')
    .get(function(req, res) {
       var params = {};
-      if (req.query.LeaderAPIKey != leaderAPIKey) {
+      var isLeader = req.query.LeaderAPIKey == leaderAPIKey;
+      if (!isLeader) {
          params = {'leadersOnly': {'$ne':true}};
       }
       model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).exec(function(err, items) {
@@ -22,6 +23,14 @@ router.route('/')
             var item = items[i].toObject();
             item.prayerResponseCount = item.prayerResponse.length;
             delete item.prayerResponse;
+            if (!isLeader) {
+               delete item.genderPreference;
+               delete item.contact;
+               delete item.contactLeader;
+               delete item.contacted;
+               delete item.contactEmail;
+               delete item.contactPhone;
+            }
             items[i] = item;
          }
          return res.json(items);
@@ -45,13 +54,31 @@ router.route('/:id')
       model.findById(req.params.id).populate('prayerResponse', '-fcm_id').exec(function(err, item) {
          if (err) return res.status(400).send(err);
          if (!item) return res.status(400).send(item);
-         if (item.leadersOnly && req.query.LeaderAPIKey && req.query.LeaderAPIKey != leaderAPIKey || req.query.fcm_id && item.fcm_id == req.query.fcm_id) {
+         var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
+         if (item.leadersOnly && !isLeader || req.query.fcm_id && item.fcm_id != req.query.fcm_id) {
             return res.status(403).send('not authorized');
          }
          item = item.toObject();
          delete item.fcm_id;
+         if (!isLeader) {
+            delete item.genderPreference;
+            delete item.contact;
+            delete item.contactLeader;
+            delete item.contacted;
+            delete item.contactEmail;
+            delete item.contactPhone;
+         }
          return res.status(200).json(item);
       });
+   })
+   .patch(function(req, res, next) {
+      var isLeader = req.body.LeaderAPIKey == leaderAPIKey;
+      if (isLeader) {
+         restUtils.update(model, req, res);
+      }
+      else {
+         return res.status(403).send('not authorized');
+      }
    });
 
 module.exports = router;

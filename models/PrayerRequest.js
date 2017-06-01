@@ -1,5 +1,6 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
+var validators = require('mongoose-validators');
 
 /**
  * PrayerRequest Model
@@ -18,7 +19,8 @@ PrayerRequest.add({
    contact: { type: Types.Boolean, noedit: true, initial: true, dependsOn: { leadersOnly: [true] }, note: 'Whether the author would like to be personally contacted by a leader' },
    contactLeader: { type: Types.Relationship, ref: 'User', dependsOn: { contact: [true] } },
    contacted: { type: Types.Boolean, dependsOn: { contact: [true] }, note: 'Whether the author has been personally contacted by the Contact Leader' },
-   contactInfo: { type: String, initial: true, dependsOn: { contact: [true] } },
+   contactEmail: { type: Types.Email, initial: true, dependsOn: { contact: [true] } },
+   contactPhone: { type: String, initial: true, dependsOn: { contact: [true] }, validate: [validators.isNumeric(), validators.isLength(10)] },
    prayerResponse: { type: Types.Relationship, ref: 'PrayerResponse', many: true },
    prayer: { type: String, required: true, initial: true, noedit: true }
 });
