@@ -55,7 +55,7 @@ router.route('/:id')
          if (err) return res.status(400).send(err);
          if (!item) return res.status(400).send(item);
          var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
-         if (item.leadersOnly && !isLeader || req.query.fcm_id && item.fcm_id != req.query.fcm_id) {
+         if (item.leadersOnly && !isLeader && req.query.fcm_id && item.fcm_id != req.query.fcm_id) {
             return res.status(403).send('not authorized');
          }
          item = item.toObject();
