@@ -106,7 +106,7 @@ router.route('/:id/passengers')
 					}
                 });
 
-                passenger.set({ hasDriver: true });
+                passenger.set({ has_driver: true });
                 passenger.save();
 
 				ride.save();
@@ -157,7 +157,7 @@ router.route('/:id/passengers/:passenger_id')
                         });
                         // END: Send Notification to Passenger
                     }]);
-				keystone.list("Passenger").model.remove(passenger);
+				passenger.remove();
 				ride.save();
 				return res.json(ride);
 			});
