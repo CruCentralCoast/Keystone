@@ -22,10 +22,9 @@ router.route('/available')
             'has_driver': {
                 '$ne': true
             },
-            'direction': req.query.direction,
             'gender_pref': req.query.genderPref
         };
-        
+
         model.find(params).exec(function(err, passengers) {
 			if (err) return res.send(err);
 			return res.json(passengers);
