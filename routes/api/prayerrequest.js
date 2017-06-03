@@ -4,9 +4,8 @@ var async = require('async'),
    express = require('express'),
    router = express.Router();
 
-var PrayerRequest = keystone.list('PrayerRequest');
-var model = PrayerRequest.model;
-
+var model = keystone.list('PrayerRequest').model;
+var userModel = keystone.list('User').model;
 var leaderAPIKey = process.env.LEADER_API_KEY;
 
 router.route('/')
@@ -14,31 +13,43 @@ router.route('/')
       var params = {};
       var isLeader = req.query.LeaderAPIKey == leaderAPIKey;
       if (!isLeader) {
-         params = {'leadersOnly': {'$ne':true}};
+         //remove leaders only prayer requests if not a leader
+         params = { 'leadersOnly': {'$ne':true} };
+         getAllPrayerRequests(res, '-fcm_id -genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone', params);
       }
-      model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).exec(function(err, items) {
-         if (err) return res.send(err);
-         var length = items.length;
-         for (var i = 0; i < length; i++) {
-            var item = items[i].toObject();
-            item.prayerResponseCount = item.prayerResponse.length;
-            delete item.prayerResponse;
-            if (!isLeader) {
-               delete item.genderPreference;
-               delete item.contact;
-               delete item.contactLeader;
-               delete item.contacted;
-               delete item.contactEmail;
-               delete item.contactPhone;
+      else {
+         //filter out gender preferred prayer requests depending on the gender of the leader
+         var removeMale = { 'genderPreference': {'$ne':1} };
+         var removeFemale = { 'genderPreference': {'$ne':2} };
+         userModel.findById(req.query.userId).exec(function(err, item) {
+            if (item) {
+               if (item.sex == 1) {
+                  removeMale = {};
+               }
+               else if (item.sex == 2) {
+                  removeFemale = {};
+               }
             }
-            items[i] = item;
-         }
-         return res.json(items);
-      });
+            params = { $and: [ removeMale, removeFemale ] };
+            getAllPrayerRequests(res, '-fcm_id', params);
+         });
+      }
    })
    .post(function(req, res, next) {
       restUtils.create(model, req, res);
    });
+
+function getAllPrayerRequests(res, fields, params) {
+   model.find(params).select(fields).sort({createdAt: 'descending'}).exec(function(err, items) {
+      if (err) return res.send(err);
+      items.forEach(function(item) {
+         item = item.toObject();
+         item.prayerResponseCount = item.prayerResponse.length;
+         delete item.prayerResponse;
+      });
+      return res.json(items);
+   });
+}
 
 router.route('/fcm_id')
    .get(function(req, res, next) {
@@ -51,24 +62,16 @@ router.route('/fcm_id')
 
 router.route('/:id')
    .get(function(req, res, next) {
-      model.findById(req.params.id).populate('prayerResponse', '-fcm_id').exec(function(err, item) {
+      var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
+      model.findById(req.params.id).select(isLeader ? '' : '-genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone').populate('prayerResponse', '-fcm_id').exec(function(err, item) {
          if (err) return res.status(400).send(err);
          if (!item) return res.status(400).send(item);
-         var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
          var isAuthor = req.query.fcm_id && req.query.fcm_id == item.fcm_id;
          if (item.leadersOnly && !isLeader && !isAuthor) {
             return res.status(403).send('not authorized');
          }
          item = item.toObject();
          delete item.fcm_id;
-         if (!isLeader) {
-            delete item.genderPreference;
-            delete item.contact;
-            delete item.contactLeader;
-            delete item.contacted;
-            delete item.contactEmail;
-            delete item.contactPhone;
-         }
          return res.status(200).json(item);
       });
    })
