@@ -105,6 +105,9 @@ router.route('/:id/passengers')
                             console.log(response);
 					}
                 });
+                
+                passenger.hasDriver = true;
+                passenger.save();
 
 				ride.save();
 				return res.status(200).json(ride);
