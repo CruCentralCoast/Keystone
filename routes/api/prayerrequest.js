@@ -42,11 +42,13 @@ router.route('/')
 function getAllPrayerRequests(res, fields, params) {
    model.find(params).select(fields).sort({createdAt: 'descending'}).exec(function(err, items) {
       if (err) return res.send(err);
-      items.forEach(function(item) {
-         item = item.toObject();
+      var length = items.length;
+      for (var i = 0; i < length; i++) {
+         var item = items[i].toObject();
          item.prayerResponseCount = item.prayerResponse.length;
          delete item.prayerResponse;
-      });
+         items[i] = item;
+      }
       return res.json(items);
    });
 }
