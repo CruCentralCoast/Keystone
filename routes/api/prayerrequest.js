@@ -7,6 +7,8 @@ var async = require('async'),
 var model = keystone.list('PrayerRequest').model;
 var userModel = keystone.list('User').model;
 var leaderAPIKey = process.env.LEADER_API_KEY;
+var leaderFields = '-fcm_id';
+var nonLeaderFields = '-fcm_id -genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone';
 
 router.route('/')
    .get(function(req, res) {
@@ -15,7 +17,7 @@ router.route('/')
       if (!isLeader) {
          //remove leaders only prayer requests if not a leader
          params = { 'leadersOnly': {'$ne':true} };
-         getAllPrayerRequests(res, '-fcm_id -genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone', params);
+         getAllPrayerRequests(res, nonLeaderFields, params);
       }
       else {
          //filter out gender preferred prayer requests depending on the gender of the leader
@@ -31,7 +33,7 @@ router.route('/')
                }
             }
             params = { $and: [ removeMale, removeFemale ] };
-            getAllPrayerRequests(res, '-fcm_id', params);
+            getAllPrayerRequests(res, leaderFields, params);
          });
       }
    })
@@ -61,7 +63,8 @@ function formatPrayerResponses(items) {
 router.route('/fcm_id')
    .get(function(req, res, next) {
       var params = {'fcm_id': req.query.fcm_id};
-      model.find(params).select('-fcm_id').sort({createdAt: 'descending'}).exec(function(err, items) {
+      var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
+      model.find(params).select(isLeader ? leaderFields : nonLeaderFields).sort({createdAt: 'descending'}).exec(function(err, items) {
          if (err) return res.send(err);
          items = formatPrayerResponses(items);
          return res.json(items);
