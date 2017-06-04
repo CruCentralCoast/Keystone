@@ -12,10 +12,12 @@ var leaderAPIKey = process.env.LEADER_API_KEY;
 
 router.route('/')
    .post(function(req, res, next) {
-      reqModel.findById(req.body.prayerRequestId).select('-fcm_id').exec(function(err, prayerrequest) {
+      reqModel.findById(req.body.prayerRequestId).select().exec(function(err, prayerrequest) {
          if (err) return res.status(400).send(err);
          if (!prayerrequest) return res.status(400).send(prayerrequest);
-         if (prayerrequest.leadersOnly && req.query.LeaderAPIKey != leaderAPIKey) {
+         var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
+         var isAuthor = req.query.fcm_id && req.query.fcm_id == prayerrequest.fcm_id;
+         if (prayerrequest.leadersOnly && !isLeader && !isAuthor) {
             return res.status(403).send('not authorized');
          }
          model.create(req.body, function(err, prayerresponse) {
