@@ -67,7 +67,14 @@ router.route('/:id')
 
 router.route('/search')
 	.post(function(req, res, next) {
-		restUtils.search(model, req, res);
+        model.find(req.body.conditions, req.body.projection, req.body.options, function(err, rides) {
+           if (err) return res.send(err);
+
+           var filteredRides = rides.filter(function(ride) {
+               return ride.passengers.length < ride.seats;
+           });
+           return res.json(filteredRides);
+        });
 	});
 
 router.route('/enumValues/:key')
