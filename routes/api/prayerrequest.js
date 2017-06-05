@@ -90,7 +90,21 @@ router.route('/:id')
    .patch(function(req, res, next) {
       var isLeader = req.body.LeaderAPIKey == leaderAPIKey;
       if (isLeader) {
-         restUtils.update(model, req, res);
+         model.findById(req.params.id).exec(function(err, item) {
+        
+            if (err) return res.send(err);
+            if (!item) return res.send('not found');
+            
+            item.getUpdateHandler(req).process(req.body, function(err) {
+                
+               if (err) return res.send(err);
+               model.populate(item, [{path:'contactLeader', select:'name'}], function(err, popItem) {
+                  return res.status(200).json(popItem);
+               });
+               
+            });
+        
+        });
       }
       else {
          return res.status(403).send('not authorized');
