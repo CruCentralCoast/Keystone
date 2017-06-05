@@ -99,7 +99,8 @@ router.route('/:id')
             item.getUpdateHandler(req).process(req.body, function(err) {
                 
                if (err) return res.send(err);
-               model.populate(item, [{path:'contactLeader', select:'name'}], function(err, popItem) {
+               var populateFields = [{path:'prayerResponse', select:'-fcm_id'}, {path:'contactLeader', select:'name'}];
+               model.populate(item, populateFields, function(err, popItem) {
                   return res.status(200).json(popItem);
                });
                
