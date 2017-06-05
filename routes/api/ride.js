@@ -36,9 +36,12 @@ router.route('/:id')
 
             // START: Send Notification to Passengers
 			var regTokens = [];
-			ride.passengers.forEach(function(passenger) {
-				regTokens.push(passenger.gcm_id);
-			});
+
+            if (ride.passengers) {
+    			ride.passengers.forEach(function(passenger) {
+    				regTokens.push(passenger.gcm_id);
+    			});
+            }
 
             var message = "You have been dropped from a ride to " + ride.event.name + ".";
 
