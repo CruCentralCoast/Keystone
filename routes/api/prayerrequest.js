@@ -42,7 +42,7 @@ router.route('/')
    });
 
 function getAllPrayerRequests(res, fields, params) {
-   model.find(params).select(fields).sort({createdAt: 'descending'}).exec(function(err, items) {
+   model.find(params).select(fields).populate('contactLeader', 'name').sort({createdAt: 'descending'}).exec(function(err, items) {
       if (err) return res.send(err);
       items = formatPrayerResponses(items);
       return res.json(items);
@@ -74,7 +74,8 @@ router.route('/fcm_id')
 router.route('/:id')
    .get(function(req, res, next) {
       var isLeader = req.query.LeaderAPIKey && req.query.LeaderAPIKey == leaderAPIKey;
-      model.findById(req.params.id).select(isLeader ? '' : '-genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone').populate('prayerResponse', '-fcm_id').exec(function(err, item) {
+      var populateFields = [{path:'prayerResponse', select:'-fcm_id'}, {path:'contactLeader', select:'name'}];
+      model.findById(req.params.id).select(isLeader ? '' : nonLeaderFields).populate(populateFields).exec(function(err, item) {
          if (err) return res.status(400).send(err);
          if (!item) return res.status(400).send(item);
          var isAuthor = req.query.fcm_id && req.query.fcm_id == item.fcm_id;
