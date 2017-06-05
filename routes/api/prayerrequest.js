@@ -90,7 +90,20 @@ router.route('/:id')
    .patch(function(req, res, next) {
       var isLeader = req.body.LeaderAPIKey == leaderAPIKey;
       if (isLeader) {
-         restUtils.update(model, req, res);
+         var populateFields = [{path:'prayerResponse', select:'-fcm_id'}, {path:'contactLeader', select:'name'}];
+         model.findById(req.params.id).select('-fcm_id').populate(populateFields).exec(function(err, item) {
+        
+            if (err) return res.send(err);
+            if (!item) return res.send('not found');
+            
+            item.getUpdateHandler(req).process(req.body, function(err) {
+                
+                if (err) return res.send(err);
+                
+                return res.status(200).json(item);
+            });
+        
+        });
       }
       else {
          return res.status(403).send('not authorized');
