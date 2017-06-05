@@ -8,7 +8,7 @@ var model = keystone.list('PrayerRequest').model;
 var userModel = keystone.list('User').model;
 var leaderAPIKey = process.env.LEADER_API_KEY;
 var leaderFields = '-fcm_id';
-var nonLeaderFields = '-fcm_id -genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone';
+var nonLeaderFields = '-genderPreference -contact -contactLeader -contacted -contactEmail -contactPhone';
 
 router.route('/')
    .get(function(req, res) {
@@ -55,6 +55,7 @@ function formatPrayerResponses(items) {
       var item = items[i].toObject();
       item.prayerResponseCount = item.prayerResponse.length;
       delete item.prayerResponse;
+      delete item.fcm_id;
       items[i] = item;
    }
    return items;
