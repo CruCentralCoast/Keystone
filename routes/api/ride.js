@@ -60,9 +60,11 @@ router.route('/:id')
                 });
             });
 
-			ride.passengers.forEach(function(passenger) {
-				passenger.remove();
-			});
+            if (ride.passengers) {
+    			ride.passengers.forEach(function(passenger) {
+    				passenger.remove();
+    			});
+            }
 			ride.remove();
 			return res.status(204).json();
 		});
