@@ -2,9 +2,11 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 var ResourcePage = new keystone.List('ResourcePage', {
-	autokey: { from: 'title', path: 'slug', unique: true },
-  map: {name: 'title'},
-  defaultSort: '-createdAt'
+	map: {name: 'title'},
+	autokey: { path: 'slug', from: 'title', unique: true },
+	singular: 'ResourcePage',
+	plural: 'ResourcePages',
+  	defaultSort: '-createdAt'
 });
 
 ResourcePage.add({
