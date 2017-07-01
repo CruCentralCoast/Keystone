@@ -1,7 +1,7 @@
 # Slocru Keystone
 This is a rewrite of the Cru Central Coast website, using [`keystone.js`](http://keystonejs.com), among other things.
 
-In this project, [Jade](http://jade-lang.com/) is used for HTML templating and [Stylus](https://learnboost.github.io/stylus/) is used for CSS templating.
+In this project, [Jade](http://jadelang.net/) is used for HTML templating and [Stylus](https://learnboost.github.io/stylus/) is used for CSS templating.
 
 # Notes to Capstone class
 
