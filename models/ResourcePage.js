@@ -14,9 +14,7 @@ ResourcePage.add({
 	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
 	author: { type: Types.Text, index: true },
 	publishedDate: { type: Types.Date, index: true },
-	content: {
-		type: Types.Html, wysiwyg: true, height: 350
-	},
+	content: { type: Types.Html, wysiwyg: true, height: 350 },
 	tags: { type: Types.Relationship, ref: 'ResourceTag', many: true }
 });
 
