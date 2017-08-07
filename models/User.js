@@ -2,6 +2,7 @@ var async = require('async');
 var crypto = require('crypto');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
+var imageUtils = require('./utils/ImageUtils');
 var validators = require('mongoose-validators');
 
 /**
@@ -10,38 +11,58 @@ var validators = require('mongoose-validators');
  */
 
 var User = new keystone.List('User', {
-   track: true,
-   autokey: { path: 'key', from: 'name', unique: true }
+    track: true,
+    autokey: { path: 'key', from: 'name', unique: true }
 });
 
+var s3path = process.env.IMAGE_ROOT_PATH + '/users';
+
 User.add({
-   name: { type: Types.Name, required: true, index: true },
-   email: { type: Types.Email, required: true, initial: true, index: true },
-   phone: { type: String, initial: true, index: true , validate: [validators.isNumeric(), validators.isLength(10)]},
-   password: { type: Types.Password, initial: true },
-   resetPasswordKey: { type: String, hidden: true }
+    name: { type: Types.Name, required: true, index: true },
+    email: { type: Types.Email, required: true, initial: true, index: true },
+    phone: { type: String, initial: true, index: true , validate: [validators.isNumeric(), validators.isLength(10)]},
+    password: { type: Types.Password, initial: true },
+    resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {
-   isPublic: { type: Boolean, default: true , label: 'Info is okay to be publicly displayed' },
-   isStaff: { type: Boolean, default: false, label: 'Is on Staff With Cru' },
-   isCommunityGroupLeader: { type: Boolean, default: false, label: 'Is a community group leader' },
-   isMinistryTeamLeader: { type: Boolean, default: false, label: 'Is a ministry team leader' },
-   isSummerMissionLeader: { type: Boolean, default: false, label: 'Is a summer mission leader' },
-   // this conforms to ISO/IEC 5218, which is why the options are what they are.
-   sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
-   schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
-   ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
-   summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
-   gcmId: { type: String }
-	// communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
+    image: {
+        type: Types.S3File,
+        required: false,
+        allowedTypes: imageUtils.allowedTypes,
+        s3path: s3path,
+        filename: imageUtils.fileName,
+        headers: imageUtils.cacheControl,
+        format: imageUtils.formatAdminUIPreview
+    },
+    imageLink: {
+        type: Types.Url,
+        hidden: false,
+        noedit: true,
+        watch: true,
+        value: imageUtils.imageLinkValue,
+        format: imageUtils.imageLinkFormat
+    },
+    isPublic: { type: Boolean, default: true , label: 'Info is okay to be publicly displayed' },
+    isStaff: { type: Boolean, default: false, label: 'Is on Staff With Cru' },
+    staffRole: { type: Types.Select, options: 'MTL, Staff, Intern', default: 'Staff', dependsOn: {isStaff: true}, required: true},
+    isCommunityGroupLeader: { type: Boolean, default: false, label: 'Is a community group leader' },
+    isMinistryTeamLeader: { type: Boolean, default: false, label: 'Is a ministry team leader' },
+    isSummerMissionLeader: { type: Boolean, default: false, label: 'Is a summer mission leader' },
+    // this conforms to ISO/IEC 5218, which is why the options are what they are.
+    sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
+    schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
+    ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
+    summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
+    gcmId: { type: String }
+    // communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
-   notifications: {
-      ministryTeamUpdates: { type: Boolean, default: true },
-      communityGroupUpdates: { type: Boolean, default: true },
-      summerMissionUpdates: { type: Boolean, default: true }
-   }
+    notifications: {
+        ministryTeamUpdates: { type: Boolean, default: true },
+        communityGroupUpdates: { type: Boolean, default: true },
+        summerMissionUpdates: { type: Boolean, default: true }
+    }
 }, 'Permissions', {
-   isAdmin: { type: Boolean, default: false, label: 'Can administer the website' },
-   isVerified: { type: Boolean, default: false, label: 'Has a verified email address' }
+    isAdmin: { type: Boolean, default: false, label: 'Can administer the website' },
+    isVerified: { type: Boolean, default: false, label: 'Has a verified email address' }
 });
 
 
