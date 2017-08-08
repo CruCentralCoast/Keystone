@@ -103,4 +103,4 @@ keystone.set('nav', {
 // Start Keystone to connect to your database and initialise the web server
 
 keystone.start();
-console.log("If server doesn't start within a minute make sure you are using Node 6.9.5");
+console.log("If server doesn't start within a minute make sure you are using Node 6");
