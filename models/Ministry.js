@@ -8,8 +8,8 @@ var imageUtils = require('./utils/ImageUtils');
  */
 
 var Ministry = new keystone.List('Ministry', {
-  map: { name: 'name' },
-  autokey: { path: 'slug', from: 'name', unique: true }
+    map: { name: 'name' },
+    autokey: { path: 'slug', from: 'name', unique: true }
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/ministries';

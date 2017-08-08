@@ -67,14 +67,17 @@ router.route('/:id/campus')
 // Filters out valid groups based on MinistryQuestionAnswers
 function getValidGroups(groups, answers)
 {
-    console.log(groups);
     var valid_groups = [];
     groups.forEach(function(group) {
         if (group.answers) 
         {
             var valid = true;
-            answers.forEach(function(answer) {
-                if (valid && group.answers[answer.question] != answer.value) {
+            // The dictionary of answers-value pairs got converted into two lists of answers and values for some reason,
+            // so there should only be 1 entry, which contains two lists.
+            answers[0].value.forEach(function(v, i) {
+                var questionId = answers[0].question[i];
+                
+                if (valid && group.answers[questionId] != v) {
                     valid = false;
                 }
             });
@@ -131,6 +134,7 @@ router.route('/:id/communitygroups')
                     // Checks to see if all groups have been iterated through
                     if (++count == groups.length) {
                         valid_groups = getValidGroups(groups, req.body.answers);
+                        console.log(valid_groups);
                         return res.json(valid_groups);
                     }
                 });

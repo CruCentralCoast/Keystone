@@ -8,8 +8,8 @@ var imageUtils = require('./utils/ImageUtils');
  */
 
 var Event = new keystone.List('Event', {
-  map: { name: 'name' },
-  autokey: { path: 'slug', from: 'name', unique: true }
+    map: { name: 'name' },
+    autokey: { path: 'slug', from: 'name', unique: true }
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/events';
@@ -80,8 +80,8 @@ Event.add({
   ministries: { type: Types.Relationship, ref: 'Ministry', label: 'Which ministries is this event for?', many: true },
   notifications: { type: Types.Relationship, ref: 'Notification', label: 'These are the notifications being sent for this event', many: true },
 }, 'Display Options', {
-  displayOnWebsite: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the website?' },
-  displayOnApp: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the app?' }
+    displayOnWebsite: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the website?' },
+    displayOnApp: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the app?' }
 });
 
 Event.defaultColumns = 'name, location, startDate, endDate, imageLink';

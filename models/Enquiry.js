@@ -3,7 +3,7 @@ var Types = keystone.Field.Types;
 
 var Enquiry = new keystone.List('Enquiry', {
 	nocreate: true,
-  hidden: true
+  	hidden: true
 });
 
 Enquiry.add({
