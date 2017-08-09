@@ -36,14 +36,17 @@ router.route('/:id')
 
             // START: Send Notification to Passengers
 			var regTokens = [];
-			ride.passengers.forEach(function(passenger) {
-				regTokens.push(passenger.gcm_id);
-			});
-            
+
+            if (ride.passengers) {
+    			ride.passengers.forEach(function(passenger) {
+    				regTokens.push(passenger.gcm_id);
+    			});
+            }
+
             var message = "You have been dropped from a ride to " + ride.event.name + ".";
-            
+
             var payload = {}; //TODO: add in payload type and other info (if neccessary)
-            
+
             regTokens.forEach(function(token) {
                 notifications.send(token, notificationTitle, message, payload, function(err, response) {
                     if (err) {
@@ -56,10 +59,12 @@ router.route('/:id')
                     }
                 });
             });
-            
-			ride.passengers.forEach(function(passenger) {
-				passenger.remove();
-			});
+
+            if (ride.passengers) {
+    			ride.passengers.forEach(function(passenger) {
+    				passenger.remove();
+    			});
+            }
 			ride.remove();
 			return res.status(204).json();
 		});
@@ -67,7 +72,14 @@ router.route('/:id')
 
 router.route('/search')
 	.post(function(req, res, next) {
-		restUtils.search(model, req, res);
+        model.find(req.body.conditions, req.body.projection, req.body.options, function(err, rides) {
+           if (err) return res.send(err);
+
+           var filteredRides = rides.filter(function(ride) {
+               return ride.passengers.length < ride.seats;
+           });
+           return res.json(filteredRides);
+        });
 	});
 
 router.route('/enumValues/:key')
@@ -92,9 +104,9 @@ router.route('/:id/passengers')
 				var regTokens = ride.gcm_id;
 
                 var message = "Passenger " + passenger.name + " has been added to your car.";
-                
+
                 var payload = {} // TODO add info for contact cards
-                
+
                 notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
                     if (err) {
 						console.error(err);
@@ -105,7 +117,10 @@ router.route('/:id/passengers')
                             console.log(response);
 					}
                 });
-                
+
+                passenger.set({ has_driver: true });
+                passenger.save();
+
 				ride.save();
 				return res.status(200).json(ride);
 			});
@@ -122,8 +137,8 @@ router.route('/:id/passengers/:passenger_id')
                 async.series([function(cb) {
                         // START: Send Notification to Driver
                         var regTokens = ride.gcm_id;
-                        var message = "Passenger " + passenger.name + " has been dropped from your car.";                
-                        var payload = {}; // TODO I don't think this needs a payload, but who knows               
+                        var message = "Passenger " + passenger.name + " has been dropped from your car.";
+                        var payload = {}; // TODO I don't think this needs a payload, but who knows
                         notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
@@ -139,7 +154,7 @@ router.route('/:id/passengers/:passenger_id')
                     }, function(cb) {
                         // START: Send Notification to Passenger
                         var regTokens = passenger.gcm_id;
-                        var message = "You have been dropped from a ride to " + ride.event.name + ".";              
+                        var message = "You have been dropped from a ride to " + ride.event.name + ".";
                         var payload = {}; //TODO once again i don't THINK this needs anything else
                         notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
                             if (err) {
@@ -154,7 +169,7 @@ router.route('/:id/passengers/:passenger_id')
                         });
                         // END: Send Notification to Passenger
                     }]);
-				keystone.list("Passenger").model.remove(passenger);
+				passenger.remove();
 				ride.save();
 				return res.json(ride);
 			});

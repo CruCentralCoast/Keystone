@@ -96,6 +96,7 @@ keystone.set('nav', {
    'users': 'users',
    'notifications' : 'notifications',
    'ride sharing' : ['rides', 'passengers'],
+   'prayers' : ['prayer-requests', 'prayer-responses'],
    'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
    'data' : ['events', 'resources', 'resource-pages', 'resource-tags', 'summer-missions']
 });

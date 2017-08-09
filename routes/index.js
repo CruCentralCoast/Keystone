@@ -43,6 +43,8 @@ var ministries = require('./api/ministry');
 var summermissions = require('./api/summermission');
 var notifications = require('./api/notification');
 var gcm = require('./api/gcm');
+var prayerRequests = require('./api/prayerrequest');
+var prayerResponses = require('./api/prayerresponse');
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -126,4 +128,6 @@ exports = module.exports = function(app) {
    app.use('/api/summermissions', summermissions);
    app.use('/api/notifications', notifications);
    app.use('/api/gcm', gcm);
+   app.use('/api/prayerrequest', prayerRequests);
+   app.use('/api/prayerresponse', prayerResponses);
 };
