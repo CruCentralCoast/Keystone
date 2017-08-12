@@ -5,7 +5,7 @@ function update_phones(cb) {
     User.find().exec(function(err, users) {
         users.forEach(function(user) {
             var phone = String(user.phone);
-            user.phone = "temp";
+            user.phone = "1231231234";
 
             user.save(function(err, user) {
                 if (err) {

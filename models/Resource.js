@@ -23,11 +23,11 @@ Resource.add({
 	title: { type: Types.Text, initial: true, required: true },
 	author: {type: Types.Text, initial: true, required: true },
 	description: { type: Types.Textarea, initial: true },
-   restricted: { type: Types.Boolean, initial: true, required: true, note: 'Whether the resource is only for leaders' },
-   image: {
-   	type: Types.S3File,
+   	restricted: { type: Types.Boolean, initial: true, required: true, note: 'Whether the resource is only for leaders' },
+   	image: {
+   		type: Types.S3File,
     	required: false,
-   	allowedTypes: imageUtils.allowedTypes,
+   		allowedTypes: imageUtils.allowedTypes,
     	s3path: s3path,
 		filename: imageUtils.fileName,
 		headers: imageUtils.cacheControl,
