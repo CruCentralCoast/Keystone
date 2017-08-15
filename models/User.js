@@ -52,7 +52,7 @@ User.add({
     schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
     ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
     summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
-    gcmId: { type: String }
+    fcmId: { type: String }
     // communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
     notifications: {

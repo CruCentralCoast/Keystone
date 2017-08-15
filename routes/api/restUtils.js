@@ -6,7 +6,7 @@ module.exports = {
            return res.json(item);
         });
     },
-    
+
     // used for queries
     find : function(model, req, res) {
         var data = (req.method == 'POST') ? req.body : req.query;
@@ -57,26 +57,26 @@ module.exports = {
     create : function(model, req, res) {
         model.create(req.body, function(err, item) {
     		if (err) return res.status(400).send(err);
-    		return res.status(201).json(item);
+    		return res.status(200).json(item);
     	});
     },
 
     //updates the model based on input
     update : function(model, req, res) {
         model.findById(req.params.id).exec(function(err, item) {
-        
+
             if (err) return res.send(err);
             if (!item) return res.send('not found');
-            
+
             item.getUpdateHandler(req).process(req.body, function(err) {
-                
+
                 if (err) return res.send(err);
-                
+
                 return res.status(200).json(item);
             });
-        
+
         });
-    },    
+    },
 
     enumValues : function(model, req, res) {
         var path = model.schema.path(req.params.key);
