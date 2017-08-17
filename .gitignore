@@ -84,3 +84,5 @@ fabric.properties
 ### Intellij Patch ###
 *.iml
 
+# Firebase Admin Files
+cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json

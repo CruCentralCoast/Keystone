@@ -1,16 +1,13 @@
 var async = require('async'),
 	keystone = require('keystone'),
-    gcm = require('node-gcm'),
     restUtils = require('./restUtils'),
-    gcmUtils = require('./gcmUtils'),
 	express = require('express'),
 	router = express.Router();
 
 var notifications = require("./notificationUtils");
+var fcmUtils = require("./fcmUtils");
 
 var model = keystone.list("Ride").model;
-
-var gcmAPIKey = process.env.GCM_API_KEY;
 
 var notificationTitle = "Cru Ride Sharing";
 
@@ -35,28 +32,26 @@ router.route('/:id')
 			success = true;
 
             // START: Send Notification to Passengers
-			var regTokens = [];
+			var fcmTokens = [];
 			ride.passengers.forEach(function(passenger) {
-				regTokens.push(passenger.gcm_id);
+				fcmTokens.push(passenger.fcm_id);
 			});
-            
-            var message = "You have been dropped from a ride to " + ride.event.name + ".";
-            
-            var payload = {}; //TODO: add in payload type and other info (if neccessary)
-            
-            regTokens.forEach(function(token) {
-                notifications.send(token, notificationTitle, message, payload, function(err, response) {
-                    if (err) {
-                        console.error(err);
-                        success = false;
-                    }
-                    else {
-                        if (!process.env.TESTING)
-                            console.log(response);
-                    }
-                });
+
+            var payload = fcmUtils.createMessage(
+                notificationTitle,
+                "You have been dropped from a ride to " + ride.event.name + ".");
+
+            notifications.send(fcmTokens, payload, function(err, response) {
+                if (err) {
+                    console.error(err);
+                    success = false;
+                }
+                else {
+                    if(!process.env.TESTING)
+                        console.log(response);
+                }
             });
-            
+
 			ride.passengers.forEach(function(passenger) {
 				passenger.remove();
 			});
@@ -67,7 +62,14 @@ router.route('/:id')
 
 router.route('/search')
 	.post(function(req, res, next) {
-		restUtils.search(model, req, res);
+        model.find(req.body.conditions, req.body.projection, req.body.options, function(err, rides) {
+           if (err) return res.send(err);
+
+           var filteredRides = rides.filter(function(ride) {
+               return ride.passengers.length < ride.seats;
+           });
+           return res.json(filteredRides);
+        });
 	});
 
 router.route('/enumValues/:key')
@@ -89,23 +91,22 @@ router.route('/:id/passengers')
 				if (ride.passengers.indexOf(req.body.passenger_id) == -1)
 					ride.passengers.push(req.body.passenger_id);
 
-				var regTokens = ride.gcm_id;
+				var fcmToken = ride.fcm_id;
 
-                var message = "Passenger " + passenger.name + " has been added to your car.";
-                
-                var payload = {} // TODO add info for contact cards
-                
-                notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
+                var payload = fcmUtils.createmessage(ride.event.name,
+                    "Passenger " + passenger.name + " has been added to your car.");
+
+                notifications.send(fcmToken, payload, function(err, response) {
                     if (err) {
-						console.error(err);
-						success = false;
-					}
-					else {
+                        console.error(err);
+                        success = false;
+                    }
+                    else {
                         if(!process.env.TESTING)
                             console.log(response);
-					}
+                    }
                 });
-                
+
 				ride.save();
 				return res.status(200).json(ride);
 			});
@@ -121,10 +122,12 @@ router.route('/:id/passengers/:passenger_id')
 
                 async.series([function(cb) {
                         // START: Send Notification to Driver
-                        var regTokens = ride.gcm_id;
-                        var message = "Passenger " + passenger.name + " has been dropped from your car.";                
-                        var payload = {}; // TODO I don't think this needs a payload, but who knows               
-                        notifications.send(regTokens, ride.event.name, message, payload, function(err, response) {
+                        var fcmToken = ride.fcm_id;
+                        var payload = fcmUtils.createMessage(
+                            ride.event.name,
+                            "Passenger " + passenger.name + " has been dropped from your car.");
+
+                        notifications.send(fcmToken, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
@@ -138,10 +141,11 @@ router.route('/:id/passengers/:passenger_id')
                         // END: Send Notification to Driver
                     }, function(cb) {
                         // START: Send Notification to Passenger
-                        var regTokens = passenger.gcm_id;
-                        var message = "You have been dropped from a ride to " + ride.event.name + ".";              
-                        var payload = {}; //TODO once again i don't THINK this needs anything else
-                        notifications.send(regTokens, notificationTitle, message, payload, function(err, response) {
+                        var fcmToken = passenger.fcm_id;
+                        var payload = fcmUtils.createMessage(
+                            notificationTitle,
+                            "You have been dropped from a ride to " + ride.event.name + ".");
+                        notifications.send(fcmToken, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
@@ -154,7 +158,7 @@ router.route('/:id/passengers/:passenger_id')
                         });
                         // END: Send Notification to Passenger
                     }]);
-				keystone.list("Passenger").model.remove(passenger);
+				passenger.remove();
 				ride.save();
 				return res.json(ride);
 			});
