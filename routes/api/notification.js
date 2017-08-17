@@ -1,7 +1,7 @@
 var async = require('async'),
 	keystone = require('keystone'),
 	request = require('request'),
-    gcm = require('node-gcm'),
+    fcm = require('firebase-admin'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router(),
@@ -11,7 +11,7 @@ var async = require('async'),
 var Notification = keystone.list("Notification");
 var model = Notification.model;
 
-var gcmAPIKey = process.env.GCM_API_KEY; // Unique to each group
+var fcmAPIKey = process.env.FCM_API_KEY; // Unique to each group
 
 router.route('/')
 	.get(function(req, res, next) {
