@@ -1,8 +1,8 @@
 var admin = require("firebase-admin");
 
 admin.initializeApp({
-  credential: admin.credential.cert("cru-central-coast-ios-firebase-adminsdk-gzir9-1165827504.json"),
-  databaseURL: "https://cru-central-coast-ios.firebaseio.com"
+  credential: admin.credential.cert("cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json"),
+  databaseURL: "https://cryptic-cache-161922.firebaseio.com"
 });
 
 module.exports.sendToDevice = function(tokens, payload, callback) {
