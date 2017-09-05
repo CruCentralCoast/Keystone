@@ -3,7 +3,7 @@ var device = process.env.FCM_DEVICE_TYPE;
 module.exports = {
     createMessage: function(title, message) {
         // iOS requires a certain message format
-        if (device === "iphone") {
+        /*if (device === "iphone") {
             return {
                 notification: {
                     body: message,
@@ -17,6 +17,12 @@ module.exports = {
                     title: title
                 }
             };
-        }
+        }*/
+        return {
+            notification: {
+                body: message,
+                title: title
+            }
+        };
     }
 }

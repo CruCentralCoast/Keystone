@@ -59,9 +59,9 @@ router.route('/push').post(function(req, res) {
             ministries.forEach(function(ministry) {
                 var topic = '/topics/' + ministry._id;
 
-                var payload = fcmUtils.createmessage(ministry.name, req.body.ms);
+                var payload = fcmUtils.createMessage(ministry.name, req.body.ms);
 
-                notificationUtils.send(topic, payload, function(err, response, notification) {
+                notificationUtils.sendToTopic(topic, payload, function(err, response, notification) {
                     if (err)
                         return res.send(err);
                     console.log(notification);

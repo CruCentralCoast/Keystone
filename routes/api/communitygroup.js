@@ -30,7 +30,10 @@ router.route('/:id')
     })
 	.patch(function(req, res, next) {
 		restUtils.update(model, req, res);
-	});
+    })
+    .post(function(req, res, next) {
+        restUtils.update(model, req, res);
+    });
 
 router.route('/search')
 	.post(function(req, res, next) {
