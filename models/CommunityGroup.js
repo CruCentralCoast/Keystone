@@ -41,7 +41,7 @@ CommunityGroup.add({
     imageLink: {
         type: Types.Url,
         hidden: false,
-        noedit: true,
+        //noedit: true,
         watch: true,
         value: imageUtils.imageLinkValue,
         format: imageUtils.imageLinkFormat
