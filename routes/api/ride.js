@@ -41,7 +41,7 @@ router.route('/:id')
                 notificationTitle,
                 "You have been dropped from a ride to " + ride.event.name + ".");
 
-            notifications.send(fcmTokens, payload, function(err, response) {
+            notifications.sendToDevice(fcmTokens, payload, function(err, response) {
                 if (err) {
                     console.error(err);
                     success = false;
@@ -96,7 +96,7 @@ router.route('/:id/passengers')
                 var payload = fcmUtils.createmessage(ride.event.name,
                     "Passenger " + passenger.name + " has been added to your car.");
 
-                notifications.send(fcmToken, payload, function(err, response) {
+                notifications.sendToDevice(fcmToken, payload, function(err, response) {
                     if (err) {
                         console.error(err);
                         success = false;
@@ -127,7 +127,7 @@ router.route('/:id/passengers/:passenger_id')
                             ride.event.name,
                             "Passenger " + passenger.name + " has been dropped from your car.");
 
-                        notifications.send(fcmToken, payload, function(err, response) {
+                        notifications.sendToDevice(fcmToken, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
@@ -145,7 +145,7 @@ router.route('/:id/passengers/:passenger_id')
                         var payload = fcmUtils.createMessage(
                             notificationTitle,
                             "You have been dropped from a ride to " + ride.event.name + ".");
-                        notifications.send(fcmToken, payload, function(err, response) {
+                        notifications.sendToDevice(fcmToken, payload, function(err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
