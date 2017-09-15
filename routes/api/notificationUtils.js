@@ -19,7 +19,7 @@ admin.initializeApp({
 module.exports.sendToDevice = function(tokens, payload, callback) {
     payload.content_available = true;
     payload.priority = 'high';
-    payload.data.sound = 'default';
+    //payload.data.sound = 'default';
 
     admin.messaging().sendToDevice(tokens, payload).then(function(response) {
         console.log("Successfully sent message:", response);
