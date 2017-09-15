@@ -47,6 +47,7 @@ router.route('/find')
 // Pushes a simple notification to a topic
 router.route('/push').post(function(req, res) {
     var success = true;
+    console.log(req.body.msg)
 	req.body.ministries.forEach(function(ministryString, index) {
         console.log(ministryString);
         var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
@@ -59,12 +60,11 @@ router.route('/push').post(function(req, res) {
             ministries.forEach(function(ministry) {
                 var topic = '/topics/' + ministry._id;
 
-                var payload = fcmUtils.createMessage(ministry.name, req.body.ms);
+                var payload = fcmUtils.createMessage(ministry.name, req.body.msg);
 
                 notificationUtils.sendToTopic(topic, payload, function(err, response, notification) {
                     if (err)
                         return res.send(err);
-                    console.log(notification);
                     return res.json({
                         post: req.body.msg,
                         success: true
@@ -75,7 +75,7 @@ router.route('/push').post(function(req, res) {
 	});
 });
 
-// Adds an event notification from the even tnotification page
+// Adds an event notification from the event notification page
 // TODO: Debate moving this to the view controller
 router.route('/eventNotification')
 	.post(function(req, res) {

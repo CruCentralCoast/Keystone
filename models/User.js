@@ -20,7 +20,12 @@ var s3path = process.env.IMAGE_ROOT_PATH + '/users';
 User.add({
     name: { type: Types.Name, required: true, index: true },
     email: { type: Types.Email, required: true, initial: true, index: true },
-    phone: { type: String, initial: true, index: true , validate: [validators.isNumeric(), validators.isLength(10)]},
+    phone: { 
+        type: String, 
+        initial: true, 
+        index: true , 
+        validate: [validators.isNumeric({message: 'Phone number must only include numbers'}), validators.isLength({message: 'Phone number is too short. Must be 10 digits.' }, 10)],
+    },
     password: { type: Types.Password, initial: true },
     resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {

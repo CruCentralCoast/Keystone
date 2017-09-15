@@ -29,10 +29,14 @@ router.route('/:id')
         });
     })
 	.patch(function(req, res, next) {
+        //console.log(req.body)
 		restUtils.update(model, req, res);
     })
     .post(function(req, res, next) {
-        restUtils.update(model, req, res);
+        console.log(req.body)
+        console.log(req.files)
+        console.log(req.query)
+        restUtils.upload(model, req, res);
     });
 
 router.route('/search')
