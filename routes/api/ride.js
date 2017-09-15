@@ -40,17 +40,18 @@ router.route('/:id')
             var payload = fcmUtils.createMessage(
                 notificationTitle,
                 "You have been dropped from a ride to " + ride.event.name + ".");
-
-            notifications.sendToDevice(fcmTokens, payload, function(err, response) {
-                if (err) {
-                    console.error(err);
-                    success = false;
-                }
-                else {
-                    if(!process.env.TESTING)
-                        console.log(response);
-                }
-            });
+            if (fcmTokens.length > 0) {
+                notifications.sendToDevice(fcmTokens, payload, function(err, response) {
+                    if (err) {
+                        console.error(err);
+                        success = false;
+                    }
+                    else {
+                        if(!process.env.TESTING)
+                            console.log(response);
+                    }
+                });
+            }
 
 			ride.passengers.forEach(function(passenger) {
 				passenger.remove();
@@ -96,16 +97,18 @@ router.route('/:id/passengers')
                 var payload = fcmUtils.createmessage(ride.event.name,
                     "Passenger " + passenger.name + " has been added to your car.");
 
-                notifications.sendToDevice(fcmToken, payload, function(err, response) {
-                    if (err) {
-                        console.error(err);
-                        success = false;
-                    }
-                    else {
-                        if(!process.env.TESTING)
-                            console.log(response);
-                    }
-                });
+                if (fcmToken.length > 0) {
+                    notifications.sendToDevice(fcmToken, payload, function(err, response) {
+                        if (err) {
+                            console.error(err);
+                            success = false;
+                        }
+                        else {
+                            if(!process.env.TESTING)
+                                console.log(response);
+                        }
+                    });
+                }
 
 				ride.save();
 				return res.status(200).json(ride);
@@ -127,17 +130,19 @@ router.route('/:id/passengers/:passenger_id')
                             ride.event.name,
                             "Passenger " + passenger.name + " has been dropped from your car.");
 
-                        notifications.sendToDevice(fcmToken, payload, function(err, response) {
-                            if (err) {
-                                console.error(err);
-                                success = false;
-                            }
-                            else {
-                                if(!process.env.TESTING)
-                                    console.log(response);
-                            }
-                            cb();
-                        });
+                        if (fcmToken.length > 0) {
+                            notifications.sendToDevice(fcmToken, payload, function(err, response) {
+                                if (err) {
+                                    console.error(err);
+                                    success = false;
+                                }
+                                else {
+                                    if(!process.env.TESTING)
+                                        console.log(response);
+                                }
+                                cb();
+                            });
+                        }
                         // END: Send Notification to Driver
                     }, function(cb) {
                         // START: Send Notification to Passenger
@@ -145,17 +150,20 @@ router.route('/:id/passengers/:passenger_id')
                         var payload = fcmUtils.createMessage(
                             notificationTitle,
                             "You have been dropped from a ride to " + ride.event.name + ".");
-                        notifications.sendToDevice(fcmToken, payload, function(err, response) {
-                            if (err) {
-                                console.error(err);
-                                success = false;
-                            }
-                            else {
-                                if(!process.env.TESTING)
-                                    console.log(response);
-                            }
-                            cb();
-                        });
+
+                        if (fcmToken.length > 0) {
+                            notifications.sendToDevice(fcmToken, payload, function(err, response) {
+                                if (err) {
+                                    console.error(err);
+                                    success = false;
+                                }
+                                else {
+                                    if(!process.env.TESTING)
+                                        console.log(response);
+                                }
+                                cb();
+                            });
+                        }
                         // END: Send Notification to Passenger
                     }]);
 				passenger.remove();
