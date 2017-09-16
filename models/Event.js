@@ -73,7 +73,8 @@ Event.add({
         format: imageUtils.imageLinkFormat
     },
     url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
-    location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
+    locationTBD: { type: Boolean, initial: true, default: true, label: 'Location TBD' },
+    location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
     startDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
     endDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
     rideSharing: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
