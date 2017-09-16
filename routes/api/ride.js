@@ -94,7 +94,7 @@ router.route('/:id/passengers')
 
 				var fcmToken = ride.fcm_id;
 
-                var payload = fcmUtils.createmessage(ride.event.name,
+                var payload = fcmUtils.createMessage(ride.event.name,
                     "Passenger " + passenger.name + " has been added to your car.");
 
                 if (fcmToken.length > 0) {

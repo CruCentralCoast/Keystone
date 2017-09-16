@@ -21,7 +21,8 @@ module.exports = {
         return {
             notification: {
                 body: message,
-                title: title
+                title: title,
+                sound: "default"
             }
         };
     }
