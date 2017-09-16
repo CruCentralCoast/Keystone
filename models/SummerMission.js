@@ -83,8 +83,8 @@ SummerMission.add({
   },
   url: { type: Types.Url },
   location: { type: Types.Location, initial: true, required: true, defaults: { country: 'USA' } },
-  startDate: { type: Types.Date, format: 'MMM Do YYYY', default: Date.now, required: true, initial: true },
-  endDate: { type: Types.Date, format: 'MMM Do YYYY', default: Date.now, required: true, initial: true },
+  startDate: { type: Types.Date, default: Date.now, required: true, initial: true },
+  endDate: { type: Types.Date, default: Date.now, required: true, initial: true },
   leaders: { type: Types.Text, note: 'For multiple leaders, separate names with commas' },
   cost: { type: Types.Money, initial: true }
 });

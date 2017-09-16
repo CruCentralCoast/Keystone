@@ -31,6 +31,7 @@ node_modules
 # Ignore .DS_Store files on OS X
 .DS_Store
 
+package-lock.json
 public/*
 
 # Created by https://www.gitignore.io/api/intellij
@@ -84,3 +85,5 @@ fabric.properties
 ### Intellij Patch ###
 *.iml
 
+# Firebase Admin Files
+cryptic-cache-161922-firebase-adminsdk-y59aa-17be847940.json

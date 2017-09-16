@@ -1,0 +1,41 @@
+{
+  "name": "Keystone",
+  "scripts": {
+  },
+  "env": {
+    "COOKIE_SECRET": {
+      "required": true
+    },
+    "IMAGE_ROOT_PATH": {
+      "required": true
+    },
+    "MONGOLAB_URI": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "S3_BUCKET": {
+      "required": true
+    },
+    "S3_KEY": {
+      "required": true
+    },
+    "S3_REGION": {
+      "required": true
+    },
+    "S3_SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

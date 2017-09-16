@@ -18,7 +18,7 @@ describe('/rides', function() {
                 event: event._id,
                 driverName: "Test",
                 driverNumber: "1234567890",
-                gcm_id: "foobar"
+                fcm_id: "foobar"
             }, function(err, r) {
                 ride = r;
                 done();
@@ -78,7 +78,7 @@ describe('/rides', function() {
                         event: event._id,
                         driverName: "Test",
                         driverNumber: "1234567890",
-                        gcm_id: "foobar"
+                        fcm_id: "foobar"
                     })
                     .expect(201)
                     .expect(function(res) {

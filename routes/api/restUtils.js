@@ -6,21 +6,21 @@ module.exports = {
            return res.json(item);
         });
     },
-    
+
     // used for queries
     find : function(model, req, res) {
         var data = (req.method == 'POST') ? req.body : req.query;
 
         // default 0 means no limit
         var lim = req.query.limit ? req.query.limit : 0;
-        //gets order by dymically creating the object specified
-        var order = {}; //null, means dont sort
+        // gets order by dynically creating the object specified
+        var order = {}; // null, means dont sort
         if (req.query.order) {
             var parts = req.query.order.split(":");
             order[parts[0].replace('{', '')] = parts[1].replace('}', '').replace(' ', '');
         }
-        //creates select statements to only grab certain fields
-        var selects = {}; //default is an empty object, means grab all
+        // creates select statements to only grab certain fields
+        var selects = {}; // default is an empty object, means grab all
         if (req.query.select) {
             var list = req.query.select.split(",");
             for (var iter = 0; iter < list.length; iter++) {
@@ -53,30 +53,47 @@ module.exports = {
     	});
     },
 
-    //creates something... such description!
+    // creates something... such description!
     create : function(model, req, res) {
         model.create(req.body, function(err, item) {
     		if (err) return res.status(400).send(err);
-    		return res.status(201).json(item);
+    		return res.status(200).json(item);
     	});
     },
 
-    //updates the model based on input
+    // updates the model based on input
     update : function(model, req, res) {
         model.findById(req.params.id).exec(function(err, item) {
-        
+
             if (err) return res.send(err);
             if (!item) return res.send('not found');
-            
+
             item.getUpdateHandler(req).process(req.body, function(err) {
-                
+
                 if (err) return res.send(err);
-                
+
                 return res.status(200).json(item);
             });
-        
+
         });
-    },    
+    },
+
+    upload : function(model, req, res) {
+        model.findById(req.params.id).exec(function(err, item) {
+
+            if (err) return res.send(err);
+            if (!item) return res.send('not found');
+
+            item.getUpdateHandler(req).process(req.files, {fields: 'image', logErrors: true}, function(err) {
+
+                console.log("processing data")
+                if (err) return res.send(err);
+
+                return res.status(200).json(item);
+            });
+
+        });
+    },
 
     enumValues : function(model, req, res) {
         var path = model.schema.path(req.params.key);

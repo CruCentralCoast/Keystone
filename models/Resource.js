@@ -39,6 +39,13 @@ Resource.add({
    		type: Types.File, 
     	storage: s3Storage,
 		filename: imageUtils.fileName
+   		/*type: Types.S3File,
+    	required: false,
+   		allowedTypes: imageUtils.allowedTypes,
+    	s3path: s3path,
+		filename: imageUtils.fileName,
+		headers: imageUtils.cacheControl,
+		format: imageUtils.formatAdminUIPreview*/
   	},
 	imageLink: {
 		type: Types.Url,

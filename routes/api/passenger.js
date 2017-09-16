@@ -15,6 +15,22 @@ router.route('/')
 		restUtils.create(model, req, res);
 	});
 
+router.route('/available')
+    .get(function(req, res, next) {
+        var params = {
+            'event': req.query.eventId,
+            'has_driver': {
+                '$ne': true
+            },
+            'gender_pref': req.query.genderPref
+        };
+
+        model.find(params).exec(function(err, passengers) {
+			if (err) return res.send(err);
+			return res.json(passengers);
+		});
+    });
+
 router.route('/:id')
 	.get(function(req, res, next) {
 		restUtils.get(model, req, res);
@@ -37,4 +53,5 @@ router.route('/find')
 	.post(function(req, res, next) {
 		restUtils.find(model, req, res);
 	});
+
 module.exports = router;

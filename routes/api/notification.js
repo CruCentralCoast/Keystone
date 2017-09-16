@@ -1,17 +1,17 @@
 var async = require('async'),
 	keystone = require('keystone'),
 	request = require('request'),
-    gcm = require('node-gcm'),
+    fcm = require('firebase-admin'),
     restUtils = require('./restUtils'),
 	express = require('express'),
 	router = express.Router(),
-    gcmUtils = require('./gcmUtils'),
-    notificationUtils = require('./notificationUtils');
+    notificationUtils = require('./notificationUtils'),
+    fcmUtils = require('./fcmUtils');
 
 var Notification = keystone.list("Notification");
 var model = Notification.model;
 
-var gcmAPIKey = process.env.GCM_API_KEY; // Unique to each group
+var fcmAPIKey = process.env.FCM_API_KEY; // Unique to each group
 
 router.route('/')
 	.get(function(req, res, next) {
@@ -45,37 +45,37 @@ router.route('/find')
 	});
 
 // Pushes a simple notification to a topic
-router.route('/push')
-	.post(function(req, res) {
-		var success = true;
+router.route('/push').post(function(req, res) {
+    var success = true;
+    console.log(req.body.msg)
+	req.body.ministries.forEach(function(ministryString, index) {
+        console.log(ministryString);
+        var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
+		keystone.list('Ministry').model.find(find).exec(function(err, ministries) {
+            if (err) return res.send(err);
+            // Defaults to everyone if no ministries are selected
+            if (ministries.length == 0) {
+                ministries = [{_id: 'global', name: 'Cru Central Coast'}]
+            }
+            ministries.forEach(function(ministry) {
+                var topic = '/topics/' + ministry._id;
 
-		req.body.ministries.forEach(function(ministryString, index) {
-            console.log(ministryString);
-            var find = ministryString!= 'global' ? {_id : ministryString} : {name:''};
-			keystone.list('Ministry').model.find(find)
-                .exec(function(err, ministries) {
-                if (err) return res.send(err);
-                // Defaults to everyone if no ministries are selected
-                if (ministries.length == 0) {
-                    ministries = [{_id: 'global', name: 'Cru Central Coast'}]
-                }
-                ministries.forEach(function(ministry) {
-                    var to = '/topics/' + ministry._id;
+                var payload = fcmUtils.createMessage(ministry.name, req.body.msg);
 
-                    notificationUtils.send(to, ministry.name, req.body.msg, {}, function(err, response, notification) {
-                        if (err) return res.send(err);
-                        console.log(notification);
-                        return res.json({
-                            post: req.body.msg,
-                            success: true
-                        });
+                notificationUtils.sendToTopic(topic, payload, function(err, response, notification) {
+                    if (err)
+                        return res.send(err);
+                    return res.json({
+                        post: req.body.msg,
+                        success: true
                     });
                 });
             });
-		});
+        });
 	});
-    
-// Adds an event notification from the even tnotification page
+});
+
+// Adds an event notification from the event notification page
 // TODO: Debate moving this to the view controller
 router.route('/eventNotification')
 	.post(function(req, res) {
@@ -109,35 +109,23 @@ router.route('/eventNotification')
 
 // Sets a recurring timer to send scheduled push notifications every minute
 setInterval(function() {
-    var gcm = require('node-gcm');
-    
     // Queries a list of unsent messages
     keystone.list('Notification').model.find().where('sent', false).where('time').lte(Date.now()).populate('ministries')
         .exec(function(err, notifications) {
             if (err) return res.send(err);
-            if(notifications)
-            {
-                notifications.forEach( function(notification) {
-                
+            if(notifications) {
+                notifications.forEach(function(notification) {
                     // Sends the notification to everyone if no ministries are selected
                     if (notification.ministries.length == 0) {
                         notification.ministries = [{_id: 'global', name: 'Cru Central Coast'}]
                     }
                     notification.ministries.forEach(function(ministry) {
                         var to = '/topics/' + ministry._id;
-            
+
                         // Sets up the message data
-                        var message = new gcm.Message({
-                            data: {
-                                message: notification.message,
-                                title: ministry.name
-                            }
-                        });
-                        
-                        // Sets up the sender based on the APIkey
-                        var sender = new gcm.Sender(gcmAPIKey);
-                        
-                        sender.send(message, { topic: to }, function (err, response) {
+                        var message = fcmUtils.createMessage(notification.message, ministry.name);
+
+                        notificationUtils.sendToTopic(to, message, function (err, response) {
                             if (err) {
                                 console.error(err);
                                 success = false;
@@ -147,11 +135,11 @@ setInterval(function() {
                                 notification.sent = true;
                                 notification.save();
                             }
-                        });
+                        })
                     });
                 });
             }
-        });   
+        });
 }, 60000); // Specifies the time to run this function
 
 module.exports = router;
