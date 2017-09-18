@@ -1,6 +1,7 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 var imageUtils = require('./utils/ImageUtils');
+var validators = require('mongoose-validators');
 
 /**
  * Event Model
@@ -19,7 +20,12 @@ console.log(s3path);
 // these models were created under, the 'format' properties on s3files is broken, so the html is
 // not rendered in the admin UI. Eventually this may be fixed.
 Event.add({
-    name: { type: String, required: true, initial: true },
+    name: { 
+        type: String, 
+        required: true, 
+        initial: true, 
+        validate: [validators.isLength({message: 'Event Title must be 35 characters or less.' }, 0, 35)] 
+    },
     description: { type: Types.Textarea, initial: true },
     image: {
         type: Types.S3File,
@@ -72,7 +78,7 @@ Event.add({
         value: imageUtils.bannerImageLinkValue,
         format: imageUtils.imageLinkFormat
     },
-    url: { type: Types.Url, initial: true, note: 'A link to the sign up page'},
+    url: { type: Types.Url, initial: true, note: 'A link to the Facebook Event', label: "Facebook URL"},
     locationTBD: { type: Boolean, initial: true, default: true, label: 'Location TBD' },
     location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
     startDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
