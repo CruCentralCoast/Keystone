@@ -4,9 +4,7 @@ This is a rewrite of the Cru Central Coast website, using [`keystone.js`](http:/
 In this project, [Jade](http://jadelang.net/) is used for HTML templating and [Stylus](https://learnboost.github.io/stylus/) is used for CSS templating.
 
 # Getting Started
-A quick guide to getting the project running for development can be found in our [wiki](https://github.com/CruCentralCoast/Keystone/wiki/Getting-Started-with-Keystone-Dev)
-
-A guide of helpful information that is applicable to all of our project can be found [here](https://github.com/CruCentralCoast/Keystone/wiki/Guides-and-Things-to-Know).
+A quick guide to getting the project running for development can be found in our [wiki](https://github.com/CruCentralCoast/Keystone/wiki/Getting-Started-with-Keystone-Dev). A guide of helpful information that is applicable to all of our project can be found [here](https://github.com/CruCentralCoast/Keystone/wiki/Guides-and-Things-to-Know).
 
 # Notes to Capstone class
 
