@@ -43,9 +43,9 @@ router.route('/:id')
 
         });
     })
-    .post(function(req, res, next) {
+    /*.post(function(req, res, next) {
         restUtils.upload(model, req, res);
-    });
+    });*/
 
 router.route('/search')
 	.post(function(req, res, next) {
