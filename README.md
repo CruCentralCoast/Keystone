@@ -3,6 +3,11 @@ This is a rewrite of the Cru Central Coast website, using [`keystone.js`](http:/
 
 In this project, [Jade](http://jadelang.net/) is used for HTML templating and [Stylus](https://learnboost.github.io/stylus/) is used for CSS templating.
 
+# Getting Started
+A quick guide to getting the project running for development can be found in our [wiki](https://github.com/CruCentralCoast/Keystone/wiki/Getting-Started-with-Keystone-Dev)
+
+A guide of helpful information that is applicable to all of our project can be found [here](https://github.com/CruCentralCoast/Keystone/wiki/Guides-and-Things-to-Know).
+
 # Notes to Capstone class
 
 ***IMPORTANT***: If you need to store some sort of constant, whether it's an API key, or anything else, do not store it in source control. You should also not create any files (outside of special keystone directories) or assume any knowledge of the filesystem. This node app is designed to run without filesystem access, using microservices and middleware to store information. 
