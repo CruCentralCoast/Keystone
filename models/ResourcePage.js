@@ -11,7 +11,7 @@ var ResourcePage = new keystone.List('ResourcePage', {
 
 ResourcePage.add({
 	title: { type: String, required: true },
-	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
+	state: { type: Types.Select, options: ['draft', 'published', 'archived'], default: 'draft', index: true },
 	author: { type: Types.Text, index: true },
 	publishedDate: { type: Types.Date, index: true },
 	content: { type: Types.Html, wysiwyg: true, height: 350 },
