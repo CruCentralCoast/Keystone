@@ -55,8 +55,6 @@ User.add({
     // this conforms to ISO/IEC 5218, which is why the options are what they are.
     sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
     schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
-    ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
-    summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
     fcmId: { type: String }
     // communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
@@ -68,6 +66,10 @@ User.add({
 }, 'Permissions', {
     isAdmin: { type: Boolean, default: false, label: 'Can administer the website' },
     isVerified: { type: Boolean, default: false, label: 'Has a verified email address' }
+}, 'Involvement', {
+    communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true },
+    ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
+    summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true }
 });
 
 
@@ -122,5 +124,5 @@ User.schema.methods.resetPassword = function(callback) {
  * ============
  */
 
-User.defaultColumns = 'name, email, isAdmin';
+User.defaultColumns = 'name, email, phone';
 User.register();

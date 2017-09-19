@@ -12,7 +12,7 @@ var model = CommunityGroup.model;
 
 router.route('/')
 	.get(function(req, res, next) {
-        model.find({}).populate('leaders').exec(function(err, communitygroups){
+        model.find({}).populate('leaders members').exec(function(err, communitygroups){
             if (err) return res.status(400).send(err);
             return res.json(communitygroups);
         });
@@ -23,7 +23,7 @@ router.route('/')
 
 router.route('/:id')
 	.get(function(req, res, next) {
-        model.findById(req.params.id).populate('leaders').exec(function(err, communitygroup){
+        model.findById(req.params.id).populate('leaders members').exec(function(err, communitygroup){
             if (err) return res.status(400).send(err);
             return res.json(communitygroup);
         });
