@@ -11,7 +11,7 @@
     "connect-mongo": "^0.4.1",
     "dotenv": "^1.1.0",
     "firebase-admin": "^4.2.1",
-    "keystone": "^0.3.21",
+    "keystone": "0.3.21",
     "mongoose-validators": "^0.1.0",
     "properties-reader": "^0.0.15",
     "underscore": "^1.8.3",
