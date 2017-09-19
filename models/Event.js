@@ -34,7 +34,8 @@ Event.add({
         s3path: s3path,
         filename: imageUtils.fileName,
         headers: imageUtils.cacheControl,
-        format: imageUtils.formatAdminUIPreview
+        format: imageUtils.formatAdminUIPreview,
+        label: "App Image"
     },
     imageLink: {
         type: Types.Url,
@@ -78,7 +79,13 @@ Event.add({
         value: imageUtils.bannerImageLinkValue,
         format: imageUtils.imageLinkFormat
     },
-    url: { type: Types.Url, initial: true, note: 'A link to the Facebook Event', label: "Facebook URL"},
+    url: { 
+        type: Types.Url, 
+        initial: true, 
+        note: 'A link to the Facebook Event', 
+        label: "Facebook URL",
+        //validate: [validators.isURL]
+    },
     locationTBD: { type: Boolean, initial: true, default: true, label: 'Location TBD' },
     location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
     startDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
