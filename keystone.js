@@ -2,7 +2,7 @@
 /*eslint semi: [2, "always"]*/
 // Simulate config options from your production environment by
 // customising the .env file in your project's root folder.
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'staging') {
    require('dotenv').load();
 }
 
