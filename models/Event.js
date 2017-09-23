@@ -86,7 +86,7 @@ Event.add({
         label: "Facebook URL",
         //validate: [validators.isURL]
     },
-    locationTBD: { type: Boolean, initial: true, default: true, label: 'Location TBD' },
+    locationTBD: { type: Boolean, initial: true, default: false, label: 'Location TBD' },
     location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
     startDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
     endDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
