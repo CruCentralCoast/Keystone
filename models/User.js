@@ -26,7 +26,7 @@ User.add({
         index: true , 
         validate: [validators.isNumeric({message: 'Phone number must only include numbers'}), validators.isLength({message: 'Phone number is too short. Must be 10 digits.' }, 10)],
     },
-    password: { type: Types.Password, initial: true },
+    password: { type: Types.Password, initial: true, min: 8, max: 72, note: "Passwords must be between 8 and 72 characters." }, //The min and max won't work until Keystone 4
     resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {
     image: {
