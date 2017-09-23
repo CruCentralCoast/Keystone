@@ -2,7 +2,8 @@ var async = require('async'),
 	keystone = require('keystone'),
     restUtils = require('./restUtils'),
 	express = require('express'),
-	router = express.Router();
+    router = express.Router(),
+    fcmUtils = require("./fcmUtils");
 
 var notifications = require('./notificationUtils');
 
