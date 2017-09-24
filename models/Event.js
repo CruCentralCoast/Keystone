@@ -84,7 +84,7 @@ Event.add({
         initial: true, 
         note: 'A link to the Facebook Event', 
         label: "Facebook URL",
-        //validate: [validators.isURL]
+        validate: [validators.isURL({protocols: ['http'], host_whitelist: 'facebook.com', host_blacklist: true, require_protocol: true})]
     },
     locationTBD: { type: Boolean, initial: true, default: false, label: 'Location TBD' },
     location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
