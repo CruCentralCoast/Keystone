@@ -113,17 +113,10 @@ router.route('/:id/join')
             });
 
             var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
-            var payload = fcmUtils.createMessage(name, phone);
-            // {
-            //     data: {
-            //         type: 'communitygroup_join',
-            //         name: name,
-            //         phone: phone
-            //     }
-            // };
+            var payload = fcmUtils.createMessage("Community Group Join", message);
 
             regTokens.forEach(function(token) {
-                notifications.sendToDevice(token, message, payload, function(err, response, body) {
+                notifications.sendToDevice(token, payload, function(err, response, body) {
                     console.log(body);
                 });
             });
