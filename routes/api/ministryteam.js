@@ -87,7 +87,7 @@ router.route('/:id/join').post(function(req, res, next) {
         //     }
         // };
 
-        notifications.send(fcmTokens, payload, function(err, response, body) {
+        notifications.sendToDevice(fcmTokens, payload, function(err, response, body) {
             console.log(body);
         });
 

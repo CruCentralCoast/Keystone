@@ -123,7 +123,7 @@ router.route('/:id/join')
             // };
 
             regTokens.forEach(function(token) {
-                notifications.send(token, group.name, message, payload, function(err, response, body) {
+                notifications.sendToDevice(token, message, payload, function(err, response, body) {
                     console.log(body);
                 });
             });

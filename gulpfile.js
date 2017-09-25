@@ -28,9 +28,6 @@ gulp.task('watch:lint', function () {
 
 
 gulp.task('runKeystone', shell.task('node keystone.js'));
-gulp.task('watch', [
-
-  'watch:lint'
-]);
+gulp.task('watch', ['watch:lint']);
 
 gulp.task('default', ['watch', 'runKeystone']);
