@@ -44,7 +44,31 @@ router.route('/enumValues/:key')
 
 router.route('/find')
 	.post(function(req, res, next) {
-		restUtils.find(model, req, res);
+		var data = (req.method == 'POST') ? req.body : req.query;
+        
+        // default 0 means no limit
+        var lim = req.query.limit ? req.query.limit : 0;
+        // gets order by dynically creating the object specified
+        var order = {}; // null, means dont sort
+        if (req.query.order) {
+            var parts = req.query.order.split(":");
+            order[parts[0].replace('{', '')] = parts[1].replace('}', '').replace(' ', '');
+        }
+        // creates select statements to only grab certain fields
+        var selects = {}; // default is an empty object, means grab all
+        if (req.query.select) {
+            var list = req.query.select.split(",");
+            for (var iter = 0; iter < list.length; iter++) {
+                selects[list[iter].replace('}', '').replace('{', '').replace(' ', '')] = true;
+            }
+        }
+
+        model.find(data, selects).limit(lim).sort(order).populate('leaders').exec(function(err, items) {
+            if (err) return res.send(err);
+            if (!items) return res.send('not found');
+
+            return res.json(items);
+        });
 	});
 
 router.route('/:id/join').post(function(req, res, next) {
