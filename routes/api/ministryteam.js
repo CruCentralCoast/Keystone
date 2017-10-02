@@ -96,8 +96,7 @@ router.route('/:id/join').post(function(req, res, next) {
         });
 
         var payload = fcmUtils.createMessage(team.name,
-            name.first + " " + name.last + " wants to join " +
-            team.name + ". Their phone number is " + phone + ".");
+            name + " wants to join " + team.name + ". Their phone number is " + phone + ".");
 
         fcmTokens.forEach(function(token) {
             if (token) {
