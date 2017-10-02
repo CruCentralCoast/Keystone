@@ -102,8 +102,6 @@ router.route('/:id/join').post(function(req, res, next) {
         fcmTokens.forEach(function(token) {
             if (token) {
                 notifications.sendToDevice(token, payload, function(err, response, body) {
-                    console.log(error);
-                    console.log(response);
                     console.log(body);
                 });
             }
