@@ -117,6 +117,8 @@ router.route('/:id/join')
 
             regTokens.forEach(function(token) {
                 notifications.sendToDevice(token, payload, function(err, response, body) {
+                    console.log(error);
+                    console.log(response);
                     console.log(body);
                 });
             });
