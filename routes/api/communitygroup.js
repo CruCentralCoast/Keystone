@@ -118,12 +118,18 @@ router.route('/:id/join')
             regTokens.forEach(function(token) {
                 if (token) {
                     notifications.sendToDevice(token, payload, function(err, response, body) {
-                        console.log("Error:");
-                        console.log(error);
-                        console.log("Response: ");
-                        console.log(response);
-                        console.log("Body: ");
-                        console.log(body);
+                        if (error) {
+                            console.log("Error:");
+                            console.log(error);
+                        }
+                        if (response) {
+                            console.log("Response: ");
+                            console.log(response);
+                        }
+                        if (body) {
+                            console.log("Body: ");
+                            console.log(body);
+                        }
                     });
                 }
             });
