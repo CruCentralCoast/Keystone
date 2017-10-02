@@ -56,7 +56,7 @@ User.add({
     sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
     schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
     fcmId: { type: String },
-    deviceType: { type: Types.Select, options: 'iPhone, Android'}
+    deviceType: { type: Types.Select, options: [{ value: 1, label: 'iPhone' }, { value: 2, label: 'Android' }]}
     // communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
     notifications: {
