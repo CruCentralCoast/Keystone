@@ -22,7 +22,7 @@ module.exports.sendToDevice = function(tokens, payload, callback) {
         priority: "high"
     }
 
-    admin.messaging().sendToDevice("cmSUfEInVFM:APA91bHh307CN80mZagUpwth4AgIxOVY2dxHzoQ8zqS_Y7F6jKJpjJHZMpgkYj3cgqXjw1I9m57-FRAIvsad38JxpQ3SVdjgDkgLzWxVyEuxMVgG4l7WIQ6ML3XobYDPFwdiKBcVsQQX", payload, options).then(function(response) {
+    admin.messaging().sendToDevice(tokens, payload, options).then(function(response) {
         console.log("Successfully sent message:", response);
         callback();
     })

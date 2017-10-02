@@ -112,24 +112,13 @@ router.route('/:id/join')
                 }
             });
 
-            var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
+            var message = name + " wants to join " + group.name + ". Their phone number is " + phone + ".";
             var payload = fcmUtils.createMessage("Community Group Join", message);
 
             regTokens.forEach(function(token) {
                 if (token) {
                     notifications.sendToDevice(token, payload, function(err, response, body) {
-                        if (error) {
-                            console.log("Error:");
-                            console.log(error);
-                        }
-                        if (response) {
-                            console.log("Response: ");
-                            console.log(response);
-                        }
-                        if (body) {
-                            console.log("Body: ");
                             console.log(body);
-                        }
                     });
                 }
             });
