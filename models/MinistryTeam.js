@@ -18,23 +18,6 @@ MinistryTeam.add({
     name: { type: String, required: true, initial: true },
     description: { type: Types.Textarea, initial: true },
     parentMinistry: { type: Types.Relationship, ref: 'Ministry', required: true, initial: true },
-    image: {
-        type: Types.S3File,
-        required: false,
-        allowedTypes: imageUtils.allowedTypes,
-        s3path: s3path,
-        filename: imageUtils.imageFileName,
-        headers: imageUtils.cacheControl,
-        format: imageUtils.formatAdminUIPreview
-    },
-    imageLink: {
-        type: Types.Url,
-        hidden: false,
-        noedit: true,
-        watch: true,
-        value: imageUtils.imageLinkValue,
-        format: imageUtils.imageLinkFormat
-    },
     teamImage: {
         type: Types.S3File,
         required: false,
