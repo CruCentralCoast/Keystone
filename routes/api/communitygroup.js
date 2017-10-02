@@ -116,11 +116,13 @@ router.route('/:id/join')
             var payload = fcmUtils.createMessage("Community Group Join", message);
 
             regTokens.forEach(function(token) {
-                notifications.sendToDevice(token, payload, function(err, response, body) {
-                    console.log(error);
-                    console.log(response);
-                    console.log(body);
-                });
+                if (token) {
+                    notifications.sendToDevice(token, payload, function(err, response, body) {
+                        console.log(error);
+                        console.log(response);
+                        console.log(body);
+                    });
+                }
             });
             res.json(leaderInfo);
         });

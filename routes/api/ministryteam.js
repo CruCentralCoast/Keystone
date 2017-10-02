@@ -75,9 +75,18 @@ router.route('/:id/join').post(function(req, res, next) {
             name.first + " " + name.last + " wants to join " +
             team.name + ". Their phone number is " + phone + ".");
 
-        notifications.sendToDevice(fcmTokens, payload, function(err, response, body) {
-            console.log(body);
+        fcmTokens.forEach(function(token) {
+            if (token) {
+                notifications.sendToDevice(token, payload, function(err, response, body) {
+                    console.log(error);
+                    console.log(response);
+                    console.log(body);
+                });
+            }
         });
+        /*notifications.sendToDevice(fcmTokens, payload, function(err, response, body) {
+            console.log(body);
+        });*/
 
         res.json(leaderInfo);
     });
