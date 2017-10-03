@@ -1,5 +1,9 @@
 # Database location
-MONGO_URI=
+# Only one of these can be uncommented at a time.
+# Production
+#MONGOLAB_URI=
+# Testing
+MONGOLAB_URI=
 
 COOKIE_SECRET=
 
@@ -15,3 +19,18 @@ IMAGE_ROOT_PATH=
 
 # Leader resources
 LEADER_API_KEY=
+
+# FCM Account Data
+FCM_ACCOUNT_TYPE=
+FCM_ACCOUNT_PROJECT_ID=
+FCM_ACCOUNT_PRIVATE_KEY_ID=
+FCM_ACCOUNT_PRIVATE_KEY=
+FCM_ACCOUNT_CLIENT_EMAIL=
+FCM_ACCOUNT_CLIENT_ID=
+FCM_ACCOUNT_AUTH_URI=
+FCM_ACCOUNT_TOKEN_URI=
+FCM_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL=
+FCM_ACCOUNT_CLIENT_X509_CERT_URL=
+
+#This value should only change if you need to test as Production or Staging
+NODE_ENV=local

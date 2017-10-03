@@ -26,7 +26,7 @@ User.add({
         index: true , 
         validate: [validators.isNumeric({message: 'Phone number must only include numbers'}), validators.isLength({message: 'Phone number is too short. Must be 10 digits.' }, 10)],
     },
-    password: { type: Types.Password, initial: true },
+    password: { type: Types.Password, initial: true, min: 8, max: 72, note: "Passwords must be between 8 and 72 characters." }, //The min and max won't work until Keystone 4
     resetPasswordKey: { type: String, hidden: true }
 }, 'Profile', {
     image: {
@@ -55,9 +55,8 @@ User.add({
     // this conforms to ISO/IEC 5218, which is why the options are what they are.
     sex: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 0, label: 'Unknown' }, { value: 1, label: 'Male' }, { value: 2, label: 'Female' }, { value: 9, label: 'Not Applicable' }] },
     schoolYear: { type: Types.Select, numeric: true, emptyOption: false, options: [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }, { value: 3, label: 'Third' }, { value: 4, label: 'Fourth or greater' }], dependsOn: { isStaff: false } },
-    ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
-    summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true },
-    fcmId: { type: String }
+    fcmId: { type: String },
+    deviceType: { type: Types.Select, options: [{ value: 1, label: 'iPhone' }, { value: 2, label: 'Android' }]}
     // communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true }
 }, 'Notifications', {
     notifications: {
@@ -68,6 +67,10 @@ User.add({
 }, 'Permissions', {
     isAdmin: { type: Boolean, default: false, label: 'Can administer the website' },
     isVerified: { type: Boolean, default: false, label: 'Has a verified email address' }
+}, 'Involvement', {
+    communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true },
+    ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
+    summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true }
 });
 
 
@@ -122,5 +125,5 @@ User.schema.methods.resetPassword = function(callback) {
  * ============
  */
 
-User.defaultColumns = 'name, email, isAdmin';
+User.defaultColumns = 'name, email, phone';
 User.register();

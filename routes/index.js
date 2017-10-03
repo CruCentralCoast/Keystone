@@ -33,6 +33,7 @@ var ministryTeams = require('./api/ministryteam');
 var communityGroups = require('./api/communitygroup');
 var questionOptions = require('./api/ministryquestionoption');
 var resources = require('./api/resource');
+var resourcePages = require('./api/resourcepage');
 var resourceTags = require('./api/resourcetag');
 var passengers = require('./api/passenger');
 var rides = require('./api/ride');
@@ -119,6 +120,7 @@ exports = module.exports = function(app) {
    app.use('/api/ministryquestionoptions', questionOptions);
    app.use('/api/resources', resources);
    app.use('/api/resourcetags', resourceTags);
+   app.use('/api/resourcepages', resourcePages);
    app.use('/api/passengers', passengers);
    app.use('/api/rides', rides);
    app.use('/api/campuses', campuses);

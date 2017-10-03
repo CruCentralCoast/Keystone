@@ -2,7 +2,8 @@ var async = require('async'),
 	keystone = require('keystone'),
     restUtils = require('./restUtils'),
 	express = require('express'),
-	router = express.Router();
+    router = express.Router(),
+    fcmUtils = require("./fcmUtils");
 
 var notifications = require('./notificationUtils');
 
@@ -12,7 +13,7 @@ var model = CommunityGroup.model;
 
 router.route('/')
 	.get(function(req, res, next) {
-        model.find({}).populate('leaders').exec(function(err, communitygroups){
+        model.find({}).populate('leaders members').exec(function(err, communitygroups){
             if (err) return res.status(400).send(err);
             return res.json(communitygroups);
         });
@@ -23,7 +24,7 @@ router.route('/')
 
 router.route('/:id')
 	.get(function(req, res, next) {
-        model.findById(req.params.id).populate('leaders').exec(function(err, communitygroup){
+        model.findById(req.params.id).populate('leaders members').exec(function(err, communitygroup){
             if (err) return res.status(400).send(err);
             return res.json(communitygroup);
         });
@@ -43,9 +44,9 @@ router.route('/:id')
 
         });
     })
-    .post(function(req, res, next) {
+    /*.post(function(req, res, next) {
         restUtils.upload(model, req, res);
-    });
+    });*/
 
 router.route('/search')
 	.post(function(req, res, next) {
@@ -111,20 +112,15 @@ router.route('/:id/join')
                 }
             });
 
-            var message = name.first + " " + name.last + " wants to join " + group.name + ". Their phone number is " + phone + ".";
-            var payload = fcmUtils.createMessage(name, phone);
-            // {
-            //     data: {
-            //         type: 'communitygroup_join',
-            //         name: name,
-            //         phone: phone
-            //     }
-            // };
+            var message = name + " wants to join " + group.name + ". Their phone number is " + phone + ".";
+            var payload = fcmUtils.createMessage("Community Group Join", message);
 
             regTokens.forEach(function(token) {
-                notifications.send(token, group.name, message, payload, function(err, response, body) {
-                    console.log(body);
-                });
+                if (token) {
+                    notifications.sendToDevice(token, payload, function(err, response, body) {
+                            console.log(body);
+                    });
+                }
             });
             res.json(leaderInfo);
         });

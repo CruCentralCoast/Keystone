@@ -48,5 +48,13 @@ CommunityGroup.add({
     }
 });
 
+CommunityGroup.relationship({ path: 'members', ref: 'User', refPath: 'communityGroups' });
+
 CommunityGroup.defaultColumns = 'name, leaders, type';
 CommunityGroup.register();
+
+CommunityGroup.model.find().exec(function(err, communitygroups) {
+    keystone.populateRelated(communitygroups, 'members', function(err) {
+      // ... you have categories with posts
+    });
+  });
