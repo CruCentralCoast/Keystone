@@ -39,7 +39,7 @@ module.exports = {
    // function with arguments current model and client file name to return the new filename to upload.
    teamImageFileName : function(item, filename, originalname) {
       // prefix file name with object id
-      return item.slug + '-team-image.' + originalname.split('.')[1].toLowerCase();
+      return item.slug + '-image.' + originalname.split('.')[1].toLowerCase();
    },
    // function with arguments current model and client file name to return the new filename to upload.
    groupPhotoFileName : function(item, filename, originalname) {

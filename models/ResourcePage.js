@@ -11,11 +11,12 @@ var ResourcePage = new keystone.List('ResourcePage', {
 
 ResourcePage.add({
 	title: { type: String, required: true },
-	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
+	state: { type: Types.Select, options: ['draft', 'published', 'archived'], default: 'draft', index: true },
 	author: { type: Types.Text, index: true },
 	publishedDate: { type: Types.Date, index: true },
 	content: { type: Types.Html, wysiwyg: true, height: 350 },
-	tags: { type: Types.Relationship, ref: 'ResourceTag', many: true }
+	tags: { type: Types.Relationship, ref: 'ResourceTag', many: true },
+	restricted: { type: Types.Boolean, note: 'Whether the resource is only for leaders' }
 });
 
 ResourcePage.track = true;
