@@ -2,7 +2,7 @@ var admin = require("firebase-admin");
 
 private_key = process.env.FCM_ACCOUNT_PRIVATE_KEY;
 
-if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'staging') {
+if (process.env.NODE_ENV == 'production') {
     private_key = JSON.parse(process.env.FCM_ACCOUNT_PRIVATE_KEY);
 }
 
