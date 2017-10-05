@@ -3,7 +3,9 @@
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "mocha": true,
+        "jquery": true
     },
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,6 +20,8 @@
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
         "constructor-super": "warn",
-        "valid-typeof": "warn"
+        "valid-typeof": "warn",
+        "indent": "warn",
+        "semi": "warn"
     }
 }

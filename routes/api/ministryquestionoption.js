@@ -3,32 +3,31 @@
  */
 
 var keystone = require('keystone'),
-	express = require('express'),
-	router = express.Router();
+    express = require('express'),
+    router = express.Router();
 
 var MinistryQuestionOption = keystone.list('MinistryQuestionOption').model;
-    
+
 router.route("/")
-	.get(function(req, res, next) {
-		MinistryQuestionOption.find({}, 'value').exec(function(err, options) {
-			if (err) return res.send(err);
-			return res.json(options);
-		})
-	}).post(function(req, res, next) {
-        MinistryQuestionOption.findOne({value: req.body.value}).exec(function(err, option){
-            if(err) return res.send(err);
+    .get(function (req, res) {
+        MinistryQuestionOption.find({}, 'value').exec(function (err, options) {
+            if (err) return res.send(err);
+            return res.json(options);
+        });
+    }).post(function (req, res) {
+        MinistryQuestionOption.findOne({ value: req.body.value }).exec(function (err, option) {
+            if (err) return res.send(err);
             if (option)
                 return res.json(option);
-            else
-            {
+            else {
                 MinistryQuestionOption.create({
                     value: req.body.value
-                }, function(err, option) {
+                }, function (err, option) {
                     if (err) return res.send(err);
                     return res.json(option);
                 });
             }
-        })
+        });
     });
 
 module.exports = router;

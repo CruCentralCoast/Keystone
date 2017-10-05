@@ -42,7 +42,7 @@ router.route('/:id')
             });
 
         });
-    })
+    });
 /*.post(function(req, res, next) {
     restUtils.upload(model, req, res);
 });*/

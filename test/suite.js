@@ -11,7 +11,7 @@ before(function(done) {
     
     keystone.start();
     done();
-})
+});
 
 describe('/api', function() {     
     require('./ride.test');

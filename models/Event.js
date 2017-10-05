@@ -20,11 +20,11 @@ console.log(s3path);
 // these models were created under, the 'format' properties on s3files is broken, so the html is
 // not rendered in the admin UI. Eventually this may be fixed.
 Event.add({
-    name: { 
-        type: String, 
-        required: true, 
-        initial: true, 
-        validate: [validators.isLength({message: 'Event Title must be 35 characters or less.' }, 0, 35)] 
+    name: {
+        type: String,
+        required: true,
+        initial: true,
+        validate: [validators.isLength({ message: 'Event Title must be 35 characters or less.' }, 0, 35)]
     },
     description: { type: Types.Textarea, initial: true },
     image: {
@@ -79,15 +79,15 @@ Event.add({
         value: imageUtils.bannerImageLinkValue,
         format: imageUtils.imageLinkFormat
     },
-    url: { 
-        type: Types.Url, 
-        initial: true, 
-        note: 'A link to the Facebook Event', 
+    url: {
+        type: Types.Url,
+        initial: true,
+        note: 'A link to the Facebook Event',
         label: "Facebook URL",
         //validate: [validators.isURL]
     },
     locationTBD: { type: Boolean, initial: true, default: false, label: 'Location TBD' },
-    location: { type: Types.Location, initial: true, dependsOn: {locationTBD: false}, defaults: { country: 'USA' } },
+    location: { type: Types.Location, initial: true, dependsOn: { locationTBD: false }, defaults: { country: 'USA' } },
     startDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
     endDate: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now(), required: true, initial: true },
     rideSharing: { type: Types.Boolean, default: false, label: 'Does this event have ride sharing?' },
