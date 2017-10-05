@@ -70,7 +70,7 @@ Ministry.add({
         value: imageUtils.bannerImageLinkValue,
         format: imageUtils.imageLinkFormat
     },
-    campus: { type: Types.Relationship, ref: 'Campus', initial: true, default: ''}
+    campus: { type: Types.Relationship, ref: 'Campus', initial: true, default: '' }
 });
 
 Ministry.relationship({ path: 'teams', ref: 'MinistryTeam', refPath: 'parentMinistry' });

@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
 
-private_key = process.env.FCM_ACCOUNT_PRIVATE_KEY;
+var private_key = process.env.FCM_ACCOUNT_PRIVATE_KEY;
 
 if (process.env.NODE_ENV == 'production') {
     private_key = JSON.parse(process.env.FCM_ACCOUNT_PRIVATE_KEY);
@@ -24,29 +24,29 @@ if (process.env.NODE_ENV !== 'staging') {
     });
 }
 
-module.exports.sendToDevice = function(tokens, payload, callback) {
+module.exports.sendToDevice = function (tokens, payload, callback) {
     var options = {
         contentAvailable: true,
         priority: "high"
-    }
+    };
 
-    admin.messaging().sendToDevice(tokens, payload, options).then(function(response) {
+    admin.messaging().sendToDevice(tokens, payload, options).then(function (response) {
         console.log("Successfully sent message:", response);
         callback();
     })
-    .catch(function(error) {
-        console.log("Error sending message:", error);
-        callback();
-    });
-}
+        .catch(function (error) {
+            console.log("Error sending message:", error);
+            callback();
+        });
+};
 
-module.exports.sendToTopic = function(topics, payload, callback) {
-    admin.messaging().sendToTopic(topics, payload).then(function(response) {
+module.exports.sendToTopic = function (topics, payload, callback) {
+    admin.messaging().sendToTopic(topics, payload).then(function (response) {
         console.log("Successfully sent message:", response);
         callback();
     })
-    .catch(function(error) {
-        console.log("Error sending message:", error);
-        callback();
-    });
-}
+        .catch(function (error) {
+            console.log("Error sending message:", error);
+            callback();
+        });
+};

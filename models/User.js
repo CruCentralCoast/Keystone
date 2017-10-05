@@ -1,5 +1,3 @@
-var async = require('async');
-var crypto = require('crypto');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 var imageUtils = require('./utils/ImageUtils');
@@ -87,12 +85,12 @@ User.add({
 
 // Link to member
 User.schema.virtual('url').get(function() {
-   return '/member/' + this.key;
+    return '/member/' + this.key;
 });
 
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function() {
-   return this.isAdmin;
+    return this.isAdmin;
 });
 
 
@@ -102,22 +100,22 @@ User.schema.virtual('canAccessKeystone').get(function() {
  */
 
 User.schema.methods.resetPassword = function(callback) {
-   var user = this;
-   user.resetPasswordKey = keystone.utils.randomString([16,24]);
-   user.save(function(err) {
-      if (err) return callback(err);
-      new keystone.Email('forgotten-password').send({
-         user: user,
-         link: '/reset-password/' + user.resetPasswordKey,
-         subject: 'Reset your Cru Admin Password',
-         to: user.email,
-         from: {
-            name: 'Cru Central Coast',
-            email: 'contact@crucentralcoast.com'
-         }
-      }, callback);
-   });
-}
+    var user = this;
+    user.resetPasswordKey = keystone.utils.randomString([16,24]);
+    user.save(function(err) {
+        if (err) return callback(err);
+        new keystone.Email('forgotten-password').send({
+            user: user,
+            link: '/reset-password/' + user.resetPasswordKey,
+            subject: 'Reset your Cru Admin Password',
+            to: user.email,
+            from: {
+                name: 'Cru Central Coast',
+                email: 'contact@crucentralcoast.com'
+            }
+        }, callback);
+    });
+};
 
 
 /**

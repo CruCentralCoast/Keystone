@@ -1,7 +1,6 @@
-var device = process.env.FCM_DEVICE_TYPE;
-
 module.exports = {
-    createMessage: function(title, message) {
+    // Device Types: 'iPhone', 'Android', 'Topic'
+    createMessage: function (title, message, device) {
         // iOS requires a certain message format
         /*if (device === "iphone") {
             return {
@@ -26,4 +25,4 @@ module.exports = {
             }
         };
     }
-}
+};

@@ -1,0 +1,74 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:6.10
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # - run:
+      #    name: update-npm
+      #    command: 'sudo npm install -g npm@5.4.2'
+
+      # Download and cache dependencies
+      # TODO: Look into Restore Cache error "Error computing cache key: template: cacheKey:1: unexpected unclosed action in command"
+      # - restore_cache:
+      #     keys: dependency-cache-{{ checksum "package.json" }}
+
+      # - save_cache:
+      #    key: dependency-cache-{{ checksum "package.json" }}
+      #    paths:
+      #      - node_modules
+      
+      - run:
+          name: install-npm
+          command: |
+            npm install
+            sudo npm install -g eslint
+
+      # Tests aren't currently set up in the repo, but will be soon
+      # - run:
+      #    name: test
+      #    command: npm test
+
+      # Code coverage will get set up shortly after tests
+      # - run:
+      #    name: code-coverage
+      #    command: './node_modules/.bin/nyc report --reporter=text-lcov'
+
+      - run: 
+          name: linting
+          command: |
+            mkdir -p ~/reports
+            eslint . --format junit --output-file ~/reports/eslint.xml
+          when: always
+      
+      - store_test_results:
+          path: ~/reports
+      
+      - store_artifacts:
+          path: ~/reports 
+
+      # - store_artifacts:
+      #     path: test-results.xml
+      #     prefix: tests
+
+      # - store_artifacts:
+      #     path: coverage
+      #     prefix: coverage
+
+      # - store_test_results:
+      #     path: test-results.xml

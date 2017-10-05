@@ -2,18 +2,18 @@ var keystone = require('keystone'),
     User = keystone.list("User").model;
 
 function update_phones(cb) {
-    User.find().exec(function(err, users) {
-        users.forEach(function(user) {
+    User.find().exec(function (err, users) {
+        users.forEach(function (user) {
             var phone = String(user.phone);
             user.phone = "1231231234";
 
-            user.save(function(err, user) {
+            user.save(function (err, user) {
                 if (err) {
                     console.log(err);
                     cb(false);
                 }
                 user.phone = phone;
-                user.save(function(err, user) {
+                user.save(function (err) {
                     if (err) {
                         console.log(err);
                         cb(false);
@@ -25,8 +25,8 @@ function update_phones(cb) {
     });
 }
 
-exports = module.exports = function(done) {
-    update_phones(function(success) {
+exports = module.exports = function (done) {
+    update_phones(function (success) {
         if (success) done();
     });
-}
+};

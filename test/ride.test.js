@@ -103,7 +103,7 @@ describe('/rides', function() {
         describe('/search', function() {
             it('successfully returns ride', function(done) {
                 api.post('/api/rides/search')
-                    .expect(200, function(res) {
+                    .expect(200, function() {
                         done();
                     });
             });
@@ -122,7 +122,7 @@ describe('/rides', function() {
                 }, function(err, p) {
                     passenger = p;
                     done();
-                })
+                });
             });
             
             afterEach(function(done) {
@@ -130,7 +130,7 @@ describe('/rides', function() {
                 
                 Passenger.remove({}, function() {
                     done();
-                })
+                });
             });
             
             it('adds a passenger to a specific ride', function(done) {
@@ -142,74 +142,74 @@ describe('/rides', function() {
                     .expect(function(res) {
                         res.body.should.have.property('passengers').with.lengthOf(1);
                     })
-                    .end(done)
+                    .end(done);
             });
         });
     });
 	
-	describe('PATCH', function() {
-		describe('/:id', function() {
-			it('changes data for a ride', function(done) {
-				api.patch('/api/rides/' + ride._id)
-					.send({
-						driverName: 'New Name'
-					})
-					.expect(200)
-					.expect(function(res) {
-						res.body.should.have.property('driverName', 'New Name');
-					})
-					.end(done);
-			});
-		});
-	});
+    describe('PATCH', function() {
+        describe('/:id', function() {
+            it('changes data for a ride', function(done) {
+                api.patch('/api/rides/' + ride._id)
+                    .send({
+                        driverName: 'New Name'
+                    })
+                    .expect(200)
+                    .expect(function(res) {
+                        res.body.should.have.property('driverName', 'New Name');
+                    })
+                    .end(done);
+            });
+        });
+    });
 	
-	describe('DELETE', function() {
-		describe('/:id', function() {
-			it('drops an entire ride', function(done) {
-				api.delete('/api/rides/' + ride._id)
-					.expect(204)
-					.expect(function(res) {
-						res.body.should.be.empty;
-					})
-					.end(done)
-			});
-		});
+    describe('DELETE', function() {
+        describe('/:id', function() {
+            it('drops an entire ride', function(done) {
+                api.delete('/api/rides/' + ride._id)
+                    .expect(204)
+                    .expect(function(res) {
+                        res.body.should.be.empty;
+                    })
+                    .end(done);
+            });
+        });
 		
-		describe('/passengers/:id', function() {
-			var passenger;
+        describe('/passengers/:id', function() {
+            var passenger;
 
-			beforeEach(function(done) {
-				var Passenger = keystone.list('Passenger').model;
+            beforeEach(function(done) {
+                var Passenger = keystone.list('Passenger').model;
 
-				Passenger.create({
-					name: 'Test Passenger',
-					phone: '1234567890',
-					direction: 'both'
-				}, function(err, p) {
-					passenger = p;
-					done();
-				})
-			});
+                Passenger.create({
+                    name: 'Test Passenger',
+                    phone: '1234567890',
+                    direction: 'both'
+                }, function(err, p) {
+                    passenger = p;
+                    done();
+                });
+            });
 
-			afterEach(function(done) {
-				var Passenger = keystone.list('Passenger').model;
+            afterEach(function(done) {
+                var Passenger = keystone.list('Passenger').model;
 
-				Passenger.remove({}, function() {
-					done();
-				})
-			});
+                Passenger.remove({}, function() {
+                    done();
+                });
+            });
 
-			it('removes a passenger from a specific ride', function(done) {
-				api.delete('/api/rides/' + ride._id + '/passengers/' + passenger._id)
-					.expect(200)
-					.expect(function(res) {
-						res.body.should.have.property('passengers').with.lengthOf(0);
-					})
-					.end(done);
-			});
-		});
+            it('removes a passenger from a specific ride', function(done) {
+                api.delete('/api/rides/' + ride._id + '/passengers/' + passenger._id)
+                    .expect(200)
+                    .expect(function(res) {
+                        res.body.should.have.property('passengers').with.lengthOf(0);
+                    })
+                    .end(done);
+            });
+        });
 		
 		
-	});
+    });
 });
 
