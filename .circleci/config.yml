@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
 
-      - run:
+       - run:
           name: update-npm
           command: 'sudo npm install -g npm@5.4.2'
 
