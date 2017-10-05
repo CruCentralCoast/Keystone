@@ -1,0 +1,74 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:6.10
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      
+      - run:
+          name: install-npm
+          command: npm install
+
+      # Tests aren't currently set up in the repo, but will be soon
+      # - run:
+      #    name: test
+      #    command: npm test
+
+      # Code coverage will get set up shortly after tests
+      # - run:
+      #    name: code-coverage
+      #    command: './node_modules/.bin/nyc report --reporter=text-lcov'
+
+      - run: 
+          name: linting
+          command: |
+            mkdir -p ~/reports
+            eslint ./src/ --format junit --output-file ~/reports/eslint.xml
+          when: always
+      
+      - store_test_results:
+          path: ~/reports
+      
+      - store_artifacts:
+          path: ~/reports 
+
+      # - store_artifacts:
+      #     path: test-results.xml
+      #     prefix: tests
+
+      # - store_artifacts:
+      #     path: coverage
+      #     prefix: coverage
+
+      # - store_test_results:
+      #     path: test-results.xml
