@@ -24,21 +24,20 @@ jobs:
       #    command: 'sudo npm install -g npm@5.4.2'
 
       # Download and cache dependencies
-      - restore_cache:
-          keys: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      # TODO: Look into Restore Cache error "Error computing cache key: template: cacheKey:1: unexpected unclosed action in command"
+      # - restore_cache:
+      #     keys: dependency-cache-{{ checksum "package.json" }}
 
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      # - save_cache:
+      #    key: dependency-cache-{{ checksum "package.json" }}
+      #    paths:
+      #      - node_modules
       
       - run:
           name: install-npm
           command: |
             npm install
-            npm install --only=dev
+            sudo npm install -g eslint
 
       # Tests aren't currently set up in the repo, but will be soon
       # - run:
@@ -54,7 +53,7 @@ jobs:
           name: linting
           command: |
             mkdir -p ~/reports
-            eslint ./src/ --format junit --output-file ~/reports/eslint.xml
+            eslint . --format junit --output-file ~/reports/eslint.xml
           when: always
       
       - store_test_results:
