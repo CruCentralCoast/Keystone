@@ -1,3 +1,7 @@
+**Build Status**  
+Master: [![CircleCI](https://circleci.com/gh/CruCentralCoast/Keystone/tree/master.svg?style=svg)](https://circleci.com/gh/CruCentralCoast/Keystone/tree/master)
+Dev: [![CircleCI](https://circleci.com/gh/CruCentralCoast/Keystone/tree/dev.svg?style=svg)](https://circleci.com/gh/CruCentralCoast/Keystone/tree/dev)
+
 # Slocru Keystone
 This is a rewrite of the Cru Central Coast website, using [`keystone.js`](http://keystonejs.com), among other things.
 
