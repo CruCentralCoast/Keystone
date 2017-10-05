@@ -40,6 +40,7 @@ router.route('/:id')
 
             var message = "You have been dropped from a ride to " + ride.event.name + ".";
 
+            
             fcmTokens.forEach(function (token) {
                 if (token) {
                     var payload = fcmUtils.createMessage(notificationTitle, message, token.device);
