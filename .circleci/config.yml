@@ -34,7 +34,9 @@ jobs:
       
       - run:
           name: install-npm
-          command: npm install
+          command: |
+            npm install
+            npm install --only=dev
 
       # Tests aren't currently set up in the repo, but will be soon
       # - run:
