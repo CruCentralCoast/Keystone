@@ -33,20 +33,18 @@ module.exports.sendToDevice = function (tokens, payload, callback) {
     admin.messaging().sendToDevice(tokens, payload, options).then(function (response) {
         console.log("Successfully sent message:", response);
         callback();
-    })
-        .catch(function (error) {
-            console.log("Error sending message:", error);
-            callback();
-        });
+    }).catch(function (error) {
+        console.log("Error sending message:", error);
+        callback();
+    });
 };
 
 module.exports.sendToTopic = function (topics, payload, callback) {
     admin.messaging().sendToTopic(topics, payload).then(function (response) {
         console.log("Successfully sent message:", response);
         callback();
-    })
-        .catch(function (error) {
-            console.log("Error sending message:", error);
-            callback();
-        });
+    }).catch(function (error) {
+        console.log("Error sending message:", error);
+        callback();
+    });
 };

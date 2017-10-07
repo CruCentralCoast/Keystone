@@ -121,7 +121,10 @@ router.route('/:id/join')
                     var payload = fcmUtils.createMessage("Community Group Join", message, token.device);
                     notifications.sendToDevice(token.id, payload, function (err, response, body) {
                         console.log(body);
+                        if (err) return res.apiError('failed to send notification', err);
                     });
+                } else {
+                    if (err) return res.apiError('failed to join community  group', "no FCM Token");
                 }
             });
             res.json(leaderInfo);
