@@ -68,6 +68,23 @@ module.exports = {
             if (err) return res.send(err);
             if (!item) return res.send('not found');
 
+            //console.log(item);
+            for(var attribute in req.body) {
+                if (attribute in item) {
+                    item[attribute] = req.body[attribute];
+                } else {
+                    return res.send({ error: "Invalid attribute '" + attribute + "' in request" });
+                }
+            }
+
+            req.body = item;
+            if ("password" in req.body) {
+                console.log("Password in model");
+                delete req.body.password;
+            }
+            //console.log(req.body["password"]);
+            console.log(req.body);
+
             item.getUpdateHandler(req).process(req.body, function (err) {
 
                 if (err) return res.send(err);
