@@ -94,7 +94,7 @@ keystone.set('email tests', require('./routes/emails'));
 
 keystone.set('nav', {
     'users': 'users',
-    'notifications' : 'notifications',
+    'notifications' : ['notifications', 'user-notifications'],
     'ride sharing' : ['rides', 'passengers'],
     'prayers' : ['prayer-requests', 'prayer-responses'],
     'connections' : ['campus', 'ministries', 'ministry-teams', 'community-groups', 'ministry-questions', 'ministry-question-options', 'ministry-question-answers'],
