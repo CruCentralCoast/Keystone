@@ -7,7 +7,6 @@ var MinistryTeam = keystone.list("MinistryTeam");
 var model = MinistryTeam.model;
 
 var notifications = require('./notificationUtils');
-var fcmUtils = require('./fcmUtils');
 
 router.route('/')
     .get(function (req, res) {

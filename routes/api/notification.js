@@ -86,7 +86,7 @@ router.route('/eventNotification')
             var date = new Date(event.startDate.getTime() - timeBefore);
 
             newNotifiation = new Notification({
-                message: req.body.message,
+                body: req.body.body,
                 time: date,
                 ministries: event.parentMinistries
             });
@@ -115,7 +115,7 @@ setInterval(function () {
                         var to = '/topics/' + ministry._id;
 
                         // Sets up the message data
-                        var message = fcmUtils.createMessage(notification.message, ministry.name, "Topic");
+                        var message = fcmUtils.createMessage(notification.body, ministry.name, "Topic");
 
                         notificationUtils.sendToTopic(to, message, function (err, response) {
                             if (err) {

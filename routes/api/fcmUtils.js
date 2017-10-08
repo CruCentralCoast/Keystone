@@ -1,6 +1,6 @@
 module.exports = {
     // Device Types: 'iPhone', 'Android', 'Topic'
-    createMessage: function (title, message, device) {
+    createMessage: function (title, body, device) {
         // iOS requires a certain message format
         /*if (device === "iphone") {
             return {
@@ -19,7 +19,7 @@ module.exports = {
         }*/
         return {
             notification: {
-                body: message,
+                body: body,
                 title: title,
                 sound: "default"
             }

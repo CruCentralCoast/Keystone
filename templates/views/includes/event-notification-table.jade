@@ -1,13 +1,13 @@
 table.table.table-striped#event-notification-table
     tr
         th
-        th Message
+        th Body
         th Time To Send
     each notification in event.notifications
         tr 
             td                                     
                 a(href='/keystone/notifications/' + notification._id)
                     span.glyphicon.glyphicon-pencil
-            td= notification.message
+            td= notification.body
              - var date = new Date(notification.time.toISOString().replace("Z", "+0800"))
             td= date.toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})

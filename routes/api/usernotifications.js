@@ -3,8 +3,8 @@ var keystone = require('keystone'),
     express = require('express'),
     router = express.Router();
 
-var Notification = keystone.list("UserNotification");
-var model = Notification.model;
+var UserNotification = keystone.list("UserNotification");
+var model = UserNotification.model;
 
 router.route('/')
     .get(function (req, res) {

@@ -19,5 +19,5 @@ UserNotification.add({
     user: { type: Types.Relationship, initial: true, ref: 'User'}
 });
 
-UserNotification.defaultColumns = 'message, sent, time, user';
+UserNotification.defaultColumns = 'body, sent, time, user';
 UserNotification.register();

@@ -11,11 +11,11 @@ var Notification = new keystone.List('Notification', {
 });
 
 Notification.add({
-    message: { type: String, required: true, initial: true },
+    body: { type: String, required: true, initial: true },
     time: { type: Types.Datetime, required: true, initial: true, default: Date.now },
     sent: { type: Types.Boolean, initial: true, default: false },
     ministries: { type: Types.Relationship, initial: true, many: true, ref: 'Ministry', label: 'Ministries to send to (none = everyone)' }
 });
 
-Notification.defaultColumns = 'message, sent, time, ministries';
+Notification.defaultColumns = 'body, sent, time, ministries';
 Notification.register();

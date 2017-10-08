@@ -5,7 +5,6 @@ var async = require('async'),
     router = express.Router();
 
 var notifications = require("./notificationUtils");
-var fcmUtils = require("./fcmUtils");
 
 var model = keystone.list("Ride").model;
 
@@ -86,7 +85,7 @@ router.route('/:id/passengers')
                 if (ride.passengers.indexOf(req.body.passenger_id) == -1)
                     ride.passengers.push(req.body.passenger_id);
 
-                var fcmTokens = []
+                var fcmTokens = [];
                 /*if (leader.fcmId) {
                     fcmTokens.push({
                         id: ride.fcmId,
@@ -123,7 +122,7 @@ router.route('/:id/passengers/:passenger_id')
 
                 async.series([function (cb) {
                     // START: Send Notification to Driver
-                    var fcmTokens = []
+                    var fcmTokens = [];
                     /*if (leader.fcmId) {
                         fcmTokens.push({
                             id: ride.fcmId,
@@ -147,7 +146,7 @@ router.route('/:id/passengers/:passenger_id')
                     // END: Send Notification to Driver
                 }, function (cb) {
                     // START: Send Notification to Passenger
-                    var fcmTokens = []
+                    var fcmTokens = [];
                     /*if (leader.fcmId) {
                         fcmTokens.push({
                             id: passenger.fcmId,
