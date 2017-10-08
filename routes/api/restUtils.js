@@ -69,7 +69,7 @@ module.exports = {
             if (!item) return res.send('not found');
 
             //console.log(item);
-            for(var attribute in req.body) {
+            for (var attribute in req.body) {
                 if (attribute in item) {
                     item[attribute] = req.body[attribute];
                 } else {
@@ -77,18 +77,15 @@ module.exports = {
                 }
             }
 
-            if ("password" in item) {
-                console.log("Password in model");
-                delete item.password;
-            }
-            req.body = item;
-            //console.log(req.body["password"]);
-            console.log(item);
-
-            item.getUpdateHandler(req).process(req.body, function (err) {
+            /*item.getUpdateHandler(req).process(updatedItem, function (err) {
 
                 if (err) return res.send(err);
 
+                return res.status(200).json(item);
+            });*/
+            item.save(function(err) { 
+                if (err) return res.send(err);
+                
                 return res.status(200).json(item);
             });
 
