@@ -69,6 +69,8 @@ User.add({
     communityGroups: { type: Types.Relationship, ref: 'CommunityGroup', many: true },
     ministryTeams: { type: Types.Relationship, ref: 'MinistryTeam', many: true },
     summerMissions: { type: Types.Relationship, ref: 'SummerMission', many: true }
+}, {
+    lastActive: { type: Types.Datetime, format: 'YYYY MM DD hh:mm a', default: Date.now() }
 });
 
 
