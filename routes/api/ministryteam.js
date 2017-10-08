@@ -92,26 +92,23 @@ router.route('/:id/join').post(function (req, res) {
             if (leader.fcmId) {
                 fcmTokens.push({
                     id: leader.fcmId,
-                    device: leader.deviceType
+                    device: leader.deviceType,
+                    user: leader._id
+                });
+            } else {
+                fcmTokens.push({
+                    user: leader._id
                 });
             }
         });
 
         var message = name + " wants to join " + team.name + ". Their phone number is " + phone + ".";
 
-        fcmTokens.forEach(function (token) {
-            if (token) {
-                var payload = fcmUtils.createMessage(team.name, message, token.device);
-                notifications.sendToDevice(token.id, payload, function (err, response, body) {
-                    console.log(body);
-                });
-            }
+        notifications.sendToDevice(fcmTokens, team.name, message, "", function (err) {
+            if (err) return res.apiError('failed to send notification', err);
         });
-        /*notifications.sendToDevice(fcmTokens, payload, function(err, response, body) {
-            console.log(body);
-        });*/
 
-        res.json(leaderInfo);
+        return res.json(leaderInfo);
     });
 });
 
