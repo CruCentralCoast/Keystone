@@ -18,7 +18,7 @@ block content
                 // Tab for sending a single notification
                 .tab-pane.active#individual
                     h3 Send a Notification
-                    form#push-form(action='api/notifications/push', method='POST')
+                    form#push-form(action='/api/notifications/push', method='POST')
                         .form-group
                             textarea.form-control#msg(class='', name='msg', placeholder='Message to send', required)
                         .form-group         
@@ -32,7 +32,7 @@ block content
                             
                 .tab-pane#schedule
                     h3 Schedule a Notification
-                    form#schedule-form(action='api/notifications', method='POST')
+                    form#schedule-form(action='/api/notifications', method='POST')
                         .form-group
                             textarea.form-control(name='body', placeholder='Message to send', required)
                         .form-group
