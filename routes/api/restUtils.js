@@ -76,13 +76,7 @@ module.exports = {
                     return res.send({ error: "Invalid attribute '" + attribute + "' in request" });
                 }
             }
-
-            /*item.getUpdateHandler(req).process(updatedItem, function (err) {
-
-                if (err) return res.send(err);
-
-                return res.status(200).json(item);
-            });*/
+            
             item.save(function(err) { 
                 if (err) return res.send(err);
                 
