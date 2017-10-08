@@ -40,6 +40,7 @@ var rides = require('./api/ride');
 var campuses = require('./api/campus');
 var events = require('./api/event');
 var users = require('./api/user');
+var userNotifications = require('./api/usernotifications');
 var ministries = require('./api/ministry');
 var summermissions = require('./api/summermission');
 var notifications = require('./api/notification');
@@ -126,6 +127,7 @@ exports = module.exports = function (app) {
     app.use('/api/campuses', campuses);
     app.use('/api/events', events);
     app.use('/api/users', users);
+    app.use('/api/usernotifications', userNotifications);
     app.use('/api/ministries', ministries);
     app.use('/api/summermissions', summermissions);
     app.use('/api/notifications', notifications);
