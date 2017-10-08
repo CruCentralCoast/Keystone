@@ -77,13 +77,13 @@ module.exports = {
                 }
             }
 
-            req.body = item;
-            if ("password" in req.body) {
+            if ("password" in item) {
                 console.log("Password in model");
-                delete req.body.password;
+                delete item.password;
             }
+            req.body = item;
             //console.log(req.body["password"]);
-            console.log(req.body);
+            console.log(item);
 
             item.getUpdateHandler(req).process(req.body, function (err) {
 
