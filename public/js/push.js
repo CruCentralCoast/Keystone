@@ -1,7 +1,7 @@
 // Gets the list of campuses from the server once the page loads
 $.ajax({
     type: 'get',
-    url: 'api/campuses',
+    url: '/api/campuses',
     success: function (response) {
         var campuses = $(response);
 
@@ -10,7 +10,7 @@ $.ajax({
 
             $.ajax({
                 type: 'GET',
-                url: 'api/campuses/' + campus._id + '/ministries',
+                url: '/api/campuses/' + campus._id + '/ministries',
                 async: false,
                 success: function (ministries) {
                     var ministries = $(ministries); //TODO: Look into removing the double declaration
@@ -36,8 +36,8 @@ $("#push-form").ajaxForm({
 
             $.ajax({
                 type: 'POST',
-                url: 'api/notifications',
-                body: {
+                url: '/api/notifications',
+                data: {
                     body: $("#push-form textarea").val(),
                     sent: true,
                     ministries: $("#push-form select").val(),
