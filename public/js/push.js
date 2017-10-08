@@ -13,7 +13,7 @@ $.ajax({
                 url: 'api/campuses/' + campus._id + '/ministries',
                 async: false,
                 success: function (ministries) {
-                    var ministries = $(ministries);
+                    var ministries = $(ministries); //TODO: Look into removing the double declaration
 
                     ministries.each(function (index, ministry) {
                         $('#push-form select[name="ministries[]"]').append("<option value='" + ministry._id + "'>" + ministry.name + "</option>");
@@ -37,8 +37,8 @@ $("#push-form").ajaxForm({
             $.ajax({
                 type: 'POST',
                 url: 'api/notifications',
-                data: {
-                    message: $("#push-form textarea").val(),
+                body: {
+                    body: $("#push-form textarea").val(),
                     sent: true,
                     ministries: $("#push-form select").val(),
                     time: new Date()
