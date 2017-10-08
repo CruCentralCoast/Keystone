@@ -31,28 +31,18 @@ router.route('/:id')
 
             // START: Send Notification to Passengers
             var fcmTokens = [];
-            ride.passengers.forEach(function (passenger) {
+            /*ride.passengers.forEach(function (passenger) {
                 fcmTokens.push({
                     id: passenger.fcmId,
                     device: passenger.deviceType
                 });
-            });
+            });*/
 
             var message = "You have been dropped from a ride to " + ride.event.name + ".";
 
-            
-            fcmTokens.forEach(function (token) {
-                if (token) {
-                    var payload = fcmUtils.createMessage(notificationTitle, message, token.device);
-                    notifications.sendToDevice(token.id, payload, function (err, response) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        else {
-                            if (!process.env.TESTING)
-                                console.log(response);
-                        }
-                    });
+            notifications.sendToDevice(fcmTokens, notificationTitle, message, "", function (err) {
+                if (err) {
+                    res.send(err);
                 }
             });
 
@@ -60,7 +50,8 @@ router.route('/:id')
                 passenger.remove();
             });
             ride.remove();
-            return res.status(204).json();
+            //return res.status(204).json();
+            return res.status(200).send({Warning: "Push Notifications disabled until Passengers are set up to be registered users"});
         });
     });
 
@@ -95,26 +86,30 @@ router.route('/:id/passengers')
                 if (ride.passengers.indexOf(req.body.passenger_id) == -1)
                     ride.passengers.push(req.body.passenger_id);
 
-                var fcmToken = ride.fcmId;
-                var deviceType = ride.deviceType;
+                var fcmTokens = []
+                /*if (leader.fcmId) {
+                    fcmTokens.push({
+                        id: ride.fcmId,
+                        device: ride.deviceType,
+                        user: leader._id
+                    });
+                } else {
+                    fcmTokens.push({
+                        user: leader._id
+                    });
+                }*/
 
                 var message = "Passenger " + passenger.name + " has been added to your car.";
-                var payload = fcmUtils.createMessage(ride.event.name, message, deviceType);
 
-                if (fcmToken.length > 0) {
-                    notifications.sendToDevice(fcmToken, payload, function (err, response) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        else {
-                            if (!process.env.TESTING)
-                                console.log(response);
-                        }
-                    });
-                }
+                notifications.sendToDevice(fcmTokens, ride.event.name, message, "", function (err) {
+                    if (err) {
+                        return res.send(err);
+                    }
+                });
 
                 ride.save();
-                return res.status(200).json(ride);
+                return res.status(200).send({Warning: "Push Notifications disabled until Passengers are set up to be registered users"});
+                //return res.status(200).json(ride);
             });
         });
     });
@@ -128,50 +123,57 @@ router.route('/:id/passengers/:passenger_id')
 
                 async.series([function (cb) {
                     // START: Send Notification to Driver
-                    var fcmToken = ride.fcmId;
-                    var deviceType = ride.deviceType;
+                    var fcmTokens = []
+                    /*if (leader.fcmId) {
+                        fcmTokens.push({
+                            id: ride.fcmId,
+                            device: ride.deviceType,
+                            user: leader._id
+                        });
+                    } else {
+                        fcmTokens.push({
+                            user: leader._id
+                        });
+                    }*/
 
                     var message = "Passenger " + passenger.name + " has been dropped from your car.";
-                    var payload = fcmUtils.createMessage(ride.event.name, message, deviceType);
 
-                    if (fcmToken.length > 0) {
-                        notifications.sendToDevice(fcmToken, payload, function (err, response) {
-                            if (err) {
-                                console.error(err);
-                            }
-                            else {
-                                if (!process.env.TESTING)
-                                    console.log(response);
-                            }
-                            cb();
-                        });
-                    }
+                    notifications.sendToDevice(fcmTokens, ride.event.name, message, "", function (err) {
+                        if (err) {
+                            return res.send(err);
+                        }
+                        cb();
+                    });
                     // END: Send Notification to Driver
                 }, function (cb) {
                     // START: Send Notification to Passenger
-                    var fcmToken = passenger.fcmId;
-                    var deviceType = passenger.deviceType;
+                    var fcmTokens = []
+                    /*if (leader.fcmId) {
+                        fcmTokens.push({
+                            id: passenger.fcmId,
+                            device: passenger.deviceType,
+                            user: leader._id
+                        });
+                    } else {
+                        fcmTokens.push({
+                            user: leader._id
+                        });
+                    }*/
 
                     var message = "You have been dropped from a ride to " + ride.event.name + ".";
-                    var payload = fcmUtils.createMessage(notificationTitle, message, deviceType);
 
-                    if (fcmToken.length > 0) {
-                        notifications.sendToDevice(fcmToken, payload, function (err, response) {
-                            if (err) {
-                                console.error(err);
-                            }
-                            else {
-                                if (!process.env.TESTING)
-                                    console.log(response);
-                            }
-                            cb();
-                        });
-                    }
+                    notifications.sendToDevice(fcmTokens, notificationTitle, message, "", function (err) {
+                        if (err) {
+                            return res.send(err);
+                        }
+                        cb();
+                    });
                     // END: Send Notification to Passenger
                 }]);
                 passenger.remove();
                 ride.save();
-                return res.json(ride);
+                return res.status(200).send({Warning: "Push Notifications disabled until Passengers are set up to be registered users"});
+                //return res.json(ride);
             });
         });
     });

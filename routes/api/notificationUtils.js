@@ -2,6 +2,7 @@ var keystone = require('keystone'),
     admin = require("firebase-admin"),
     fcmUtils = require("./fcmUtils");
 
+var UserNotification = keystone.list("UserNotification");
 var private_key = process.env.FCM_ACCOUNT_PRIVATE_KEY;
 
 if (process.env.NODE_ENV == 'production') {
@@ -38,30 +39,26 @@ module.exports.sendToDevice = function (tokens, title, body, subTitle, callback)
         if (token.id) {
             var payload = fcmUtils.createMessage(title, body, token.device);
             
-            admin.messaging().sendToDevice(token.id, payload, options).then(function (response) {
-                console.log("Successfully sent message:", response);
-                addToUserNotifications(title, body, subTitle, true, token.leader);
+            admin.messaging().sendToDevice(token.id, payload, options).then(function () {
+                addToUserNotifications(title, body, subTitle, true, token.user);
                 callback();
             }).catch(function (error) {
-                console.log("Error sending message:", error);
-                addToUserNotifications(title, body, subTitle, false, token.leader);
-                callback();
+                addToUserNotifications(title, body, subTitle, false, token.user);
+                callback(error);
             });
         } else {
-            addToUserNotifications(title, body, subTitle, false, token.leader);
+            addToUserNotifications(title, body, subTitle, false, token.user);
         }
     }, this);
 };
 
 function addToUserNotifications(title, body, subTitle, sent, user) {
-    keystone.createItems({
-        UserNotification: [{
-            title: title,
-            body: body,
-            subTitle: subTitle,
-            sent: sent,
-            user: user
-        }]
+    UserNotification.model.create({
+        title: title,
+        body: body,
+        subTitle: subTitle,
+        sent: sent,
+        user: user.toString()
     });
 }
 
