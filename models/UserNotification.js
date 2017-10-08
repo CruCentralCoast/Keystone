@@ -12,7 +12,7 @@ var UserNotification = new keystone.List('UserNotification', {
 
 UserNotification.add({
     title: { type: String, required: false, initial: false},
-    body: { type: String, required: true, initial: false },
+    body: { type: String, required: true, initial: true },
     subTitle: { type: String, required: false, initial: false },
     time: { type: Types.Datetime, required: true, initial: true, default: Date.now },
     sent: { type: Types.Boolean, initial: true, default: false },
