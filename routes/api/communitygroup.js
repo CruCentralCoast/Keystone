@@ -109,15 +109,16 @@ router.route('/:id/join')
                     fcmTokens.push({
                         id: leader.fcmId,
                         device: leader.deviceType,
-                        leader: leader.name.first + " " + leader.name.last
+                        user: leader._id
                     });
                 } else {
                     fcmTokens.push({
-                        leader: leader.name.first + " " + leader.name.last
+                        user: leader._id
                     });
                 }
             });
 
+            //console.log(fcmTokens);
             var message = name + " wants to join " + group.name + ". Their phone number is " + phone + ".";
 
             notifications.sendToDevice(fcmTokens, "Community Group Join", message, "", function (err) {
