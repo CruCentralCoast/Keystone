@@ -55,7 +55,6 @@ module.exports = {
 
     // creates something... such description!
     create: function (model, req, res) {
-        console.log(req.body);
         model.create(req.body, function (err, item) {
             if (err) return res.status(400).send(err);
             return res.status(200).json(item);

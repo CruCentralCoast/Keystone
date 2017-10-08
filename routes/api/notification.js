@@ -41,7 +41,6 @@ router.route('/find')
 
 // Pushes a simple notification to a topic
 router.route('/push').post(function (req, res) {
-    console.log(req.body);
     req.body.ministries.forEach(function (ministryString) {
         var find = ministryString != 'global' ? { _id: ministryString } : { name: '' };
         keystone.list('Ministry').model.find(find).exec(function (err, ministries) {
