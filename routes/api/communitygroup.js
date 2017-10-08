@@ -1,8 +1,7 @@
 var keystone = require('keystone'),
     restUtils = require('./restUtils'),
     express = require('express'),
-    router = express.Router(),
-    fcmUtils = require("./fcmUtils");
+    router = express.Router();
 
 var notifications = require('./notificationUtils');
 
@@ -109,22 +108,22 @@ router.route('/:id/join')
                 if (leader.fcmId) {
                     fcmTokens.push({
                         id: leader.fcmId,
-                        device: leader.deviceType
+                        device: leader.deviceType,
+                        leader: leader.name.first + " " + leader.name.last
+                    });
+                } else {
+                    fcmTokens.push({
+                        leader: leader.name.first + " " + leader.name.last
                     });
                 }
             });
 
             var message = name + " wants to join " + group.name + ". Their phone number is " + phone + ".";
 
-            fcmTokens.forEach(function (token) {
-                if (token) {
-                    var payload = fcmUtils.createMessage("Community Group Join", message, token.device);
-                    notifications.sendToDevice(token.id, payload, function (err, response, body) {
-                        console.log(body);
-                    });
-                }
+            notifications.sendToDevice(fcmTokens, "Community Group Join", message, "", function (err) {
+                if (err) return res.apiError('failed to send notification', err);
             });
-            res.json(leaderInfo);
+            return res.json(leaderInfo);
         });
     });
 
