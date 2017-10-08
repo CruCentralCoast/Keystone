@@ -68,10 +68,24 @@ module.exports = {
             if (err) return res.send(err);
             if (!item) return res.send('not found');
 
-            item.getUpdateHandler(req).process(req.body, function (err) {
+            //console.log(item);
+            for (var attribute in req.body) {
+                if (attribute in item) {
+                    item[attribute] = req.body[attribute];
+                } else {
+                    return res.send({ error: "Invalid attribute '" + attribute + "' in request" });
+                }
+            }
+
+            /*item.getUpdateHandler(req).process(updatedItem, function (err) {
 
                 if (err) return res.send(err);
 
+                return res.status(200).json(item);
+            });*/
+            item.save(function(err) { 
+                if (err) return res.send(err);
+                
                 return res.status(200).json(item);
             });
 
