@@ -68,7 +68,6 @@ module.exports = {
             if (err) return res.send(err);
             if (!item) return res.send('not found');
 
-            //console.log(item);
             for (var attribute in req.body) {
                 if (attribute in item) {
                     item[attribute] = req.body[attribute];

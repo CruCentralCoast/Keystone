@@ -115,7 +115,6 @@ router.route("/:id/leaders")
     .get(function (req, res) {
         model.findOne({ _id: req.params.id }).populate("leaders").exec(function (err, team) {
             if (err) return res.status(400).send(err);
-            console.log(team.leaders);
             return res.json(team.leaders);
         });
     });

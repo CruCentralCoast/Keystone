@@ -14,7 +14,6 @@ var Event = new keystone.List('Event', {
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/events';
-console.log(s3path);
 
 // the separate properties for each imageLink are necessary because in the version of keystone
 // these models were created under, the 'format' properties on s3files is broken, so the html is
