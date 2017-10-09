@@ -40,7 +40,7 @@ $("#push-form").ajaxForm({
                 data: {
                     body: $("#push-form textarea").val(),
                     sent: true,
-                    ministries: $("#push-form select").val(),
+                    ministries: ($.inArray('global', $("#push-form select").val()) > -1) ? [] : $("#push-form select").val(),
                     time: new Date()
                 }
             });
