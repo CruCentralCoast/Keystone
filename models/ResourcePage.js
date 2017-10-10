@@ -16,7 +16,7 @@ ResourcePage.add({
     publishedDate: { type: Types.Date, index: true },
     content: { type: Types.Html, wysiwyg: true, height: 350 },
     tags: { type: Types.Relationship, ref: 'ResourceTag', many: true },
-    restricted: { type: Types.Boolean, note: 'Whether the resource is only for leaders' }
+    restricted: { type: Types.Boolean, default: false, note: 'Whether the resource is only for leaders' }
 });
 
 ResourcePage.track = true;

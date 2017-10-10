@@ -11,8 +11,8 @@ router.route('/phone/:number')
         if (isNaN(req.params.number)) {
             return res.status(400).send('Error: Invalid phone number format.');
         }
-        if (req.params.number.length < 10) {
-            return res.status(400).send('Error: Phone number not long enough.');
+        if (req.params.number.length != 10) {
+            return res.status(400).send('Error: Phone number not correct length. Should be 10 digits.');
         }
         model.findOne({ 'phone': RegExp(req.params.number + '$') }).exec(function (err, user) {
             if (err) return res.send(err);
