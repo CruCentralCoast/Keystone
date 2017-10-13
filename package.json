@@ -1,6 +1,6 @@
 {
   "name": "cru-central-coast-keystone",
-  "version": "1.2",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "ajax-request": "^1.2.3",
@@ -19,8 +19,9 @@
   },
   "devDependencies": {
     "blanket": "^1.2.2",
-    "chai": "^3.5.0",
+    "mocha": "^4.0.1",
     "eslint": "^4.8.0",
+    "testdouble": "^3.2.6",
     "gulp": "^3.7.0",
     "gulp-jshint": "^1.9.0",
     "gulp-shell": "^0.4.3",
@@ -36,7 +37,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "start": "node keystone.js",
-    "test": "mocha test/suite.js"
+    "test": "mocha"
   },
   "main": "keystone.js"
 }
