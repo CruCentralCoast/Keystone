@@ -25,13 +25,13 @@ jobs:
 
       # Download and cache dependencies
       # TODO: Look into Restore Cache error "Error computing cache key: template: cacheKey:1: unexpected unclosed action in command"
-      # - restore_cache:
-      #     keys: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          keys: dependency-cache-{{ arch }}-{{ checksum "package.json" }}
 
-      # - save_cache:
-      #    key: dependency-cache-{{ checksum "package.json" }}
-      #    paths:
-      #      - node_modules
+      - save_cache:
+         key: dependency-cache-{{ arch }}-{{ checksum "package.json" }}
+         paths:
+           - node_modules
       
       - run:
           name: install-npm
