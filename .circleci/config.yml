@@ -27,17 +27,17 @@ jobs:
       # TODO: Look into Restore Cache error "Error computing cache key: template: cacheKey:1: unexpected unclosed action in command"
       - restore_cache:
           keys: dependency-cache-{{ arch }}-{{ checksum "package.json" }}
-
-      - save_cache:
-         key: dependency-cache-{{ arch }}-{{ checksum "package.json" }}
-         paths:
-           - node_modules
       
       - run:
           name: install-npm
           command: |
             npm install
             sudo npm install -g eslint
+            
+      - save_cache:
+         key: dependency-cache-{{ arch }}-{{ checksum "package.json" }}
+         paths:
+           - node_modules
 
       # Tests aren't currently set up in the repo, but will be soon
       # - run:
