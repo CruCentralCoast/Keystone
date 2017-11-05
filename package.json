@@ -1,6 +1,6 @@
 {
   "name": "cru-central-coast-keystone",
-  "version": "1.2",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "ajax-request": "^1.2.3",
