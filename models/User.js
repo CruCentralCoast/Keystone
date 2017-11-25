@@ -114,7 +114,7 @@ User.schema.methods.resetPassword = function(callback) {
         new keystone.Email('forgotten-password').send({
             user: user,
             link: '/reset-password/' + user.resetPasswordKey,
-            subject: 'Reset your Cru Admin Password',
+            subject: 'Reset your Cru Central Coast Password',
             to: user.email,
             from: {
                 name: 'Cru Central Coast',
