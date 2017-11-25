@@ -10,13 +10,18 @@ var validators = require('mongoose-validators');
 
 var User = new keystone.List('User', {
     track: true,
-    autokey: { path: 'key', from: 'name', unique: true }
+    autokey: { path: 'key', from: 'email', unique: true }
 });
 
 var s3path = process.env.IMAGE_ROOT_PATH + '/users';
 
 User.add({
-    name: { type: Types.Name, required: true, index: true },
+    name: { 
+        type: Types.Name, 
+        required: true, 
+        initial: true, 
+        index: true
+    },
     email: { type: Types.Email, required: true, initial: true, index: true },
     phone: { 
         type: String, 

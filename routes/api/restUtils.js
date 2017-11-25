@@ -1,12 +1,22 @@
 module.exports = {
 
-    search: function (model, req, res) {
-        model.find(req.body.conditions, req.body.projection, req.body.options, function (err, item) {
-            if (err) return res.send(err);
-            return res.json(item);
+    // creates something... such description!
+    create: function (model, req, res) {
+        model.create(req.body, function (err, item) {
+            if (err) return res.status(400).send(err);
+            return res.status(200).json(item);
         });
     },
 
+    enumValues: function (model, req, res) {
+        var path = model.schema.path(req.params.key);
+        if (path.options) {
+            return res.json(path.options.options);
+        }
+        else
+            return res.json();
+    },
+    
     // used for queries
     find: function (model, req, res) {
         var data = (req.method == 'POST') ? req.body : req.query;
@@ -36,14 +46,6 @@ module.exports = {
         });
     },
 
-    // used to get everything from a collection
-    list: function (model, req, res) {
-        model.find().exec(function (err, items) {
-            if (err) return res.status(400).send(err);
-            return res.status(200).json(items);
-        });
-    },
-
     // gets something by it's id
     get: function (model, req, res) {
         model.findById(req.params.id).exec(function (err, item) {
@@ -52,12 +54,19 @@ module.exports = {
             return res.status(200).json(item);
         });
     },
-
-    // creates something... such description!
-    create: function (model, req, res) {
-        model.create(req.body, function (err, item) {
+    
+    // used to get everything from a collection
+    list: function (model, req, res) {
+        model.find().exec(function (err, items) {
             if (err) return res.status(400).send(err);
-            return res.status(200).json(item);
+            return res.status(200).json(items);
+        });
+    },
+
+    search: function (model, req, res) {
+        model.find(req.body.conditions, req.body.projection, req.body.options, function (err, item) {
+            if (err) return res.send(err);
+            return res.json(item);
         });
     },
 
@@ -99,15 +108,5 @@ module.exports = {
             });
 
         });
-    },
-
-    enumValues: function (model, req, res) {
-        var path = model.schema.path(req.params.key);
-        if (path.options) {
-            return res.json(path.options.options);
-        }
-        else
-            return res.json();
     }
-
 };
