@@ -2,27 +2,22 @@ module.exports = {
     // Device Types: 'iPhone', 'Android', 'Topic'
     createMessage: function (title, body, device) {
         // iOS requires a certain message format
-        /*if (device === "iphone") {
+        if (device === "iphone") {
             return {
                 notification: {
-                    body: message,
-                    title: title
+                    body: body,
+                    title: title,
+                    sound: "default"
                 }
             };
         } else {
             return {
                 data: {
-                    message: message,
-                    title: title
+                    message: body,
+                    title: title,
+                    sound: "default"
                 }
             };
-        }*/
-        return {
-            notification: {
-                body: body,
-                title: title,
-                sound: "default"
-            }
-        };
+        }
     }
 };
