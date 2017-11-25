@@ -2,6 +2,7 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 var imageUtils = require('./utils/ImageUtils');
 var validators = require('mongoose-validators');
+var normalizeUrl = require('normalize-url');
 
 /**
  * Event Model
@@ -82,8 +83,7 @@ Event.add({
         type: Types.Url,
         initial: true,
         note: 'A link to the Facebook Event',
-        label: "Facebook URL",
-        //validate: [validators.isURL]
+        label: "Facebook URL"
     },
     locationTBD: { type: Boolean, initial: true, default: false, label: 'Location TBD' },
     location: { type: Types.Location, initial: true, dependsOn: { locationTBD: false }, defaults: { country: 'USA' } },
@@ -96,6 +96,48 @@ Event.add({
     displayOnWebsite: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the website?' },
     displayOnApp: { type: Types.Boolean, default: false, label: 'Is this event ready to display on the app?' }
 });
+
+Event.schema.pre('validate', function(next) {
+    this.url = normalizeUrl(this.url, {normalizeHttps: true, stripWWW: false});
+    var temp = this.url.split(":");
+    this.url = temp[0] + "s:" + temp[1];
+    if(!validFacebookEvent(this.url)) {
+        var err = new Error('Not a valid Facebook Event URL');
+        next(err);
+    }
+    next();
+});
+
+// Verifies that the provided url is formatted as a proper Facebook Event
+// Returns True if it is valid
+function validFacebookEvent(url) {
+    var splitURL = url.split("/events/");
+    // Verifies the url is an event url
+    if (splitURL.length != 2) {
+        return false;
+    }
+    var website = splitURL[0];
+    var eventID = splitURL[1].slice(-1) == "/" ? splitURL[1].slice(0, -1) : splitURL[1];
+
+    // Verifies that the url is for Facebook
+    if (website != "https://www.facebook.com") {
+        return false;
+    }
+
+    // Verifies that the event ID is in the correct form
+    if (!isNumeric(eventID)) {
+        return false;
+    }
+
+    return true;
+}
+
+function isNumeric(str) {
+    var re = /[0-9]+/;
+    var val = str.match(re);
+
+    return val[0].length == str.length;
+}
 
 Event.defaultColumns = 'name, location, startDate, endDate, imageLink';
 Event.register();
