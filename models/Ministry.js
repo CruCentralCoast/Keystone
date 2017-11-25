@@ -70,7 +70,12 @@ Ministry.add({
         value: imageUtils.bannerImageLinkValue,
         format: imageUtils.imageLinkFormat
     },
-    campus: { type: Types.Relationship, ref: 'Campus', initial: true, default: '' }
+    campus: { type: Types.Relationship, ref: 'Campus', initial: true, default: '' },
+    facebook: { type: Types.Url },
+    instagram: { type: Types.Url },
+    twitter: { type: Types.Url },
+    snapchat: { type: Types.Url },
+    youTube: { type: Types.Url }
 });
 
 Ministry.relationship({ path: 'teams', ref: 'MinistryTeam', refPath: 'parentMinistry' });
