@@ -2,13 +2,10 @@ extends ../layouts/layout
 
 block content
     .container: .jumbotron
-        img(src='/images/logo.svg', width='160')
+        img(src='https://s3.us-west-1.amazonaws.com/static.crucentralcoast.com/images/logo.png', width='100')
         h1 Welcome
-        p This is your new <a href='http://keystonejs.com' target='_blank'>KeystoneJS</a> website.
-        p It includes the latest versions of
-            | <a href='http://getbootstrap.com/' target='_blank'>Bootstrap</a>
-            | and <a href='http://www.jquery.com/' target='_blank'>jQuery</a>.
-        p Visit the <a href='http://keystonejs.com/guide' target='_blank'>Getting Started</a> guide to learn how to customise it.
+        p This is the temporary home of the admin panel for the Cru Central Coast App.
+        p In the near future this page will switch to being the Cru Central Coast homepage and this admin panel will move to a new address.
         hr
         if user && user.canAccessKeystone
             p
@@ -18,5 +15,4 @@ block content
                 a(href='/keystone/signin', style='margin-right: 10px').btn.btn-lg.btn-primary Sign in
                 |  to use the Admin UI.
         hr
-        p Remember to <a href='https://github.com/keystonejs/keystone' target='_blank'>Star KeystoneJS on GitHub</a> and
-            | <a href='https://twitter.com/keystonejs' target='_blank'>follow @keystonejs</a> on twitter for updates.
+        p If you have any issues or questions please contact Kyle Fetcher.
