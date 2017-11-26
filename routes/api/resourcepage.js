@@ -26,9 +26,9 @@ router.route('/:id')
         model.findById(req.params.id).exec(function (err, item) {
             if (err) return res.send(err);
             if (!item) return res.send('not found');
-            if (item.tags.contains(leaderTagID) && req.query.LeaderAPIKey != leaderAPIKey) { //TODO: Figure out what this does
+            /*if (item.tags.contains(leaderTagID) && req.query.LeaderAPIKey != leaderAPIKey) {
                 return res.send("not authorized");
-            }
+            }*/ //TODO: Re-implement access check
             return res.json(item);
         });
     });
