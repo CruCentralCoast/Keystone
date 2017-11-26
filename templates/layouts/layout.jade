@@ -1,3 +1,5 @@
+include ../mixins/flash-messages
+
 doctype html
 html(lang="en-US")
 
@@ -45,6 +47,7 @@ html(lang="en-US")
                             if user
                                 if user.canAccessKeystone
                                     li: a(href='/keystone') Open Keystone
+                                li: a(href='/changepassword') Change Password
                                 li: a(href='/keystone/signout') Sign Out
                             else
                                 li: a(href='/keystone/signin') Sign In

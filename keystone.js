@@ -40,7 +40,9 @@ keystone.init({
     'user model': 'User',
 
     'wysiwyg images': true,
-    'wysiwyg s3 images': true
+    'wysiwyg s3 images': true,
+
+    'signin logo': 'https://s3.us-west-1.amazonaws.com/static.crucentralcoast.com/images/logo.png'
 });
 
 // Load your project's Models
@@ -81,17 +83,15 @@ keystone.set('email locals', {
     }
 });
 
-// Setup replacement rules for emails, to automate the handling of differences
-// between development a production.
-
-// Be sure to update this rule to include your site's actual domain, and add
-// other rules your email templates require.
-
-
 keystone.set('email tests', require('./routes/emails'));
 
-// Configure the navigation bar in Keystone's Admin UI
+// Configure the signin redirect
+keystone.set('signin redirect', function(user, req, res){
+    var url = (user.isAdmin) ? '/keystone' : '/';
+    res.redirect(url);
+});
 
+// Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {
     'users': 'users',
     'notifications' : ['notifications', 'user-notifications'],
