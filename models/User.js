@@ -106,7 +106,8 @@ User.schema.virtual('canAccessKeystone').get(function() {
  * =======
  */
 
-User.schema.methods.resetPassword = function(callback) {
+// This function will probably need ot be rewritten
+User.schema.methods.sendResetPasswordEmail = function(callback) {
     var user = this;
     user.resetPasswordKey = keystone.utils.randomString([16,24]);
     user.save(function(err) {
@@ -122,6 +123,19 @@ User.schema.methods.resetPassword = function(callback) {
             }
         }, callback);
     });
+};
+
+// Check on status of https://github.com/keystonejs/keystone/issues/1339 to see if confirming old password has been added
+User.schema.methods.resetPassword = function(newPassword, confirmNewPassword, callback) {
+    var user = this;
+    if (newPassword.length < 8 || newPassword.length > 72) {
+        throw new Error("Passwords must be between 8 and 72 characters.");
+    }
+    if (newPassword != confirmNewPassword) {
+        throw new Error("The Passwords entered do not match.")
+    }
+    user.password = newPassword;
+    user.save();
 };
 
 
