@@ -65,6 +65,7 @@ exports = module.exports = function (app) {
     app.get('/notifications/renderScheduledNotifications', routes.views.notifications.renderScheduledNotifications);
     app.all('/notifications/renderEventNotifications', routes.views.notifications.renderEventNotifications);
     app.all('/notifications/renderEventNotificationTable', routes.views.notifications.renderEventNotificationTable);
+    app.get('/changepassword', routes.views.changepassword);
     // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
     // app.get('/protected', middleware.requireUser, routes.views.protected);
 

@@ -28,6 +28,27 @@ router.route('/')
         restUtils.create(model, req, res);
     });
 
+// TODO: Add an auth check
+router.route('/changepassword')
+    .get(function (req, res) {
+        return res.json(req.user.id);
+    })
+    .post(function (req, res) {
+        model.findById(req.user.id).exec(function (err, item) {
+            if (err) return res.status(400).send(err);
+            if (!item) return res.status(400).send(item);
+            try {
+                item.resetPassword(req.body.password, req.body.confirmPassword);
+            } catch (err) {
+                return res.status(200).send(err.message);
+            }
+            return res.status(200).json({
+                post: "Password Reset",
+                success: true
+            });
+        });
+    });
+
 router.route('/:id')
     .get(function (req, res) {
         restUtils.get(model, req, res);
