@@ -98,12 +98,14 @@ Event.add({
 });
 
 Event.schema.pre('validate', function(next) {
-    this.url = normalizeUrl(this.url, {normalizeHttps: true, stripWWW: false});
-    var temp = this.url.split(":");
-    this.url = temp[0] + "s:" + temp[1];
-    if(!validFacebookEvent(this.url)) {
-        var err = new Error('Not a valid Facebook Event URL');
-        next(err);
+    if (this.url.length > 0 ) {
+        this.url = normalizeUrl(this.url, {normalizeHttps: true, stripWWW: false});
+        var temp = this.url.split(":");
+        this.url = temp[0] + "s:" + temp[1];
+        if(!validFacebookEvent(this.url)) {
+            var err = new Error('Not a valid Facebook Event URL');
+            next(err);
+        }
     }
     next();
 });
