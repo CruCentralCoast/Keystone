@@ -69,13 +69,15 @@ function getValidGroups(groups, answers)
 {
     var valid_groups = [];
     groups.forEach(function(group) {
-        // need at least 3 matches
-        var answerThreshold = 3;
         if (group.answers) 
         {
+            // need at least 3 matches
+            var answerThreshold = 3;
             var valid = false;
             var numMatches = 0;
             answers.forEach(function(answer) {
+                console.log('group answer: ' + group.answers[answer.question])
+                console.log('sent answer: ' + answer.value)
                 if (group.answers[answer.question] == answer.value) {
                     numMatches++;
                     
