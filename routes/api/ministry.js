@@ -81,9 +81,8 @@ function getValidGroups(groups, answers)
                 if (group.answers[answer.question] == answer.value) {
                     numMatches++;
                     
-                    if (numMatches == answerThreshold) {
+                    if (numMatches >= answerThreshold) {
                         valid = true;
-                        break;
                     }
                 }
             });
