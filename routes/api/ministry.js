@@ -81,11 +81,13 @@ function getValidGroups(groups, answers)
                 if (group.answers[answer.question] == answer.value) {
                     numMatches++;
                     
-                    if (numMatches >= answerThreshold) {
+                    if (numMatches == answerThreshold) {
                         valid = true;
+                        break;
                     }
                 }
             });
+            console.log(numMatches);
             if (valid)
                 valid_groups.push(group);
         }
