@@ -67,15 +67,21 @@ router.route('/:id/campus')
 // Filters out valid groups based on MinistryQuestionAnswers
 function getValidGroups(groups, answers)
 {
-    console.log(groups);
     var valid_groups = [];
     groups.forEach(function(group) {
+        // need at least 3 matches
+        var answerThreshold = 3;
         if (group.answers) 
         {
-            var valid = true;
+            var valid = false;
+            var numMatches = 0;
             answers.forEach(function(answer) {
-                if (valid && group.answers[answer.question] != answer.value) {
-                    valid = false;
+                if (group.answers[answer.question] == answer.value) {
+                    numMatches++;
+                    
+                    if (numMatches >= answerThreshold) {
+                        valid = true;
+                    }
                 }
             });
             if (valid)
@@ -118,8 +124,6 @@ router.route('/:id/communitygroups')
 				}
 			    });
                         });
-                        // Converts the mongoose doc into a regular object so that we can modify the fields
-                        groups[index] = groups[index].toObject(); 
                         
                         // Adds the answers to the group objects for ease of use later
                         groups[index].answers = new Object();
