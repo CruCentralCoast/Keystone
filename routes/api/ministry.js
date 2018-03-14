@@ -71,8 +71,8 @@ function getValidGroups(groups, answers)
     groups.forEach(function(group) {
         if (group.answers) 
         {
-            // need at least 3 matches
-            var answerThreshold = 3;
+            // need at least 2 matches
+            var answerThreshold = 2;
             var valid = false;
             var numMatches = 0;
             answers.forEach(function(answer) {
