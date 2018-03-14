@@ -28,9 +28,21 @@ router.route('/:id')
             return res.json(communitygroup);
         });
     })
-	.patch(function(req, res, next) {
-		restUtils.update(model, req, res);
-	});
+	.patch(function (req, res) {
+        model.findById(req.params.id).populate('leaders').exec(function (err, item) {
+
+            if (err) return res.send(err);
+            if (!item) return res.send('not found');
+
+            item.getUpdateHandler(req).process(req.body, function (err) {
+
+                if (err) return res.send(err);
+
+                return res.status(200).json(item);
+            });
+
+        });
+    });
 
 router.route('/search')
 	.post(function(req, res, next) {
